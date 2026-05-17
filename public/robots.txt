@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block internal/admin routes
+Disallow: /api/
+Disallow: /thank-you
+
+Sitemap: https://voomet.com/sitemap.xml

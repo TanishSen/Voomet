@@ -1,0 +1,363 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 7%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 7%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 7%;
+    --primary: 0 0% 7%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 7%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 0 0% 7%;
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: #ffffff;
+    color: hsl(var(--foreground));
+    font-feature-settings: 'ss01', 'ss02';
+  }
+  html {
+    /* Lenis handles smooth scrolling — do not set scroll-behavior here */
+  }
+}
+
+/* Lenis smooth scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: -0.02em;
+  }
+  .font-sans {
+    font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Rotating badge */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 18s linear infinite;
+}
+
+/* Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+}
+
+/* Subtle floating */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Hide scrollbar but allow scroll */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Custom cursor-like hover ring for cards */
+.card-hover {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.7s;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+}
+
+/* Smooth image reveal scale on scroll */
+.img-reveal {
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), filter 1.2s;
+}
+.img-reveal:hover {
+  transform: scale(1.06);
+}
+
+/* Section divider line animation */
+.divider-anim {
+  transform-origin: left;
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Glass */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Image reveal mask */
+.reveal-img {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Line grow animation */
+@keyframes lineGrow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.line-grow {
+  transform-origin: left;
+  animation: lineGrow 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Ghost number styles */
+.ghost-number {
+  font-size: clamp(5rem, 12vw, 10rem);
+  font-weight: 800;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Offset image frame */
+.offset-frame {
+  position: relative;
+}
+.offset-frame::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: inherit;
+  pointer-events: none;
+  transform: translate(8px, 8px);
+}
+
+/* Corner bracket frame — DEV.UN style */
+.corner-bracket {
+  position: relative;
+}
+.corner-bracket::before,
+.corner-bracket::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 10;
+}
+.corner-bracket::before {
+  top: -10px;
+  left: -10px;
+  border-top: 1.5px solid rgba(0, 0, 0, 0.25);
+  border-left: 1.5px solid rgba(0, 0, 0, 0.25);
+}
+.corner-bracket::after {
+  bottom: -10px;
+  right: -10px;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.25);
+  border-right: 1.5px solid rgba(0, 0, 0, 0.25);
+}
+
+/* Split heading styles */
+.split-heading-light {
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+.split-heading-bold {
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+/* Justified text for editorial feel */
+.text-editorial {
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Stagger children animation helper */
+.stagger-container > * {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.stagger-container.in-view > *:nth-child(1) { animation: staggerIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.05s forwards; }
+.stagger-container.in-view > *:nth-child(2) { animation: staggerIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.12s forwards; }
+.stagger-container.in-view > *:nth-child(3) { animation: staggerIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.19s forwards; }
+.stagger-container.in-view > *:nth-child(4) { animation: staggerIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.26s forwards; }
+.stagger-container.in-view > *:nth-child(5) { animation: staggerIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.33s forwards; }
+.stagger-container.in-view > *:nth-child(6) { animation: staggerIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.40s forwards; }
+
+@keyframes staggerIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Project Highlight scroll track — hide native scrollbar ── */
+.ph-track::-webkit-scrollbar { display: none; }
+
+
+/* The wrap is the scrub track. Total = 1 viewport header
+   + 3 viewports of stage so the scroll-driven animation
+   has enough range to play out smoothly. */
+.phs-wrap {
+  /* nothing — children define heights */
+}
+
+.phs-stage {
+  height: 400vh; /* sticky child = h-screen, gives ~3vh of scrub */
+}
+
+/* The 5×3 grid stage */
+.phs-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  width: min(92vw, 1400px);
+  height: min(82vh, 820px);
+  isolation: isolate;
+}
+
+/* Each "layer" spans the full grid using subgrid so its
+   children land in the same 5×3 cells. */
+.phs-layer {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  gap: 0.75rem;
+  transform-origin: center center;
+  will-change: opacity, transform;
+}
+
+.phs-layer > div {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background: #f4f4f4;
+}
+
+.phs-layer > div img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Layer 1 — outermost: columns 1 and 5 (6 cells) */
+.phs-layer-1 > div:nth-child(1) { grid-column: 1; grid-row: 1; }
+.phs-layer-1 > div:nth-child(2) { grid-column: 1; grid-row: 2; }
+.phs-layer-1 > div:nth-child(3) { grid-column: 1; grid-row: 3; }
+.phs-layer-1 > div:nth-child(4) { grid-column: 5; grid-row: 1; }
+.phs-layer-1 > div:nth-child(5) { grid-column: 5; grid-row: 2; }
+.phs-layer-1 > div:nth-child(6) { grid-column: 5; grid-row: 3; }
+
+/* Layer 2 — middle: columns 2 and 4 (6 cells) */
+.phs-layer-2 > div:nth-child(1) { grid-column: 2; grid-row: 1; }
+.phs-layer-2 > div:nth-child(2) { grid-column: 2; grid-row: 2; }
+.phs-layer-2 > div:nth-child(3) { grid-column: 2; grid-row: 3; }
+.phs-layer-2 > div:nth-child(4) { grid-column: 4; grid-row: 1; }
+.phs-layer-2 > div:nth-child(5) { grid-column: 4; grid-row: 2; }
+.phs-layer-2 > div:nth-child(6) { grid-column: 4; grid-row: 3; }
+
+/* Layer 3 — innermost: column 3 top + bottom (center taken by scaler) */
+.phs-layer-3 > div:nth-child(1) { grid-column: 3; grid-row: 1; }
+.phs-layer-3 > div:nth-child(2) { grid-column: 3; grid-row: 3; }
+
+/* Scaler — sits in center cell (col 3, row 2) but breaks out
+   to full viewport at scroll start, shrinking back as you scroll. */
+.phs-scaler {
+  grid-column: 3;
+  grid-row: 2;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.phs-scaler img {
+  object-fit: cover;
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 60px -20px rgba(0,0,0,0.35);
+  max-width: none; /* allow viewport-sized values */
+  will-change: width, height;
+}
+
+/* Mobile fallback — disable the heavy scroll choreography
+   and present a simple stacked gallery. */
+@media (max-width: 768px) {
+  .phs-stage { height: auto; }
+  .phs-stage > div { position: static; height: auto; }
+  .phs-grid {
+    height: auto;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: none;
+    gap: 0.5rem;
+    padding: 0 1rem 4rem;
+  }
+  .phs-layer,
+  .phs-layer > div { display: contents; }
+  .phs-layer > div {
+    aspect-ratio: 1 / 1;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  .phs-scaler {
+    grid-column: 1 / -1;
+    aspect-ratio: 4 / 3;
+  }
+  .phs-scaler img {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
