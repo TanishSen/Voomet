@@ -1425,6 +1425,9 @@ video {
 .w-screen {
   width: 100vw;
 }
+.w-36 {
+  width: 9rem;
+}
 .min-w-0 {
   min-width: 0px;
 }
@@ -3616,6 +3619,10 @@ html.lenis, html.lenis body {
 .last\:rounded-r-md:last-child {
   border-top-right-radius: calc(var(--radius) - 2px);
   border-bottom-right-radius: calc(var(--radius) - 2px);
+}
+.hover\:-translate-y-2:hover {
+  --tw-translate-y: -0.5rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .hover\:scale-100:hover {
   --tw-scale-x: 1;
