@@ -30,6 +30,7 @@ import ContactSection from '@/components/site/ContactSection'
 import TextReveal from '@/components/site/TextReveal'
 import ParallaxImage from '@/components/site/ParallaxImage'
 import ProjectHighlight from '@/components/site/ProjectHighlight'
+import HorizontalStory from '@/components/site/HorizontalStory'
 
 import {
   SERVICES as ALL_SERVICES,
@@ -1035,6 +1036,7 @@ function App() {
       <ClientsBar />
       <ModernMinimalist />
       <Stats />
+      <HorizontalStory />
       <ModernStyle />
       <ProjectHighlight />
       <WhyChooseVoomet />
