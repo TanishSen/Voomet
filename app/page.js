@@ -676,7 +676,7 @@ function Marquee() {
 function ClientsBar() {
   const doubled = [...CLIENTS, ...CLIENTS]
   return (
-    <section className="py-16 border-y border-neutral-200/70 overflow-hidden">
+    <section className="py-16 border-t border-neutral-200/70 overflow-hidden">
       <FadeUp>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-12 px-4 md:px-8 max-w-[1400px] mx-auto">
           <h3 className="font-display text-4xl md:text-6xl font-semibold tracking-[-0.03em]">
