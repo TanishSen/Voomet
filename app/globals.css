@@ -67,6 +67,11 @@ html.lenis, html.lenis body {
 }
 
 @layer utilities {
+  /* overflow-x: clip clips without creating a scroll container,
+     so position:sticky children still work correctly */
+  .overflow-x-clip {
+    overflow-x: clip;
+  }
   .font-display {
     font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
     letter-spacing: -0.02em;

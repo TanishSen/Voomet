@@ -349,6 +349,8 @@ function Stats() {
               <p className="text-neutral-600 leading-relaxed text-editorial max-w-md">
                 {s.label.includes('Years') && 'prove that we have the deep expertise and dedication to deliver exceptional interiors consistently.'}
                 {s.label.includes('Projects') && 'prove that owners of commercial facilities, houses and apartments trust us with their spaces.'}
+                {s.label.includes('Sq.ft') && 'of beautifully designed space commissioned across offices, residences, and commercial properties.'}
+                {s.label.includes('Checks') && 'per project ensure the highest build quality — every panel, joint, and finish is inspected before handover.'}
                 {s.label.includes('Client') && 'are always ready to recommend us — our dedication speaks through their words.'}
                 {s.label.includes('Cities') && 'across the country rely on our team for premium interior solutions.'}
               </p>
@@ -356,15 +358,6 @@ function Stats() {
           </div>
         ))}
 
-        {/* Fourth stat inline */}
-        {STATS.length > 3 && (
-          <FadeUp delay={0.1} className="mt-8 text-center">
-            <div className="font-display text-6xl md:text-8xl font-bold tracking-[-0.04em] leading-none">
-              <Counter value={STATS[3].num} />
-            </div>
-            <div className="mt-3 text-neutral-500 uppercase tracking-wide text-sm">{STATS[3].label}</div>
-          </FadeUp>
-        )}
       </div>
     </section>
   )
@@ -1028,13 +1021,14 @@ function QuickQuoteSection() {
 
 function App() {
   return (
-    <main className="min-h-screen bg-white text-neutral-900 font-sans overflow-x-hidden">
+    <main className="min-h-screen bg-white text-neutral-900 font-sans overflow-x-clip">
       <Toaster position="top-center" richColors />
       <SiteNav />
       <Hero />
       <QuickQuoteSection />
       <ClientsBar />
       <ModernMinimalist />
+      <Services />
       <Stats />
       <HorizontalStory />
       <ModernStyle />

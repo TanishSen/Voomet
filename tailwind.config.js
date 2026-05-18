@@ -2,10 +2,10 @@
 module.exports = {
     darkMode: ["class"],
     content: [
-      '/Users/tanishsen/Desktop/Voomet/Voomet/pages/**/*.{js,jsx}',
-      '/Users/tanishsen/Desktop/Voomet/Voomet/components/**/*.{js,jsx,ts,tsx}',
-      '/Users/tanishsen/Desktop/Voomet/Voomet/app/**/*.{js,jsx,ts,tsx}',
-      '/Users/tanishsen/Desktop/Voomet/Voomet/lib/**/*.{js,jsx}',
+      './pages/**/*.{js,jsx}',
+      './components/**/*.{js,jsx,ts,tsx}',
+      './app/**/*.{js,jsx,ts,tsx}',
+      './lib/**/*.{js,jsx}',
     ],
     prefix: "",
     theme: {

@@ -126,7 +126,7 @@ export default function HorizontalStory() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.35, ease }}
-              className="text-[10px] text-white/30 uppercase tracking-[0.32em]"
+              className="text-[10px] text-white/55 uppercase tracking-[0.32em]"
             >
               {PANELS[activePanel]?.num}&nbsp;—&nbsp;{PANELS[activePanel]?.tag}
             </motion.span>
@@ -137,7 +137,7 @@ export default function HorizontalStory() {
               <div
                 key={idx}
                 className={`h-[3px] rounded-full transition-all duration-500 ease-out ${
-                  idx === activePanel ? 'w-8 bg-white' : 'w-2 bg-white/18'
+                  idx === activePanel ? 'w-8 bg-white' : 'w-2 bg-white/35'
                 }`}
               />
             ))}
@@ -154,7 +154,7 @@ export default function HorizontalStory() {
               transition={{ duration: 0.6, ease, delay: 0.5 }}
               className="absolute right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-3 pointer-events-none"
             >
-              <span className="text-[9px] text-white/22 uppercase tracking-[0.28em]"
+              <span className="text-[9px] text-white/45 uppercase tracking-[0.28em]"
                 style={{ writingMode: 'vertical-lr' }}>
                 Scroll
               </span>
@@ -181,13 +181,39 @@ function Panel({ panel, index, total, scrollYProgress }) {
   const loSoft = Math.max(0, panelCenter - half * 0.3)
   const hiSoft = Math.min(1, panelCenter + half * 0.3)
 
+  /* Edge-case: when lo is clipped to 0 (first panel) or hi is clipped to 1 (last panel),
+     the duplicate keyframe causes framer-motion to pick opacity=0 at the boundary.
+     Detect those cases and start/end fully visible instead. */
+  const isFirstPanel = lo >= panelCenter
+  const isLastPanel  = hi <= panelCenter
+
   /* Background: dims + scales slightly when off-center */
-  const imgOpacity = useTransform(scrollYProgress, [lo, panelCenter, hi], [0.45, 1, 0.45], { clamp: true })
-  const imgScale  = useTransform(scrollYProgress, [lo, panelCenter, hi], [1.1, 1, 1.1],   { clamp: true })
+  const imgOpacity = useTransform(
+    scrollYProgress,
+    [lo, panelCenter, hi],
+    [isFirstPanel ? 1 : 0.45, 1, isLastPanel ? 1 : 0.45],
+    { clamp: true }
+  )
+  const imgScale = useTransform(
+    scrollYProgress,
+    [lo, panelCenter, hi],
+    [isFirstPanel ? 1 : 1.08, 1, isLastPanel ? 1 : 1.08],
+    { clamp: true }
+  )
 
   /* Content: slides and fades in/out with panel */
-  const contentY       = useTransform(scrollYProgress, [lo, loSoft, hiSoft, hi], [40, 0, 0, -40],  { clamp: true })
-  const contentOpacity = useTransform(scrollYProgress, [lo, loSoft, hiSoft, hi], [0, 1, 1, 0],      { clamp: true })
+  const contentY = useTransform(
+    scrollYProgress,
+    [lo, loSoft, hiSoft, hi],
+    [isFirstPanel ? 0 : 40, 0, 0, isLastPanel ? 0 : -40],
+    { clamp: true }
+  )
+  const contentOpacity = useTransform(
+    scrollYProgress,
+    [lo, loSoft, hiSoft, hi],
+    [isFirstPanel ? 1 : 0, 1, 1, isLastPanel ? 1 : 0],
+    { clamp: true }
+  )
 
   /* Accent line: grows in when panel is centered */
   const lineScale = useTransform(scrollYProgress, [lo, panelCenter], [0, 1], { clamp: true })
@@ -212,13 +238,13 @@ function Panel({ panel, index, total, scrollYProgress }) {
       </motion.div>
 
       {/* ── Layered gradients for legibility ── */}
-      <div className="absolute inset-0 bg-neutral-950/55" />
+      <div className="absolute inset-0 bg-neutral-950/30" />
       <div className={`absolute inset-0 ${
         isLeft
-          ? 'bg-gradient-to-r from-neutral-950/90 via-neutral-950/40 to-transparent'
-          : 'bg-gradient-to-l from-neutral-950/90 via-neutral-950/40 to-transparent'
+          ? 'bg-gradient-to-r from-neutral-950/80 via-neutral-950/30 to-transparent'
+          : 'bg-gradient-to-l from-neutral-950/80 via-neutral-950/30 to-transparent'
       }`} />
-      <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/70 via-transparent to-neutral-950/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/50 via-transparent to-transparent" />
 
       {/* ── Ghost number (decorative) ── */}
       <div
@@ -247,7 +273,7 @@ function Panel({ panel, index, total, scrollYProgress }) {
         {/* Label */}
         <div className={`flex items-center gap-3 mb-7 ${isLeft ? '' : 'flex-row-reverse'}`}>
           <span className="w-6 h-px bg-white/25" />
-          <span className="text-[10px] text-white/35 uppercase tracking-[0.35em]">
+          <span className="text-[10px] text-white/60 uppercase tracking-[0.35em]">
             {panel.num}&nbsp;—&nbsp;{panel.tag}
           </span>
         </div>
@@ -263,19 +289,19 @@ function Panel({ panel, index, total, scrollYProgress }) {
         </h2>
 
         {/* Accent italic */}
-        <p className="mt-4 font-display text-lg md:text-xl font-light italic text-white/30 tracking-tight">
+        <p className="mt-4 font-display text-lg md:text-xl font-light italic text-white/55 tracking-tight">
           {panel.accent}
         </p>
 
         {/* Animated divider line */}
         <motion.div
           style={{ scaleX: lineScale, originX: isLeft ? 0 : 1 }}
-          className={`mt-5 mb-5 h-px w-20 bg-white/20 ${isLeft ? '' : 'ml-auto'}`}
+          className={`mt-5 mb-5 h-px w-20 bg-white/35 ${isLeft ? '' : 'ml-auto'}`}
         />
 
         {/* Body copy */}
         <p
-          className="text-white/45 leading-relaxed"
+          className="text-white/70 leading-relaxed"
           style={{
             fontSize: 'clamp(13px, 1.1vw, 16px)',
             maxWidth: '380px',
