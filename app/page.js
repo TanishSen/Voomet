@@ -691,7 +691,7 @@ function ClientsBar() {
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10" />
         <div className="flex gap-4 w-max animate-marquee">
           {doubled.map((c, i) => (
-            <div key={i} className="bg-white/60 rounded-2xl border border-neutral-200/70 h-20 w-40 flex-shrink-0 flex items-center justify-center p-4 grayscale">
+            <div key={i} className="h-16 w-36 flex-shrink-0 flex items-center justify-center p-3 transition-transform duration-300 ease-out hover:-translate-y-2">
               <img src={c.logo} alt={c.name} className="max-h-full max-w-full object-contain" />
             </div>
           ))}
@@ -1025,10 +1025,12 @@ function App() {
       <Toaster position="top-center" richColors />
       <SiteNav />
       <Hero />
-      <QuickQuoteSection />
       <ClientsBar />
+      <QuickQuoteSection />
+      
       <ModernMinimalist />
       <Services />
+      
       <Stats />
       <HorizontalStory />
       <ModernStyle />
