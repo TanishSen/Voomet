@@ -1357,11 +1357,11 @@ video {
 .w-3\/4 {
   width: 75%;
 }
+.w-36 {
+  width: 9rem;
+}
 .w-4 {
   width: 1rem;
-}
-.w-40 {
-  width: 10rem;
 }
 .w-5 {
   width: 1.25rem;
@@ -1424,9 +1424,6 @@ video {
 }
 .w-screen {
   width: 100vw;
-}
-.w-36 {
-  width: 9rem;
 }
 .min-w-0 {
   min-width: 0px;
