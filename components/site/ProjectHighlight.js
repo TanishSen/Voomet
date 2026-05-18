@@ -1,285 +1,227 @@
 'use client'
 
-/**
- * ProjectHighlight — home page section
- *
- * Horizontal-scroll + scale effect (Dribbble-inspired).
- * Cards snap to centre; the centred card is at full scale + full opacity.
- * Adjacent cards shrink and dim smoothly using a scroll-event listener.
- * Each card also shows a filmstrip of project thumbnails at the bottom.
- */
-
-import { useRef, useEffect, useCallback, useState } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, ArrowUpRight, MapPin, Maximize2 } from 'lucide-react'
+import { MapPin, Maximize2, ArrowRight } from 'lucide-react'
 import { HIGHLIGHTED_PROJECTS } from '@/lib/voomet-data'
-import FadeUp from '@/components/site/FadeUp'
 
-const CARD_ASPECT = 'aspect-[3/4]'   // portrait card on all screens
-const CARD_W_PX   = 420              // px — used only for arrow-nav calculation
+const CARD_W    = 220
+const CARD_H    = 330
+const CARD_GAP  = 240
+const INTERVAL  = 5500                              // ms between auto-advances
+const EASE      = [0.16, 1, 0.3, 1]               // Expo.Out — super buttery
+
+function getItemStyle(index) {
+  const base = {
+    position: 'absolute',
+    overflow: 'hidden',
+    transition: 'all 0.9s cubic-bezier(0.16, 1, 0.3, 1)',
+  }
+
+  // index 0 (behind prev) & index 1 (active) — both fill the full section
+  if (index <= 1) {
+    return {
+      ...base,
+      top: 0, left: 0, right: 0, bottom: 0,
+      width: '100%', height: '100%',
+      borderRadius: 0,
+      boxShadow: 'none',
+      zIndex: index + 2,
+    }
+  }
+
+  // peek cards — float on the right side of the background
+  const offset = index - 2
+  if (offset >= 3) {
+    return {
+      ...base,
+      top: '50%',
+      left: `calc(62% + ${offset * CARD_GAP}px)`,
+      width: CARD_W, height: CARD_H,
+      borderRadius: 18,
+      boxShadow: '0 32px 72px rgba(0,0,0,0.85)',
+      transform: 'translateY(-50%)',
+      opacity: 0,
+      zIndex: 1,
+    }
+  }
+  return {
+    ...base,
+    top: '50%',
+    left: `calc(62% + ${offset * CARD_GAP}px)`,
+    width: CARD_W, height: CARD_H,
+    borderRadius: 18,
+    boxShadow: '0 32px 72px rgba(0,0,0,0.85)',
+    transform: 'translateY(-50%)',
+    zIndex: offset + 4,
+  }
+}
 
 export default function ProjectHighlight() {
-  const trackRef  = useRef(null)
-  const cardRefs  = useRef([])
-  const rafRef    = useRef(null)
+  const [items, setItems]   = useState(HIGHLIGHTED_PROJECTS)
+  const [animKey, setAnimKey] = useState(0)
+  const [paused, setPaused]  = useState(false)
+  const timerRef = useRef(null)
 
-  // Index of the currently active (most-centred) card
-  const [activeIdx, setActiveIdx] = useState(0)
-  // Which thumbnail is shown on each card  {idx: thumbIdx}
-  const [thumbMap, setThumbMap] = useState({})
-
-  /* ── Scale / opacity effect ──────────────────────────────────────── */
-  const applyScales = useCallback(() => {
-    const track = trackRef.current
-    if (!track) return
-    const cw = track.clientWidth
-    const center = track.scrollLeft + cw / 2
-    let closest = 0
-    let minDist = Infinity
-
-    cardRefs.current.forEach((card, i) => {
-      if (!card) return
-      const cardCenter = card.offsetLeft + card.offsetWidth / 2
-      const dist = Math.abs(center - cardCenter)
-      const ratio = Math.min(dist / (cw * 0.55), 1)
-      const scale   = 1 - ratio * 0.13           // 1.00 → 0.87
-      const opacity = 1 - ratio * 0.45           // 1.00 → 0.55
-
-      card.style.transform = `scale(${scale})`
-      card.style.opacity   = opacity
-      card.style.transition = 'transform 0.3s ease, opacity 0.3s ease'
-
-      if (dist < minDist) { minDist = dist; closest = i }
-    })
-    setActiveIdx(closest)
+  // Stable advance — used by both auto-play and manual next
+  const advance = useCallback(() => {
+    setItems(prev => { const a = [...prev]; a.push(a.shift()); return a })
+    setAnimKey(k => k + 1)
   }, [])
 
+  const startTimer = useCallback(() => {
+    clearInterval(timerRef.current)
+    timerRef.current = setInterval(advance, INTERVAL)
+  }, [advance])
+
+  // Auto-play: start on mount, pause on hover
   useEffect(() => {
-    const track = trackRef.current
-    if (!track) return
+    if (paused) { clearInterval(timerRef.current); return }
+    startTimer()
+    return () => clearInterval(timerRef.current)
+  }, [paused, startTimer])
 
-    const onScroll = () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
-      rafRef.current = requestAnimationFrame(applyScales)
-    }
+  const goNext = useCallback(() => { advance(); startTimer() }, [advance, startTimer])
+  const goPrev = useCallback(() => {
+    setItems(prev => { const a = [...prev]; a.unshift(a.pop()); return a })
+    setAnimKey(k => k + 1)
+    startTimer()
+  }, [startTimer])
 
-    track.addEventListener('scroll', onScroll, { passive: true })
-    // Initial paint
-    applyScales()
-    return () => {
-      track.removeEventListener('scroll', onScroll)
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    }
-  }, [applyScales])
+  const active    = items[1]
+  const activeIdx = HIGHLIGHTED_PROJECTS.findIndex(p => p.id === active.id)
 
-  /* ── Arrow navigation ────────────────────────────────────────────── */
-  const scrollTo = (idx) => {
-    const track = trackRef.current
-    const card  = cardRefs.current[idx]
-    if (!track || !card) return
-    const target = card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2
-    track.scrollTo({ left: target, behavior: 'smooth' })
-  }
-
-  const prev = () => scrollTo(Math.max(0, activeIdx - 1))
-  const next = () => scrollTo(Math.min(HIGHLIGHTED_PROJECTS.length - 1, activeIdx + 1))
-
-  /* ── Thumbnail cycling ───────────────────────────────────────────── */
-  const setThumb = (projectIdx, thumbIdx) => {
-    setThumbMap((m) => ({ ...m, [projectIdx]: thumbIdx }))
-  }
+  // Preload next image so it's ready before the slide transition
+  useEffect(() => {
+    const next = items[2]
+    if (next?.img) { new Image().src = next.img }
+  }, [items])
 
   return (
-    <section className="bg-neutral-950 pt-20 pb-16 overflow-hidden">
+    <section
+      id="portfolio"
+      className="relative overflow-hidden bg-neutral-950"
+      style={{ height: '100svh', minHeight: 600 }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* ── Slider items ── */}
+      {items.map((project, index) => (
+        <div key={project.id} style={getItemStyle(index)}>
 
-      {/* ── Section heading ──────────────────────────────────────────── */}
-      <div className="px-6 md:px-12 lg:px-20 mb-12">
-        <FadeUp>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-10 h-px bg-white/20" />
-            <span className="text-[10px] uppercase tracking-[0.35em] text-white/40 font-medium">
-              Selected Work · Office Projects
-            </span>
-          </div>
-        </FadeUp>
-
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <FadeUp delay={0.05}>
-            <h2 className="font-display leading-[0.9]">
-              <span className="block text-5xl md:text-7xl lg:text-8xl split-heading-light text-white/60">
-                PROJECT
-              </span>
-              <span className="block text-6xl md:text-8xl lg:text-[9rem] split-heading-bold tracking-[-0.04em] -mt-1 md:-mt-3 text-white">
-                HIGHLIGHT.
-              </span>
-            </h2>
-          </FadeUp>
-
-          {/* Arrow controls — top right of header */}
-          <FadeUp delay={0.12} className="flex items-center gap-3 pb-2">
-            <button
-              onClick={prev}
-              aria-label="Previous project"
-              className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-white/50 hover:text-white hover:border-white/50 transition-all"
-            >
-              <ArrowRight className="h-4 w-4 rotate-180" />
-            </button>
-            <span className="text-white/30 text-sm tabular-nums">
-              {String(activeIdx + 1).padStart(2, '0')} / {String(HIGHLIGHTED_PROJECTS.length).padStart(2, '0')}
-            </span>
-            <button
-              onClick={next}
-              aria-label="Next project"
-              className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-white/50 hover:text-white hover:border-white/50 transition-all"
-            >
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </FadeUp>
-        </div>
-      </div>
-
-      {/* ── Horizontal scroll track ──────────────────────────────────── */}
-      <div
-        ref={trackRef}
-        className="ph-track flex gap-5 overflow-x-auto pb-6"
-        style={{
-          scrollSnapType: 'x mandatory',
-          WebkitOverflowScrolling: 'touch',
-          /* Hide scrollbar cross-browser */
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-          paddingLeft:  'max(1.5rem, calc((100vw - 840px) / 2))',
-          paddingRight: 'max(1.5rem, calc((100vw - 840px) / 2))',
-        }}
-      >
-        {HIGHLIGHTED_PROJECTS.map((project, pIdx) => {
-          const activeThumb = thumbMap[pIdx] ?? 0
-          const heroImg     = project.images[activeThumb]
-
-          return (
-            <div
-              key={project.id}
-              ref={(el) => { cardRefs.current[pIdx] = el }}
-              className="ph-card flex-none w-[78vw] md:w-[42vw] lg:w-[34vw] cursor-grab active:cursor-grabbing"
-              style={{ scrollSnapAlign: 'center', transformOrigin: 'center center' }}
-            >
-              {/* Card inner */}
-              <div className="relative overflow-hidden rounded-2xl bg-neutral-900 h-full flex flex-col group">
-
-                {/* Hero image */}
-                <div className="relative aspect-[4/5] overflow-hidden">
-                  {/* Crossfade between thumbnails */}
-                  {project.images.map((img, iIdx) => (
-                    <img
-                      key={img}
-                      src={img}
-                      alt={`${project.name} — ${iIdx + 1}`}
-                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
-                      style={{ opacity: iIdx === activeThumb ? 1 : 0 }}
-                      loading="lazy"
-                    />
-                  ))}
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-
-                  {/* Project number */}
-                  <div className="absolute top-5 left-5 font-display text-[2.5rem] font-black text-white/10 leading-none select-none">
-                    {project.number}
-                  </div>
-
-                  {/* Category badge */}
-                  <div className="absolute top-5 right-5">
-                    <span className="px-3 py-1 rounded-full text-[10px] uppercase tracking-[0.2em] font-medium bg-white/10 backdrop-blur-sm text-white/70 border border-white/10">
-                      {project.category}
-                    </span>
-                  </div>
-
-                  {/* Bottom info row (inside image area) */}
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <div className="flex items-end justify-between">
-                      <div>
-                        <p className="font-display text-2xl md:text-3xl font-semibold text-white leading-tight tracking-[-0.02em]">
-                          {project.name}
-                        </p>
-                        <div className="flex items-center gap-2 mt-1.5 text-white/50 text-xs">
-                          <MapPin className="h-3 w-3" />
-                          <span>{project.location}</span>
-                          <span>·</span>
-                          <Maximize2 className="h-3 w-3" />
-                          <span>{project.size}</span>
-                        </div>
-                      </div>
-                      <Link
-                        href="/portfolio"
-                        className="flex-shrink-0 w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white hover:text-neutral-900 transition-all duration-300"
-                      >
-                        <ArrowUpRight className="h-4 w-4" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Thumbnail filmstrip */}
-                <div className="flex gap-1.5 p-3 bg-neutral-900/90">
-                  {project.images.map((img, iIdx) => (
-                    <button
-                      key={img}
-                      onClick={() => setThumb(pIdx, iIdx)}
-                      className={`relative flex-1 aspect-square overflow-hidden rounded-md transition-all duration-300 ${
-                        iIdx === activeThumb
-                          ? 'ring-2 ring-white ring-offset-1 ring-offset-neutral-900 opacity-100'
-                          : 'opacity-40 hover:opacity-70'
-                      }`}
-                    >
-                      <img
-                        src={img}
-                        alt=""
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )
-        })}
-      </div>
-
-      {/* ── Progress dots ─────────────────────────────────────────────── */}
-      <div className="flex justify-center gap-2 mt-6">
-        {HIGHLIGHTED_PROJECTS.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => scrollTo(i)}
-            aria-label={`Go to project ${i + 1}`}
-            className={`h-1 rounded-full transition-all duration-300 ${
-              i === activeIdx ? 'w-8 bg-white' : 'w-2 bg-white/20 hover:bg-white/40'
-            }`}
+          {/* Inner bg div — handles the image + Ken Burns independently
+              from the outer div's position/size transition             */}
+          <div
+            className={`ph-bg${index === 1 ? ' ph-kenburns' : ''}`}
+            style={{ backgroundImage: `url(${project.img})` }}
           />
-        ))}
+
+          {/* Soft gradient for legibility — full-size items only */}
+          {index <= 1 && (
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  'linear-gradient(105deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.38) 52%, rgba(0,0,0,0.06) 100%)',
+              }}
+            />
+          )}
+        </div>
+      ))}
+
+      {/* ── Section label + heading (top-left overlay) ── */}
+      <div className="absolute top-20 md:top-24 left-6 md:left-12 lg:left-20 z-20 pointer-events-none select-none">
+        <span className="text-[10px] uppercase tracking-[0.38em] text-white/30 mb-3 block">
+          Featured Work
+        </span>
+        <h2 className="font-display leading-[0.88]">
+          <span className="block text-4xl md:text-6xl lg:text-7xl font-semibold tracking-[-0.04em] text-white/15">
+            PROJECT
+          </span>
+          <span className="block text-5xl md:text-7xl lg:text-8xl font-black tracking-[-0.04em] text-white -mt-1">
+            HIGHLIGHTS
+          </span>
+        </h2>
       </div>
 
-      {/* ── Footer link ───────────────────────────────────────────────── */}
+      {/* ── Active project content (bottom-left overlay, re-animates each slide) ── */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-10%' }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="text-center mt-10"
+        key={`content-${animKey}`}
+        className="ph-content"
+        style={{ zIndex: 20 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
       >
-        <Link
-          href="/portfolio"
-          className="inline-flex items-center gap-2 text-white/50 text-sm hover:text-white transition-colors group"
+        <motion.span
+          className="ph-content-tag"
+          initial={{ opacity: 0, y: 14, filter: 'blur(6px)' }}
+          animate={{ opacity: 1, y: 0,  filter: 'blur(0px)' }}
+          transition={{ duration: 0.65, ease: EASE, delay: 0.05 }}
         >
-          <span className="border-b border-white/20 pb-0.5 group-hover:border-white transition-colors">
-            View full portfolio
+          {active.category}
+        </motion.span>
+
+        <motion.h3
+          className="ph-content-name"
+          initial={{ opacity: 0, y: 26, filter: 'blur(10px)' }}
+          animate={{ opacity: 1, y: 0,  filter: 'blur(0px)' }}
+          transition={{ duration: 0.75, ease: EASE, delay: 0.14 }}
+        >
+          {active.name}
+        </motion.h3>
+
+        <motion.div
+          className="ph-content-meta"
+          initial={{ opacity: 0, y: 14, filter: 'blur(6px)' }}
+          animate={{ opacity: 1, y: 0,  filter: 'blur(0px)' }}
+          transition={{ duration: 0.65, ease: EASE, delay: 0.24 }}
+        >
+          <span className="flex items-center gap-1.5">
+            <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+            {active.location}
           </span>
-          <ArrowRight className="h-3.5 w-3.5" />
-        </Link>
+          <span className="flex items-center gap-1.5">
+            <Maximize2 className="w-3.5 h-3.5 flex-shrink-0" />
+            {active.size}
+          </span>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, ease: EASE, delay: 0.34 }}
+        >
+          <Link href="/portfolio" className="ph-btn">View Project <ArrowRight className="h-4 w-4" /></Link>
+        </motion.div>
       </motion.div>
 
+      {/* ── Bottom bar: prev/next + progress strip + counter ── */}
+      <div
+        className="absolute bottom-8 left-6 md:left-12 lg:left-20 right-6 md:right-12 lg:right-20 flex items-center gap-5"
+        style={{ zIndex: 20 }}
+      >
+        {/* Buttons */}
+        <div className="flex items-center gap-2.5">
+          <button className="ph-nav-btn" onClick={goPrev} aria-label="Previous project">◁</button>
+          <button className="ph-nav-btn" onClick={goNext} aria-label="Next project">▷</button>
+        </div>
+
+        {/* Auto-play progress strip */}
+        <div className="flex-1 h-[1.5px] bg-white/12 rounded-full overflow-hidden">
+          <div
+            key={`prog-${animKey}`}
+            className="h-full rounded-full bg-white/55"
+            style={{ animation: `ph-progress ${INTERVAL}ms linear forwards` }}
+          />
+        </div>
+
+        {/* Slide counter */}
+        <span className="text-[11px] text-white/30 tracking-[0.22em] tabular-nums">
+          {String(activeIdx + 1).padStart(2, '0')}&nbsp;/&nbsp;{String(HIGHLIGHTED_PROJECTS.length).padStart(2, '0')}
+        </span>
+      </div>
     </section>
   )
 }

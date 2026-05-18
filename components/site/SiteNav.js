@@ -11,11 +11,26 @@ export default function SiteNav({ onCta }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
+  const [inDarkSection, setInDarkSection] = useState(false)
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', fn)
-    return () => window.removeEventListener('scroll', fn)
+    const checkSection = () => {
+      setScrolled(window.scrollY > 20)
+      
+      // Check if we're in a dark section (portfolio or horizontal story)
+      const darkSectionIds = ['portfolio', 'story']
+      const isInDark = darkSectionIds.some(id => {
+        const el = document.getElementById(id)
+        if (!el) return false
+        const rect = el.getBoundingClientRect()
+        return rect.top <= 80 && rect.bottom >= 80
+      })
+      setInDarkSection(isInDark)
+    }
+    
+    window.addEventListener('scroll', checkSection)
+    checkSection() // Initial check
+    return () => window.removeEventListener('scroll', checkSection)
   }, [])
 
   const handleCta = () => {
@@ -29,15 +44,18 @@ export default function SiteNav({ onCta }) {
     }
   }
 
+  // Determine if we should use light text (hero or dark sections)
+  const useLightText = !scrolled || inDarkSection
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'bg-white/90 backdrop-blur-md border-b border-neutral-200/60' : 'bg-transparent'
+        scrolled && !inDarkSection ? 'bg-white/90 backdrop-blur-md border-b border-neutral-200/60' : 'bg-transparent'
       }`}
     >
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
-        <Link href="/" className={`font-display text-2xl tracking-[-0.04em] font-semibold transition-colors duration-300 ${scrolled ? 'text-neutral-900' : 'text-white'}`}>
-          Voomet<span className={scrolled ? 'text-neutral-400' : 'text-white/50'}>.</span>
+        <Link href="/" className={`font-display text-2xl tracking-[-0.04em] font-semibold transition-colors duration-300 ${useLightText ? 'text-white' : 'text-neutral-900'}`}>
+          Voomet<span className={useLightText ? 'text-white/50' : 'text-neutral-400'}>.</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-9 text-sm">
@@ -47,7 +65,7 @@ export default function SiteNav({ onCta }) {
             onMouseEnter={() => setServicesOpen(true)}
             onMouseLeave={() => setServicesOpen(false)}
           >
-            <button className={`flex items-center gap-1 transition-colors py-2 ${scrolled ? 'text-neutral-700 hover:text-neutral-900' : 'text-white/80 hover:text-white'}`}>
+            <button className={`flex items-center gap-1 transition-colors py-2 ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>
               Services <ChevronDown className="h-3.5 w-3.5" />
             </button>
             <AnimatePresence>
@@ -75,20 +93,20 @@ export default function SiteNav({ onCta }) {
               )}
             </AnimatePresence>
           </div>
-          <Link href="/portfolio" className={`transition-colors ${scrolled ? 'text-neutral-700 hover:text-neutral-900' : 'text-white/80 hover:text-white'}`}>Portfolio</Link>
-          <Link href="/about" className={`transition-colors ${scrolled ? 'text-neutral-700 hover:text-neutral-900' : 'text-white/80 hover:text-white'}`}>About</Link>
-          <Link href="/#contact" className={`transition-colors ${scrolled ? 'text-neutral-700 hover:text-neutral-900' : 'text-white/80 hover:text-white'}`}>Contact</Link>
+          <Link href="/portfolio" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Portfolio</Link>
+          <Link href="/about" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>About</Link>
+          <Link href="/#contact" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Contact</Link>
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
           <button
             onClick={handleCta}
             className={`inline-flex items-center gap-2 rounded-full h-11 px-5 text-sm font-medium transition-all ${
-              scrolled
-                ? 'bg-neutral-900 hover:bg-neutral-700 text-white'
-                : 'text-white hover:brightness-110'
+              useLightText
+                ? 'text-white hover:brightness-110'
+                : 'bg-neutral-900 hover:bg-neutral-700 text-white'
             }`}
-            style={!scrolled ? {
+            style={useLightText ? {
               background: 'rgba(255,255,255,0.15)',
               backdropFilter: 'blur(14px)',
               WebkitBackdropFilter: 'blur(14px)',
@@ -99,7 +117,7 @@ export default function SiteNav({ onCta }) {
           </button>
         </div>
 
-        <button onClick={() => setOpen(!open)} className={`md:hidden p-2 transition-colors ${scrolled ? 'text-neutral-900' : 'text-white'}`} aria-label="Menu">
+        <button onClick={() => setOpen(!open)} className={`md:hidden p-2 transition-colors ${useLightText ? 'text-white' : 'text-neutral-900'}`} aria-label="Menu">
           {open ? <X /> : <Menu />}
         </button>
       </div>

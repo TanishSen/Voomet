@@ -96,11 +96,20 @@ export default function ContactSection({ defaultRequirement = 'Residential', hea
           <div className="p-8 md:p-12 lg:p-16 bg-[#111111]">
             <form onSubmit={onSubmit} className="space-y-4">
               <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em]">Book a free consultation</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Input
                   placeholder="Your name *"
+                  required
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="h-12 rounded-xl bg-white/5 border-white/10 text-white placeholder:text-white/40 focus-visible:ring-white/30"
+                />
+                <Input
+                  placeholder="Phone number *"
+                  type="tel"
+                  required
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   className="h-12 rounded-xl bg-white/5 border-white/10 text-white placeholder:text-white/40 focus-visible:ring-white/30"
                 />
               </div>
@@ -136,6 +145,7 @@ export default function ContactSection({ defaultRequirement = 'Residential', hea
                   onValueChange={(v) => setForm({ ...form, area: v })}
                 >
                   <SelectTrigger className="h-12 rounded-xl bg-white/5 border-white/10 text-white">
+                    <SelectValue placeholder="Area / Sq.ft." />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="<1000">&lt; 1000 sqft</SelectItem>

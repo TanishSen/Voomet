@@ -67,6 +67,11 @@ html.lenis, html.lenis body {
 }
 
 @layer utilities {
+  /* overflow-x: clip clips without creating a scroll container,
+     so position:sticky children still work correctly */
+  .overflow-x-clip {
+    overflow-x: clip;
+  }
   .font-display {
     font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
     letter-spacing: -0.02em;
@@ -118,6 +123,109 @@ html.lenis, html.lenis body {
   transform: translateY(-6px);
   box-shadow: 0 20px 60px rgba(0,0,0,0.08);
 }
+
+/* ── Project Highlight slider ──────────────────────────────────────────── */
+
+/* Background image layer — sits inside the outer positioned div */
+.ph-bg {
+  position: absolute;
+  inset: 0;
+  background-color: #1c1c1e;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+/* Ken Burns: slow drift+zoom on the active slide only */
+@keyframes ph-kenburns {
+  0%   { transform: scale(1)    translateX(0)     translateY(0); }
+  50%  { transform: scale(1.04) translateX(-0.6%) translateY(-0.4%); }
+  100% { transform: scale(1.07) translateX(-1.2%) translateY(-0.8%); }
+}
+.ph-kenburns {
+  animation: ph-kenburns 12s ease-in-out infinite alternate;
+}
+
+/* Auto-play progress bar */
+@keyframes ph-progress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+.ph-content {
+  position: absolute;
+  bottom: 18%;
+  left: 6%;
+  width: min(400px, 54vw);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ph-content-tag {
+  font-size: 10px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.50);
+  font-weight: 500;
+}
+
+.ph-content-name {
+  font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.ph-content-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.50);
+}
+
+.ph-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.25);
+  transition: filter 0.25s, transform 0.2s;
+  text-decoration: none;
+  width: fit-content;
+}
+.ph-btn:hover  { filter: brightness(1.15); transform: scale(1.02); }
+.ph-btn:active { transform: scale(0.97); }
+
+.ph-nav-btn {
+  width: 38px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(255,255,255,0.20);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+  font-size: 12px;
+  transition: border-color 0.3s, background 0.3s, color 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+}
+.ph-nav-btn:hover  { border-color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.14); color: #fff; transform: scale(1.08); }
+.ph-nav-btn:active { transform: scale(0.96); }
+/* ─────────────────────────────────────────────────────────────────────── */
 
 /* Smooth image reveal scale on scroll */
 .img-reveal {

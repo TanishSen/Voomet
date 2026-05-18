@@ -30,6 +30,7 @@ import ContactSection from '@/components/site/ContactSection'
 import TextReveal from '@/components/site/TextReveal'
 import ParallaxImage from '@/components/site/ParallaxImage'
 import ProjectHighlight from '@/components/site/ProjectHighlight'
+import HorizontalStory from '@/components/site/HorizontalStory'
 
 import {
   SERVICES as ALL_SERVICES,
@@ -348,6 +349,8 @@ function Stats() {
               <p className="text-neutral-600 leading-relaxed text-editorial max-w-md">
                 {s.label.includes('Years') && 'prove that we have the deep expertise and dedication to deliver exceptional interiors consistently.'}
                 {s.label.includes('Projects') && 'prove that owners of commercial facilities, houses and apartments trust us with their spaces.'}
+                {s.label.includes('Sq.ft') && 'of beautifully designed space commissioned across offices, residences, and commercial properties.'}
+                {s.label.includes('Checks') && 'per project ensure the highest build quality — every panel, joint, and finish is inspected before handover.'}
                 {s.label.includes('Client') && 'are always ready to recommend us — our dedication speaks through their words.'}
                 {s.label.includes('Cities') && 'across the country rely on our team for premium interior solutions.'}
               </p>
@@ -355,15 +358,6 @@ function Stats() {
           </div>
         ))}
 
-        {/* Fourth stat inline */}
-        {STATS.length > 3 && (
-          <FadeUp delay={0.1} className="mt-8 text-center">
-            <div className="font-display text-6xl md:text-8xl font-bold tracking-[-0.04em] leading-none">
-              <Counter value={STATS[3].num} />
-            </div>
-            <div className="mt-3 text-neutral-500 uppercase tracking-wide text-sm">{STATS[3].label}</div>
-          </FadeUp>
-        )}
       </div>
     </section>
   )
@@ -697,7 +691,7 @@ function ClientsBar() {
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10" />
         <div className="flex gap-4 w-max animate-marquee">
           {doubled.map((c, i) => (
-            <div key={i} className="bg-white/60 rounded-2xl border border-neutral-200/70 h-20 w-40 flex-shrink-0 flex items-center justify-center p-4 grayscale">
+            <div key={i} className="h-16 w-36 flex-shrink-0 flex items-center justify-center p-3 transition-transform duration-300 ease-out hover:-translate-y-2">
               <img src={c.logo} alt={c.name} className="max-h-full max-w-full object-contain" />
             </div>
           ))}
@@ -1027,14 +1021,18 @@ function QuickQuoteSection() {
 
 function App() {
   return (
-    <main className="min-h-screen bg-white text-neutral-900 font-sans overflow-x-hidden">
+    <main className="min-h-screen bg-white text-neutral-900 font-sans overflow-x-clip">
       <Toaster position="top-center" richColors />
       <SiteNav />
       <Hero />
-      <QuickQuoteSection />
       <ClientsBar />
+      <QuickQuoteSection />
+      
       <ModernMinimalist />
+      <Services />
+      
       <Stats />
+      <HorizontalStory />
       <ModernStyle />
       <ProjectHighlight />
       <WhyChooseVoomet />
