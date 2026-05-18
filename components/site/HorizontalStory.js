@@ -86,6 +86,7 @@ export default function HorizontalStory() {
 
   return (
     <div
+      id="story"
       ref={wrapperRef}
       style={{ height: `${PANELS.length * 100}vh` }}
       className="relative"
