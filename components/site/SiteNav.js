@@ -17,13 +17,15 @@ export default function SiteNav({ onCta }) {
     const checkSection = () => {
       setScrolled(window.scrollY > 20)
       
-      // Check if we're in a dark section (portfolio)
-      const portfolioSection = document.getElementById('portfolio')
-      if (portfolioSection) {
-        const rect = portfolioSection.getBoundingClientRect()
-        const isInPortfolio = rect.top <= 80 && rect.bottom >= 80
-        setInDarkSection(isInPortfolio)
-      }
+      // Check if we're in a dark section (portfolio or horizontal story)
+      const darkSectionIds = ['portfolio', 'story']
+      const isInDark = darkSectionIds.some(id => {
+        const el = document.getElementById(id)
+        if (!el) return false
+        const rect = el.getBoundingClientRect()
+        return rect.top <= 80 && rect.bottom >= 80
+      })
+      setInDarkSection(isInDark)
     }
     
     window.addEventListener('scroll', checkSection)
