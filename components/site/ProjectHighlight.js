@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { MapPin, Maximize2 } from 'lucide-react'
+import { MapPin, Maximize2, ArrowRight } from 'lucide-react'
 import { HIGHLIGHTED_PROJECTS } from '@/lib/voomet-data'
 
 const CARD_W    = 220
@@ -91,6 +91,12 @@ export default function ProjectHighlight() {
 
   const active    = items[1]
   const activeIdx = HIGHLIGHTED_PROJECTS.findIndex(p => p.id === active.id)
+
+  // Preload next image so it's ready before the slide transition
+  useEffect(() => {
+    const next = items[2]
+    if (next?.img) { new Image().src = next.img }
+  }, [items])
 
   return (
     <section
@@ -187,7 +193,7 @@ export default function ProjectHighlight() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, ease: EASE, delay: 0.34 }}
         >
-          <Link href="/portfolio" className="ph-btn">View Project</Link>
+          <Link href="/portfolio" className="ph-btn">View Project <ArrowRight className="h-4 w-4" /></Link>
         </motion.div>
       </motion.div>
 
