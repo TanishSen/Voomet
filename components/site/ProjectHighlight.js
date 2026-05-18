@@ -9,7 +9,7 @@ import { HIGHLIGHTED_PROJECTS } from '@/lib/voomet-data'
 const CARD_W    = 220
 const CARD_H    = 330
 const CARD_GAP  = 240
-const INTERVAL  = 5500                              // ms between auto-advances
+const INTERVAL  = 3500                              // ms between auto-advances
 const EASE      = [0.16, 1, 0.3, 1]               // Expo.Out — super buttery
 
 function getItemStyle(index) {
@@ -61,7 +61,6 @@ function getItemStyle(index) {
 export default function ProjectHighlight() {
   const [items, setItems]   = useState(HIGHLIGHTED_PROJECTS)
   const [animKey, setAnimKey] = useState(0)
-  const [paused, setPaused]  = useState(false)
   const timerRef = useRef(null)
 
   // Stable advance — used by both auto-play and manual next
@@ -75,12 +74,11 @@ export default function ProjectHighlight() {
     timerRef.current = setInterval(advance, INTERVAL)
   }, [advance])
 
-  // Auto-play: start on mount, pause on hover
+  // Auto-play: start on mount
   useEffect(() => {
-    if (paused) { clearInterval(timerRef.current); return }
     startTimer()
     return () => clearInterval(timerRef.current)
-  }, [paused, startTimer])
+  }, [startTimer])
 
   const goNext = useCallback(() => { advance(); startTimer() }, [advance, startTimer])
   const goPrev = useCallback(() => {
@@ -103,8 +101,6 @@ export default function ProjectHighlight() {
       id="portfolio"
       className="relative overflow-hidden bg-neutral-950"
       style={{ height: '100svh', minHeight: 600 }}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
     >
       {/* ── Slider items ── */}
       {items.map((project, index) => (
@@ -132,15 +128,12 @@ export default function ProjectHighlight() {
 
       {/* ── Section label + heading (top-left overlay) ── */}
       <div className="absolute top-20 md:top-24 left-6 md:left-12 lg:left-20 z-20 pointer-events-none select-none">
-        <span className="text-[10px] uppercase tracking-[0.38em] text-white/30 mb-3 block">
-          Featured Work
-        </span>
         <h2 className="font-display leading-[0.88]">
           <span className="block text-4xl md:text-6xl lg:text-7xl font-semibold tracking-[-0.04em] text-white/15">
-            PROJECT
+            Project
           </span>
           <span className="block text-5xl md:text-7xl lg:text-8xl font-black tracking-[-0.04em] text-white -mt-1">
-            HIGHLIGHTS
+            Highlights
           </span>
         </h2>
       </div>
