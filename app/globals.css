@@ -124,6 +124,98 @@ html.lenis, html.lenis body {
   box-shadow: 0 20px 60px rgba(0,0,0,0.08);
 }
 
+/* ── Project Highlight slider (freefrontend-style) ────────────────────── */
+@keyframes ph-slide-in {
+  from { opacity: 0; transform: translateY(60px); filter: blur(20px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0);    }
+}
+
+.ph-content {
+  position: absolute;
+  bottom: 15%;
+  left: 6%;
+  width: min(380px, 50vw);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ph-content-tag {
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  font-weight: 500;
+  animation: ph-slide-in 0.7s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.ph-content-name {
+  font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  animation: ph-slide-in 0.8s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+}
+
+.ph-content-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  animation: ph-slide-in 0.8s cubic-bezier(0.22,1,0.36,1) 0.2s both;
+}
+
+.ph-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(8px);
+  transition: background 0.3s, transform 0.2s;
+  animation: ph-slide-in 0.8s cubic-bezier(0.22,1,0.36,1) 0.3s both;
+  text-decoration: none;
+  width: fit-content;
+}
+.ph-btn:hover { background: #fff; transform: scale(1.04); }
+
+.ph-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+.ph-nav-btn {
+  width: 40px;
+  height: 35px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  transition: border-color 0.25s, background 0.25s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ph-nav-btn:hover  { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.15); transform: scale(1.1); }
+.ph-nav-btn:active { transform: scale(1.02); }
+/* ─────────────────────────────────────────────────────────────────────── */
+
 /* Smooth image reveal scale on scroll */
 .img-reveal {
   transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), filter 1.2s;
