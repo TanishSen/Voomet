@@ -1782,6 +1782,10 @@ video {
   --tw-divide-opacity: 1;
   border-color: rgb(245 245 245 / var(--tw-divide-opacity, 1));
 }
+.divide-neutral-200 > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-opacity: 1;
+  border-color: rgb(229 229 229 / var(--tw-divide-opacity, 1));
+}
 .divide-neutral-300 > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1;
   border-color: rgb(212 212 212 / var(--tw-divide-opacity, 1));
@@ -1835,9 +1839,6 @@ video {
 }
 .rounded-\[2px\] {
   border-radius: 2px;
-}
-.rounded-\[32px\] {
-  border-radius: 32px;
 }
 .rounded-\[inherit\] {
   border-radius: inherit;
@@ -3640,6 +3641,10 @@ html.lenis, html.lenis body {
   --tw-border-opacity: 1;
   border-color: rgb(163 163 163 / var(--tw-border-opacity, 1));
 }
+.hover\:border-neutral-900:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(23 23 23 / var(--tw-border-opacity, 1));
+}
 .hover\:border-white\/20:hover {
   border-color: rgb(255 255 255 / 0.2);
 }
@@ -3680,6 +3685,10 @@ html.lenis, html.lenis body {
 .hover\:bg-neutral-800:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
+}
+.hover\:bg-neutral-900:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(23 23 23 / var(--tw-bg-opacity, 1));
 }
 .hover\:bg-primary\/80:hover {
   background-color: hsl(var(--primary) / 0.8);
@@ -4757,12 +4766,28 @@ html.lenis, html.lenis body {
     gap: 1.5rem;
   }
 
+  .md\:divide-x > :not([hidden]) ~ :not([hidden]) {
+    --tw-divide-x-reverse: 0;
+    border-right-width: calc(1px * var(--tw-divide-x-reverse));
+    border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
+  }
+
+  .md\:divide-y-0 > :not([hidden]) ~ :not([hidden]) {
+    --tw-divide-y-reverse: 0;
+    border-top-width: calc(0px * calc(1 - var(--tw-divide-y-reverse)));
+    border-bottom-width: calc(0px * var(--tw-divide-y-reverse));
+  }
+
   .md\:p-12 {
     padding: 3rem;
   }
 
   .md\:p-14 {
     padding: 3.5rem;
+  }
+
+  .md\:p-8 {
+    padding: 2rem;
   }
 
   .md\:px-12 {
@@ -4929,11 +4954,6 @@ html.lenis, html.lenis body {
     grid-column: span 2 / span 2;
   }
 
-  .lg\:mx-0 {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-
   .lg\:mb-0 {
     margin-bottom: 0px;
   }
@@ -4972,6 +4992,10 @@ html.lenis, html.lenis body {
 
   .lg\:gap-16 {
     gap: 4rem;
+  }
+
+  .lg\:gap-20 {
+    gap: 5rem;
   }
 
   .lg\:p-16 {

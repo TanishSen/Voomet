@@ -31,13 +31,13 @@ import TextReveal from '@/components/site/TextReveal'
 import ParallaxImage from '@/components/site/ParallaxImage'
 import ProjectHighlight from '@/components/site/ProjectHighlight'
 import HorizontalStory from '@/components/site/HorizontalStory'
+import AboutSection from '@/components/site/AboutSection'
 
 import {
   SERVICES as ALL_SERVICES,
   STATS,
   TESTIMONIALS,
   CLIENTS,
-  FOUNDER,
   COMPANY,
   PROCESS_STEPS,
   FAQS,
@@ -701,46 +701,6 @@ function ClientsBar() {
   )
 }
 
-function FounderQuote() {
-  return (
-    <section className="px-4 md:px-8 py-20 md:py-32 bg-neutral-50">
-      <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-        <FadeUp direction="left" className="relative rounded-[28px] overflow-hidden aspect-[4/5] max-w-md mx-auto lg:mx-0">
-          <ParallaxImage src={FOUNDER.image} alt={FOUNDER.name} className="w-full h-full" speed={0.08} />
-          <div className="absolute -inset-2 border border-neutral-200 rounded-[32px] pointer-events-none" style={{ transform: 'translate(8px, 8px)' }} />
-        </FadeUp>
-        <FadeUp direction="right" delay={0.1}>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-px bg-neutral-900" />
-            <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">About the Founder</span>
-          </div>
-          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-semibold tracking-[-0.04em] leading-[0.95] mb-8">
-            I have invested my life<br />into my <span className="italic font-light">passion</span>.
-          </h2>
-          <blockquote className="text-xl md:text-2xl font-display font-medium italic text-neutral-800 leading-snug max-w-xl">
-            &ldquo;{COMPANY.promise}&rdquo;
-          </blockquote>
-          <p className="mt-6 text-neutral-600 leading-relaxed max-w-xl text-editorial">{FOUNDER.bio}</p>
-          <div className="mt-8 flex items-center gap-4">
-            <img src={FOUNDER.signature} alt="signature" className="h-12 w-auto" />
-            <div className="text-sm text-neutral-600">
-              <strong>{FOUNDER.name}</strong>
-              <br />
-              {FOUNDER.title}
-            </div>
-          </div>
-          <Link
-            href="/about"
-            className="mt-10 inline-flex items-center gap-2 bg-neutral-900 text-white hover:bg-neutral-700 rounded-full px-6 py-3 text-sm transition-all hover:gap-3"
-          >
-            Read full story <ArrowRight className="h-4 w-4" />
-          </Link>
-        </FadeUp>
-      </div>
-    </section>
-  )
-}
-
 function Testimonials() {
   const [active, setActive] = useState(0)
   useEffect(() => {
@@ -1038,7 +998,7 @@ function App() {
       <WhyChooseVoomet />
       <Technology />
       <Marquee />
-      <FounderQuote />
+      <AboutSection />
       <Testimonials />
       <Process />
       <FAQ />
