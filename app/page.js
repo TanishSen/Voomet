@@ -96,14 +96,35 @@ function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.35], [1, 0])
   const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
 
-  const words = ['PREMIUM.', 'CRAFTED.', 'INSPIRED.', 'TIMELESS.', 'YOURS.']
+  const words = ['AMBITION.', 'ARCHITECTURE.', 'PRECISION.', 'EXCELLENCE.']
   const [wordIndex, setWordIndex] = useState(0)
+  const [showTitle, setShowTitle] = useState(true)
+  const videoRef = useRef(null)
 
   useEffect(() => {
     const interval = setInterval(() => {
       setWordIndex((i) => (i + 1) % words.length)
     }, 3000)
     return () => clearInterval(interval)
+  }, [])
+
+  // Track video time to hide title between 45-51 seconds
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const handleTimeUpdate = () => {
+      const currentTime = video.currentTime
+      // Hide title between 45-51 seconds
+      if (currentTime >= 45 && currentTime < 51) {
+        setShowTitle(false)
+      } else {
+        setShowTitle(true)
+      }
+    }
+
+    video.addEventListener('timeupdate', handleTimeUpdate)
+    return () => video.removeEventListener('timeupdate', handleTimeUpdate)
   }, [])
 
   const onContact = () => {
@@ -114,45 +135,57 @@ function Hero() {
     <section className="relative h-screen w-full overflow-hidden bg-neutral-900">
       {/* Full-bleed background */}
       <motion.div style={{ y }} className="absolute inset-0 scale-110">
-        <img
-          src={IMG.hero}
-          alt="Voomet premium interior"
+        <video
+          ref={videoRef}
+          src="/herobg/Voomet-cinematic video 03.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
           className="w-full h-full object-cover"
           style={{ objectPosition: 'center 65%' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-black/35" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/55" />
       </motion.div>
 
       {/* Massive centred headline */}
-      <motion.div
-        style={{ opacity }}
-        className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none px-4"
-      >
-        {/* Cycling word — big, on top */}
-        <AnimatePresence mode="wait">
+      <AnimatePresence>
+        {showTitle && (
           <motion.div
-            key={words[wordIndex]}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display font-black text-white uppercase leading-none tracking-[-0.04em] text-[14vw] md:text-[13vw] lg:text-[11vw]"
-            style={{ textShadow: '0 4px 60px rgba(0,0,0,0.5)' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            style={{ opacity }}
+            className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none px-4"
           >
-            {words[wordIndex]}
-          </motion.div>
-        </AnimatePresence>
+            {/* Cycling word — big, on top */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={words[wordIndex]}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                className="font-display font-black text-white uppercase leading-none tracking-[-0.04em] text-[10vw] md:text-[9vw] lg:text-[8vw]"
+                style={{ textShadow: '0 4px 60px rgba(0,0,0,0.5)' }}
+              >
+                {words[wordIndex]}
+              </motion.div>
+            </AnimatePresence>
 
-        {/* Static brand word — smaller, below */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease, delay: 0.2 }}
-          className="font-display font-semibold text-white/60 uppercase leading-none tracking-[0.22em] text-[4vw] md:text-[3vw] lg:text-[2.2vw] mt-4"
-        >
-          VOOMET
-        </motion.div>
-      </motion.div>
+            {/* Static brand word — smaller, below */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease, delay: 0.2 }}
+              className="font-display font-semibold text-white/60 uppercase leading-none tracking-[0.22em] text-[4vw] md:text-[3vw] lg:text-[2.2vw] mt-4"
+            >
+              VOOMET
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Bottom-left: tagline + See Our Work — side by side */}
       <motion.div
@@ -162,8 +195,8 @@ function Hero() {
         className="absolute left-6 md:left-10 bottom-8 md:bottom-10 flex items-end gap-5 max-w-2xl"
       >
         <p className="text-white/80 text-sm md:text-base leading-relaxed max-w-[260px] md:max-w-xs">
-          Premium interiors crafted with 20+ years of expertise.
-          Transforming spaces into living works of art.
+          Twenty years of precision design. Hundreds of offices transformed.
+          One team, from concept to keys-in-hand.
         </p>
         <Link
           href="/portfolio"
@@ -175,7 +208,7 @@ function Hero() {
             border: '1px solid rgba(255,255,255,0.22)',
           }}
         >
-          See Our Work <ArrowUpRight className="h-4 w-4" />
+          View Our Work <ArrowUpRight className="h-4 w-4" />
         </Link>
       </motion.div>
 
@@ -206,12 +239,12 @@ function ModernMinimalist() {
         {/* DEV.UN split heading */}
         <div className="mb-16 md:mb-24">
           <FadeUp>
-            <span className="text-xs uppercase tracking-[0.3em] text-neutral-400 mb-4 block">Doing our job from the heart</span>
+            <span className="text-xs uppercase tracking-[0.3em] text-neutral-400 mb-4 block">From Concept to Completion</span>
           </FadeUp>
           <FadeUp delay={0.05}>
             <h2 className="font-display leading-[0.95]">
-              <span className="block text-5xl md:text-7xl lg:text-8xl split-heading-light">OUR</span>
-              <span className="block text-6xl md:text-8xl lg:text-[9rem] split-heading-bold tracking-[-0.04em] -mt-1 md:-mt-3">CRAFT</span>
+              <span className="block text-5xl md:text-7xl lg:text-8xl split-heading-light">TURNKEY</span>
+              <span className="block text-6xl md:text-8xl lg:text-[9rem] split-heading-bold tracking-[-0.04em] -mt-1 md:-mt-3">OFFICE INTERIORS</span>
             </h2>
           </FadeUp>
         </div>
@@ -219,10 +252,10 @@ function ModernMinimalist() {
         {/* Service item 01 — image right, text left */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-20 md:mb-32">
           <FadeUp direction="left" delay={0.1} className="order-2 lg:order-1">
-            <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em] mb-4">MODERN MINIMALIST</h3>
+            <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em] mb-4">SPACE PLANNING</h3>
             <div className="w-12 h-px bg-neutral-900 mb-5" />
             <p className="text-neutral-600 leading-relaxed text-editorial max-w-md">
-              Aesthetic furniture where every piece tells a story of style. We implement interior design for buildings of all sizes — expanding, modernising and visually enlarging every space.
+              Layouts optimised for collaboration, focus zones, and growth. We transform raw floor-plates into efficiently zoned workspaces that support your team&apos;s workflow and culture.
             </p>
           </FadeUp>
           <FadeUp direction="right" delay={0.15} className="order-1 lg:order-2 relative">
@@ -231,7 +264,7 @@ function ModernMinimalist() {
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl group">
                 <img
                   src={IMG.modernMinimalist}
-                  alt="Modern Minimalist"
+                  alt="Space Planning"
                   className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
                 />
               </div>
@@ -247,17 +280,17 @@ function ModernMinimalist() {
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl group">
                 <img
                   src={IMG.bestFurniture}
-                  alt="Turnkey Renovation"
+                  alt="Interior Fit-Out"
                   className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
                 />
               </div>
             </div>
           </FadeUp>
           <FadeUp direction="right" delay={0.15}>
-            <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em] mb-4">TURNKEY RENOVATION</h3>
+            <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em] mb-4">INTERIOR FIT-OUT</h3>
             <div className="w-12 h-px bg-neutral-900 mb-5" />
             <p className="text-neutral-600 leading-relaxed text-editorial max-w-md">
-              A well-established system of managing all stages of work makes it possible to meet deadlines and complete the interior design without you. We visit the site, monitor the project, and control every detail.
+              Walls, ceilings, flooring, electrical, data cabling — everything installed by our certified crews. We handle every stage of construction and installation with precision, delivering on time every time.
             </p>
           </FadeUp>
         </div>
@@ -265,10 +298,10 @@ function ModernMinimalist() {
         {/* Service item 03 — image right, text left */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeUp direction="left" delay={0.1} className="order-2 lg:order-1">
-            <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em] mb-4">SELECTION OF MATERIALS</h3>
+            <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em] mb-4">MODULAR FURNITURE</h3>
             <div className="w-12 h-px bg-neutral-900 mb-5" />
             <p className="text-neutral-600 leading-relaxed text-editorial max-w-md">
-              Choosing materials and interior items together with a specialist is a comprehensive and cost-effective service. It helps you purchase stylistically justified and functional objects for your space.
+              Desks, workstations, and custom joinery manufactured in our own 40,000 sq.ft. facility. Crafted precisely to your specifications with quality materials and competitive pricing.
             </p>
             <Link
               href="/services/office-interiors"
@@ -283,7 +316,7 @@ function ModernMinimalist() {
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl group">
                 <img
                   src={IMG.galleryCard}
-                  alt="Selection of Materials"
+                  alt="Modular Furniture"
                   className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
                 />
               </div>
@@ -308,10 +341,10 @@ function Stats() {
         <FadeUp>
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-px bg-neutral-900" />
-            <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">Learn more about the company</span>
+            <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">The Numbers Speak</span>
           </div>
           <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold tracking-[-0.04em] leading-[0.95]">
-            About the Company
+            Precision <span className="italic font-light">at Scale.</span>
           </h2>
         </FadeUp>
       </div>
@@ -376,17 +409,17 @@ function ModernStyle() {
         </FadeUp>
         <FadeUp direction="right" delay={0.1} className="py-6 lg:py-0">
           <div className="flex items-center gap-3 text-xs text-neutral-400 uppercase tracking-[0.3em] mb-6">
-            <span>Elegance</span>
+            <span>Office</span>
             <span className="w-6 h-px bg-neutral-300" />
-            <span>Timeless</span>
+            <span>Interiors</span>
           </div>
           <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold tracking-[-0.04em] leading-[0.95] mb-8">
-            Modern Style,<br /><span className="text-neutral-400">Timeless</span> Charm
+            Where Ambition<br /><span className="text-neutral-400">Meets</span> Architecture
           </h2>
           <p className="text-neutral-600 leading-relaxed max-w-lg text-editorial">
-            Discover Voomet&apos;s portfolio — featuring offices, residences, hotels and
-            healthcare spaces embodying diverse lifestyle concepts. Designed in-house,
-            manufactured on imported German machinery, installed by our own craftsmen.
+            Premium office interiors for MNCs, SMEs, and start-ups. Designed in-house,
+            manufactured on imported German machinery in our 40,000 sq.ft. facility,
+            installed by our own craftsmen. Six weeks from concept to keys-in-hand.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
@@ -584,7 +617,7 @@ function WhyChooseVoomet() {
               <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">Why Choose Voomet</span>
             </div>
             <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold tracking-[-0.04em] leading-[0.95] max-w-3xl">
-              Every opportunity<br />is about <span className="italic font-light">commitment</span>
+              Four Reasons the Best Offices <span className="italic font-light">Choose Voomet.</span>
             </h2>
           </FadeUp>
         </div>
@@ -625,9 +658,9 @@ function Technology() {
 
       <div className="max-w-[1400px] mx-auto relative z-10">
         <FadeUp>
-          <span className="text-xs uppercase tracking-[0.3em] text-white/40 mb-4 block">Technology That Powers Us</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-white/40 mb-4 block">Precision Through Technology</span>
           <h2 className="font-display leading-[0.95]">
-            <span className="block text-5xl md:text-7xl lg:text-8xl font-light text-white/90">Built With</span>
+            <span className="block text-5xl md:text-7xl lg:text-8xl font-light text-white/90">Designed &amp; Built With</span>
             <span className="block text-6xl md:text-8xl lg:text-[9rem] font-extrabold tracking-[-0.04em] -mt-1 md:-mt-3">PRECISION</span>
           </h2>
         </FadeUp>
@@ -656,7 +689,7 @@ function Technology() {
 }
 
 function Marquee() {
-  const words = ['Premium Interiors', 'Office Fit-outs', 'Bulk Manufacturing', 'Door Production', 'Residential Turnkey', 'MEP Coordination', 'Hospital Interiors', 'Hotel Interiors']
+  const words = ['Office Interiors', 'MNC Fit-outs', 'SME Workspaces', 'Start-up Offices', 'Turnkey Delivery', 'MEP Coordination', '3D Visualisation', 'In-House Manufacturing']
   return (
     <section className="py-10 overflow-hidden border-y border-neutral-200/70">
       <div className="flex animate-marquee whitespace-nowrap gap-12">
@@ -680,9 +713,9 @@ function ClientsBar() {
       <FadeUp>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-12 px-4 md:px-8 max-w-[1400px] mx-auto">
           <h3 className="font-display text-4xl md:text-6xl font-semibold tracking-[-0.03em]">
-            Trusted by <span className="italic font-light">leading</span> brands.
+            Offices That Move at the <span className="italic font-light">Speed of Business.</span>
           </h3>
-          <p className="text-sm text-neutral-500">A few of our clients across India and overseas.</p>
+          <p className="text-sm text-neutral-500">20+ of India&apos;s most ambitious organisations trust Voomet.</p>
         </div>
       </FadeUp>
       <div className="relative">
@@ -716,7 +749,7 @@ function Testimonials() {
             <div>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-px bg-neutral-900" />
-                <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">What Our Clients Say</span>
+                <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">What the Offices Say</span>
               </div>
               <h2 className="font-display text-5xl md:text-7xl font-semibold tracking-[-0.03em] leading-[0.95]">
                 Testimony of our <span className="italic font-light">commitment</span>.
@@ -771,10 +804,10 @@ function Process() {
         <FadeUp>
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-px bg-neutral-900" />
-            <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">Our Process · Five Steps</span>
+            <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">Our Process · Six Weeks</span>
           </div>
           <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold tracking-[-0.04em] leading-[0.95] max-w-3xl">
-            From first sketch<br />to <span className="italic font-light">final handover</span>.
+            From first sketch<br />to <span className="italic font-light">keys-in-hand</span>.
           </h2>
         </FadeUp>
 
@@ -802,7 +835,7 @@ function FAQ() {
       <div className="max-w-[1100px] mx-auto">
         <FadeUp>
           <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold tracking-[-0.04em] leading-[0.95] mb-14">
-            Frequently <span className="italic font-light">asked</span>.
+            Real Questions, <span className="italic font-light">Straight Answers.</span>
           </h2>
         </FadeUp>
         <div className="mt-10 divide-y divide-neutral-300">

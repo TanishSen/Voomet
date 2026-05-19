@@ -13,7 +13,7 @@ import { COMPANY } from '@/lib/voomet-data'
 
 const ease = [0.22, 1, 0.36, 1]
 
-export default function ContactSection({ defaultRequirement = 'Residential', heading = 'Engage with Us in\nConversation.' }) {
+export default function ContactSection({ defaultRequirement = 'Office Interiors', heading = "Let's Design Your\nNext Office." }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({
@@ -22,6 +22,7 @@ export default function ContactSection({ defaultRequirement = 'Residential', hea
     email: '',
     requirement: defaultRequirement,
     area: '',
+    companySize: '',
     message: '',
   })
 
@@ -56,8 +57,8 @@ export default function ContactSection({ defaultRequirement = 'Residential', hea
               {heading}
             </h2>
               <p className="mt-5 text-white/70 max-w-md leading-relaxed">
-              Tell us about your space. We&apos;ll respond within one business day with
-              ideas, indicative budget and timelines.
+              Name, Number, Office Size. We&apos;ll handle the rest with a detailed scope 
+              document, 3D renders, and an itemised quote — usually within 48 hours.
             </p>
 
             <div className="mt-10 space-y-4">
@@ -95,7 +96,7 @@ export default function ContactSection({ defaultRequirement = 'Residential', hea
 
           <div className="p-8 md:p-12 lg:p-16 bg-[#111111]">
             <form onSubmit={onSubmit} className="space-y-4">
-              <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em]">Book a free consultation</h3>
+              <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em]">Book a Free Consultation</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Input
                   placeholder="Your name *"
@@ -122,25 +123,6 @@ export default function ContactSection({ defaultRequirement = 'Residential', hea
               />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Select
-                  value={form.requirement}
-                  onValueChange={(v) => setForm({ ...form, requirement: v })}
-                >
-                  <SelectTrigger className="h-12 rounded-xl bg-white/5 border-white/10 text-white">
-                    <SelectValue placeholder="Requirement" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Office Interiors">Office Interiors</SelectItem>
-                    <SelectItem value="Residential">Home Interiors</SelectItem>
-                    <SelectItem value="Hotel Interiors">Hotel Interiors</SelectItem>
-                    <SelectItem value="Hospital Interiors">Hospital Interiors</SelectItem>
-                    <SelectItem value="Educational Interiors">Educational Institute Interiors</SelectItem>
-                    <SelectItem value="Retail Interiors">Commercial / Retail Interiors</SelectItem>
-                    <SelectItem value="Doors">Doors Manufacturing</SelectItem>
-                    <SelectItem value="Bulk Manufacturing">Bulk Manufacturing</SelectItem>
-                    <SelectItem value="Others">Others</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select
                   value={form.area}
                   onValueChange={(v) => setForm({ ...form, area: v })}
                 >
@@ -148,10 +130,23 @@ export default function ContactSection({ defaultRequirement = 'Residential', hea
                     <SelectValue placeholder="Area / Sq.ft." />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="<1000">&lt; 1000 sqft</SelectItem>
-                    <SelectItem value="1000-5000">1000 - 5000 sqft</SelectItem>
-                    <SelectItem value="5000-10000">5000 - 10000 sqft</SelectItem>
-                    <SelectItem value=">10000">&gt; 10000 sqft</SelectItem>
+                    <SelectItem value="<2500">&lt; 2,500 sqft</SelectItem>
+                    <SelectItem value="2500-5000">2,500 – 5,000 sqft</SelectItem>
+                    <SelectItem value="5000-10000">5,000 – 10,000 sqft</SelectItem>
+                    <SelectItem value=">10000">&gt; 10,000 sqft</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={form.companySize}
+                  onValueChange={(v) => setForm({ ...form, companySize: v })}
+                >
+                  <SelectTrigger className="h-12 rounded-xl bg-white/5 border-white/10 text-white">
+                    <SelectValue placeholder="Company Size" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5-50">5 – 50 employees</SelectItem>
+                    <SelectItem value="51-100">51 – 100 employees</SelectItem>
+                    <SelectItem value="100+">100+ employees</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -167,7 +162,7 @@ export default function ContactSection({ defaultRequirement = 'Residential', hea
                 disabled={loading}
                 className="h-12 w-full rounded-xl bg-white text-neutral-900 hover:bg-neutral-100 text-sm font-medium"
               >
-                {loading ? 'Sending…' : 'Get A Quote'}
+                {loading ? 'Sending…' : 'Book a Consultation'}
                 {!loading && <ArrowRight className="h-4 w-4 ml-2" />}
               </Button>
               <p className="text-xs text-white/40">

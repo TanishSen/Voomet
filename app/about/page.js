@@ -29,12 +29,12 @@ export default function AboutPage() {
               <span className="text-neutral-900">About</span>
             </div>
             <h1 className="font-display text-6xl md:text-9xl font-semibold leading-[0.9] tracking-[-0.05em] max-w-5xl">
-              The studio<br />behind Voomet.
-            </h1>
-            <p className="mt-8 text-lg md:text-xl text-neutral-700 max-w-2xl leading-relaxed">
-              Two decades. {COMPANY.projectsDelivered}+ projects. {COMPANY.sqftCommissioned} sq.ft. delivered. One unwavering
-              promise from our founder: be the most committed interior design partner
-              in Bangalore. Not the biggest — the most committed.
+            Where Ambition<br />Meets Architecture.
+          </h1>
+          <p className="mt-8 text-lg md:text-xl text-neutral-700 max-w-2xl leading-relaxed">
+            Twenty years of precision design. {COMPANY.projectsDelivered}+ offices transformed.
+            {COMPANY.sqftCommissioned} sq.ft. delivered. Premium office interiors for MNCs, SMEs, 
+            and start-ups across Bangalore — and beyond.
             </p>
           </FadeUp>
         </div>
@@ -93,9 +93,9 @@ export default function AboutPage() {
       <section className="px-4 md:px-8 py-20 bg-neutral-50">
         <div className="max-w-[1400px] mx-auto">
           <FadeUp>
-            <div className="text-sm text-neutral-500 uppercase tracking-[0.2em] mb-3">Our Strength</div>
+            <div className="text-sm text-neutral-500 uppercase tracking-[0.2em] mb-3">Precision Through Technology</div>
             <h2 className="font-display text-5xl md:text-7xl font-semibold tracking-[-0.03em] max-w-3xl">
-              Technology that powers us.
+              Designed &amp; Built With Precision.
             </h2>
           </FadeUp>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -118,7 +118,7 @@ export default function AboutPage() {
           <FadeUp>
             <div className="text-sm text-neutral-500 uppercase tracking-[0.2em] mb-3">Why Choose Voomet?</div>
             <h2 className="font-display text-5xl md:text-7xl font-semibold tracking-[-0.03em] max-w-3xl">
-              Every opportunity is about commitment.
+              Four Reasons the Best Offices Choose Voomet.
             </h2>
           </FadeUp>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -168,7 +168,7 @@ export default function AboutPage() {
         <div className="max-w-[1400px] mx-auto">
           <FadeUp>
             <h2 className="font-display text-4xl md:text-6xl font-semibold tracking-[-0.03em] max-w-3xl">
-              Trusted by leading brands.
+              Offices That Move at the Speed of Business.
             </h2>
           </FadeUp>
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-6 items-center">
@@ -183,7 +183,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <ContactSection heading="Work with the most\ncommitted team." />
+      <ContactSection heading="Let's Design Your\nNext Office." />
       <SiteFooter />
       <StickyCTA />
     </main>

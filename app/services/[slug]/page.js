@@ -1,5 +1,9 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, ArrowRight, Check, X, Phone, Shield, Award } from 'lucide-react'
 import SiteNav from '@/components/site/SiteNav'
 import SiteFooter from '@/components/site/SiteFooter'
@@ -18,17 +22,62 @@ import {
   FEATURED_PROJECTS,
 } from '@/lib/voomet-data'
 
-export async function generateStaticParams() {
-  return SERVICES.map((s) => ({ slug: s.slug }))
-}
+// Hero Slideshow Component with smooth transitions
+function HeroSlideshow({ images, name }) {
+  const [currentIndex, setCurrentIndex] = useState(0)
 
-export async function generateMetadata({ params }) {
-  const s = SERVICES.find((x) => x.slug === params.slug)
-  if (!s) return {}
-  return {
-    title: `${s.name} — Voomet | ${s.starting}`,
-    description: s.description.slice(0, 160),
-  }
+  useEffect(() => {
+    if (!images || images.length <= 1) return
+    
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length)
+    }, 4000) // Change every 4 seconds
+
+    return () => clearInterval(interval)
+  }, [images])
+
+  if (!images || images.length === 0) return null
+
+  return (
+    <div className="relative rounded-[28px] overflow-hidden aspect-[16/8]">
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={currentIndex}
+          src={images[currentIndex]}
+          alt={`${name} - ${currentIndex + 1}`}
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ 
+            duration: 1.2, 
+            ease: [0.25, 0.46, 0.45, 0.94]
+          }}
+        />
+      </AnimatePresence>
+      
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+      
+      {/* Progress indicators */}
+      {images.length > 1 && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {images.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                idx === currentIndex 
+                  ? 'w-8 bg-white' 
+                  : 'w-1.5 bg-white/50 hover:bg-white/70'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function ServicePage({ params }) {
@@ -39,6 +88,7 @@ export default function ServicePage({ params }) {
   const isDoors = service.slug === 'doors-manufacturing'
   const isBulk = service.slug === 'bulk-manufacturing'
   const showFeaturedProjects = service.featuredProjects && service.featuredProjects.length > 0
+  const hasHeroSlideshow = service.heroImages && service.heroImages.length > 1
 
   return (
     <main className="min-h-screen bg-white text-neutral-900 font-sans overflow-x-hidden">
@@ -74,9 +124,13 @@ export default function ServicePage({ params }) {
           </FadeUp>
 
           <FadeUp delay={0.1}>
-            <div className="relative rounded-[28px] overflow-hidden aspect-[16/8]">
-              <img src={service.hero} alt={service.name} className="w-full h-full object-cover" />
-            </div>
+            {hasHeroSlideshow ? (
+              <HeroSlideshow images={service.heroImages} name={service.name} />
+            ) : (
+              <div className="relative rounded-[28px] overflow-hidden aspect-[16/8]">
+                <img src={service.hero} alt={service.name} className="w-full h-full object-cover" />
+              </div>
+            )}
           </FadeUp>
         </div>
       </section>

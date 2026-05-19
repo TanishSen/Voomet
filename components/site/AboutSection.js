@@ -27,19 +27,19 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-16">
           <FadeUp>
             <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.04em] leading-[0.95]">
-              An interior design firm that brings sensitivity to the design.
+              Premium office interiors for companies that mean business.
             </h2>
           </FadeUp>
 
           <FadeUp delay={0.1} className="flex flex-col gap-5 justify-center">
             <p className="text-neutral-600 leading-relaxed text-[15px]">
-              Based in Bangalore. Trusted across India. For over two decades, we have been transforming offices,
-              residences, hotels, and hospitals into spaces that endure.
+              Based in Bangalore. Trusted across India. For over two decades, we have been transforming workspaces
+              for MNCs, SMEs, and start-ups into offices that attract talent and accelerate growth.
             </p>
             <p className="text-neutral-500 leading-relaxed text-[15px]">
               We design. We manufacture. We install — everything under one roof with in-house craftsmen,
-              imported German machinery, and software-tracked timelines. 500+ projects delivered for names
-              like IndiGo, AirAsia, Emirates, and Scripbox.
+              imported German machinery, and software-tracked timelines. 250+ office projects delivered for names
+              like Physics Wallah, Zluri, Juego, Nordson, and Apps for Bharat.
             </p>
             <Link
               href="/about"
