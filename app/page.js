@@ -175,14 +175,14 @@ function Hero() {
             </AnimatePresence>
 
             {/* Static brand word — smaller, below */}
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease, delay: 0.2 }}
               className="font-display font-semibold text-white/60 uppercase leading-none tracking-[0.22em] text-[4vw] md:text-[3vw] lg:text-[2.2vw] mt-4"
             >
               VOOMET
-            </motion.div>
+            </motion.div> */}
           </motion.div>
         )}
       </AnimatePresence>
@@ -329,68 +329,161 @@ function ModernMinimalist() {
 }
 
 function Stats() {
-  const statImages = [
-    'https://voomet.com/images/webp/28.webp',
-    'https://voomet.com/images/webp/13.webp',
-    'https://voomet.com/images/webp/40.webp',
+  const [hoveredCard, setHoveredCard] = useState(null)
+  
+  const statsData = [
+    { id: 0, num: '250+', label: 'Office Projects Delivered', desc: 'Trusted by MNCs, SMEs & startups.', dark: true },
+    { id: 1, num: '6', label: 'Weeks Average Delivery', desc: 'From concept to keys-in-hand.', dark: false },
+    { id: 2, num: '50L+', label: 'Sq.ft. Commissioned', desc: 'Premium spaces designed & built.', dark: false },
   ]
+
+  // Slower, smoother spring config
+  const springConfig = { type: "spring", stiffness: 120, damping: 20 }
+  const slowSpring = { type: "spring", stiffness: 80, damping: 18 }
+
+  // Calculate flex for each card based on hover state
+  // Default: 2:1:1, Hover maintains the 2:1:1 pattern shifting to hovered card
+  const getFlexValue = (cardId) => {
+    if (hoveredCard === null) {
+      // Default state: first card (black) is bigger
+      return cardId === 0 ? 2 : 1
+    }
+    // Hovered card gets 2, others get 1
+    return hoveredCard === cardId ? 2 : 1
+  }
+
   return (
-    <section id="about" className="px-4 md:px-8 py-20 md:py-32 relative overflow-hidden">
-      {/* DEV.UN split heading */}
-      <div className="max-w-[1400px] mx-auto mb-16 md:mb-24">
+    <section id="about" className="px-4 md:px-8 py-16 md:py-24 relative overflow-hidden bg-white">
+      <div className="max-w-[1200px] mx-auto">
+        {/* Centered Headline */}
         <FadeUp>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-px bg-neutral-900" />
-            <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">The Numbers Speak</span>
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] leading-[1.1]">
+              See the difference<br />
+              <span className="italic font-light">unbelievably fast.</span>
+            </h2>
           </div>
-          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold tracking-[-0.04em] leading-[0.95]">
-            Precision <span className="italic font-light">at Scale.</span>
-          </h2>
         </FadeUp>
-      </div>
 
-      {/* Giant ghost brand text on left — vertical */}
-      <div className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 pointer-events-none select-none">
-        <span className="font-display text-[14rem] font-black tracking-[-0.06em] leading-none text-transparent" style={{ WebkitTextStroke: '1.5px rgba(0,0,0,0.04)', writingMode: 'vertical-lr' }}>
-          VOOMET
-        </span>
-      </div>
+        {/* Interactive Cards Row */}
+        <FadeUp delay={0.15}>
+          <div 
+            className="flex flex-col lg:flex-row gap-4 md:gap-5 h-auto lg:h-[420px]"
+            onMouseLeave={() => setHoveredCard(null)}
+          >
+            {statsData.map((stat, i) => {
+              const isHovered = hoveredCard === stat.id
+              const hasHover = hoveredCard !== null
+              const isOther = hasHover && !isHovered
+              const flexValue = getFlexValue(stat.id)
 
-      <div className="max-w-[1400px] mx-auto">
-        {STATS.slice(0, 3).map((s, i) => (
-          <div key={s.label} className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 last:mb-0 ${i % 2 !== 0 ? '' : ''}`}>
-            {/* Image */}
-            <FadeUp direction="left" delay={0.1} className={`relative ${i % 2 !== 0 ? 'lg:order-2' : ''}`}>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl group">
-                <img
-                  src={statImages[i]}
-                  alt={s.label}
-                  className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
-                />
-              </div>
-              {/* Offset frame */}
-              <div className="absolute -inset-2 border border-neutral-200 rounded-2xl pointer-events-none" style={{ transform: `translate(${i % 2 === 0 ? '6px' : '-6px'}, 6px)` }} />
-            </FadeUp>
+              return (
+                <motion.div
+                  key={stat.id}
+                  className={`relative rounded-3xl overflow-hidden cursor-pointer flex flex-col ${
+                    stat.dark ? 'bg-neutral-900' : 'bg-neutral-100'
+                  }`}
+                  onMouseEnter={() => setHoveredCard(stat.id)}
+                  animate={{
+                    flex: flexValue,
+                    scale: isHovered ? 1.015 : isOther ? 0.985 : 1,
+                    filter: isOther ? 'brightness(0.92)' : 'brightness(1)',
+                  }}
+                  transition={slowSpring}
+                  style={{ minHeight: '280px' }}
+                >
+                  {/* Grid Pattern */}
+                  <div className={`absolute inset-0 ${stat.dark ? 'opacity-[0.07]' : 'opacity-[0.4]'}`}>
+                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <pattern id={`grid-${stat.id}`} width="40" height="40" patternUnits="userSpaceOnUse">
+                          <path d="M 40 0 L 0 0 0 40" fill="none" stroke={stat.dark ? 'white' : '#d4d4d4'} strokeWidth="1"/>
+                        </pattern>
+                      </defs>
+                      <rect width="100%" height="100%" fill={`url(#grid-${stat.id})`} />
+                    </svg>
+                  </div>
 
-            {/* Stat */}
-            <FadeUp direction="right" delay={0.15} className={`${i % 2 !== 0 ? 'lg:order-1' : ''}`}>
-              <div className="font-display text-7xl md:text-9xl font-bold tracking-[-0.04em] leading-none mb-2">
-                <Counter value={s.num} />
-              </div>
-              <h3 className="font-display text-xl md:text-2xl font-semibold uppercase tracking-wide mb-3">{s.label}</h3>
-              <div className="w-full h-px bg-neutral-200 mb-4" />
-              <p className="text-neutral-600 leading-relaxed text-editorial max-w-md">
-                {s.label.includes('Years') && 'prove that we have the deep expertise and dedication to deliver exceptional interiors consistently.'}
-                {s.label.includes('Projects') && 'prove that owners of commercial facilities, houses and apartments trust us with their spaces.'}
-                {s.label.includes('Sq.ft') && 'of beautifully designed space commissioned across offices, residences, and commercial properties.'}
-                {s.label.includes('Checks') && 'per project ensure the highest build quality — every panel, joint, and finish is inspected before handover.'}
-                {s.label.includes('Client') && 'are always ready to recommend us — our dedication speaks through their words.'}
-                {s.label.includes('Cities') && 'across the country rely on our team for premium interior solutions.'}
-              </p>
-            </FadeUp>
+                  {/* Content */}
+                  <div className="relative p-6 md:p-8 lg:p-10 flex flex-col h-full">
+                    {/* Icon */}
+                    <motion.div 
+                      className="mb-auto"
+                      animate={{ 
+                        scale: isHovered ? 1.1 : 1,
+                        y: isHovered ? -2 : 0 
+                      }}
+                      transition={springConfig}
+                    >
+                      {i === 0 ? (
+                        <svg className={`w-7 h-7 ${stat.dark ? 'text-neutral-500' : 'text-neutral-400'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      ) : i === 1 ? (
+                        <svg className="w-7 h-7 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      ) : (
+                        <svg className="w-7 h-7 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
+                        </svg>
+                      )}
+                    </motion.div>
+
+                    {/* Number */}
+                    <motion.div 
+                      className="mt-auto overflow-hidden"
+                      animate={{ 
+                        scale: isHovered ? 1.02 : isOther ? 0.85 : 1,
+                        x: isHovered ? 3 : 0
+                      }}
+                      transition={slowSpring}
+                    >
+                      <motion.span 
+                        className={`font-display font-bold tracking-[-0.04em] leading-none block ${
+                          stat.dark 
+                            ? 'text-neutral-700' 
+                            : 'text-neutral-800'
+                        }`}
+                        style={{ 
+                          fontSize: stat.dark ? 'clamp(4rem, 10vw, 7rem)' : 'clamp(3rem, 8vw, 5rem)'
+                        }}
+                      >
+                        <Counter value={stat.num} />
+                      </motion.span>
+                    </motion.div>
+
+                    {/* Label */}
+                    <motion.div 
+                      className="mt-3"
+                      animate={{ 
+                        opacity: isOther ? 0.5 : 1,
+                        y: isHovered ? 2 : 0
+                      }}
+                      transition={slowSpring}
+                    >
+                      <p className={`text-sm md:text-base leading-snug ${
+                        stat.dark ? 'text-neutral-400' : 'text-neutral-500'
+                      }`}>
+                        {isHovered ? stat.label : stat.desc}
+                        {stat.dark && <span className="text-neutral-600">*</span>}
+                      </p>
+                    </motion.div>
+
+                    {/* Hover indicator line */}
+                    <motion.div
+                      className={`absolute bottom-0 left-0 right-0 h-1 ${stat.dark ? 'bg-neutral-600' : 'bg-neutral-300'}`}
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: isHovered ? 1 : 0 }}
+                      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                      style={{ originX: 0 }}
+                    />
+                  </div>
+                </motion.div>
+              )
+            })}
           </div>
-        ))}
-
+        </FadeUp>
       </div>
     </section>
   )
@@ -601,6 +694,8 @@ function Services() {
           </div>
         </div>
       </div>
+      {/* Bottom black gradient overlay for seamless transition */}
+      <div className="pointer-events-none absolute left-0 right-0 bottom-0 h-24 md:h-32" style={{background: 'linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.85) 100%)'}} />
     </section>
   )
 }
@@ -649,6 +744,8 @@ function Technology() {
   const techIcons = [Monitor, Factory, Hammer]
   return (
     <section className="px-4 md:px-8 py-20 md:py-32 bg-neutral-900 text-white relative overflow-hidden">
+      {/* Top black gradient overlay for seamless transition */}
+      <div className="pointer-events-none absolute left-0 right-0 top-0 h-24 md:h-32" style={{background: 'linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 40%)'}} />
       {/* Ghost text background */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
         <span className="font-display text-[20vw] font-black tracking-[-0.06em] leading-none text-transparent whitespace-nowrap" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.03)' }}>
@@ -656,7 +753,7 @@ function Technology() {
         </span>
       </div>
 
-      <div className="max-w-[1400px] mx-auto relative z-10">
+      <div className="max-w-[1400px] mx-auto relative z-10 pt-8">
         <FadeUp>
           <span className="text-xs uppercase tracking-[0.3em] text-white/40 mb-4 block">Precision Through Technology</span>
           <h2 className="font-display leading-[0.95]">
@@ -713,9 +810,9 @@ function ClientsBar() {
       <FadeUp>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-12 px-4 md:px-8 max-w-[1400px] mx-auto">
           <h3 className="font-display text-4xl md:text-6xl font-semibold tracking-[-0.03em]">
-            Offices That Move at the <span className="italic font-light">Speed of Business.</span>
+            Trusted by <span className="italic font-light">Industry Leaders</span>
           </h3>
-          <p className="text-sm text-neutral-500">20+ of India&apos;s most ambitious organisations trust Voomet.</p>
+          <p className="text-sm text-neutral-500">20+ ambitious organisations trust Voomet.</p>
         </div>
       </FadeUp>
       <div className="relative">
@@ -1021,14 +1118,12 @@ function App() {
       <ClientsBar />
       <QuickQuoteSection />
       
-      <ModernMinimalist />
-      <Services />
-      
-      <Stats />
       <HorizontalStory />
+      <Stats />
       <ModernStyle />
       <ProjectHighlight />
-      <WhyChooseVoomet />
+      {/* <WhyChooseVoomet /> */}
+      {/* <Services /> */}
       <Technology />
       <Marquee />
       <AboutSection />

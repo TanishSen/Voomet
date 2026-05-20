@@ -114,11 +114,11 @@ export default function SiteFooter() {
 
       <div className="max-w-[1400px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
         <div>
-          <h5 className="font-semibold mb-3">About</h5>
+          <h5 className="font-semibold mb-3">Story</h5>
           <ul className="space-y-2 text-neutral-600">
             <li><Link href="/about" className="hover:text-neutral-900">Our Story</Link></li>
-            <li><Link href="/portfolio" className="hover:text-neutral-900">Portfolio</Link></li>
-            <li><Link href="/#contact" className="hover:text-neutral-900">Contact</Link></li>
+            <li><Link href="/portfolio" className="hover:text-neutral-900">Works</Link></li>
+            <li><Link href="/#contact" className="hover:text-neutral-900">Hello</Link></li>
           </ul>
         </div>
         <div>
@@ -139,7 +139,7 @@ export default function SiteFooter() {
           </ul>
         </div>
         <div>
-          <h5 className="font-semibold mb-3">Contact</h5>
+          <h5 className="font-semibold mb-3">Hello</h5>
           <ul className="space-y-2 text-neutral-600">
             <li><a href={`tel:${COMPANY.phoneDigits}`} className="hover:text-neutral-900">{COMPANY.phone}</a></li>
             <li><a href={`tel:${COMPANY.phoneSecondaryDigits}`} className="hover:text-neutral-900">{COMPANY.phoneSecondary}</a></li>

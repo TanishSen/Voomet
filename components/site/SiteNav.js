@@ -56,10 +56,10 @@ export default function SiteNav({ onCta }) {
         </Link>
 
         <nav className="hidden md:flex items-center gap-9 text-sm">
-          <Link href="/services/office-interiors" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Services</Link>
-          <Link href="/portfolio" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Portfolio</Link>
-          <Link href="/about" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>About</Link>
-          <Link href="/#contact" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Contact</Link>
+          <Link href="/services/office-interiors" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Studio</Link>
+          <Link href="/portfolio" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Works</Link>
+          <Link href="/about" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Story</Link>
+          <Link href="/#contact" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Hello</Link>
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
@@ -95,10 +95,10 @@ export default function SiteNav({ onCta }) {
             className="md:hidden bg-white border-t border-neutral-200 overflow-hidden"
           >
             <div className="px-6 py-6 flex flex-col gap-1">
-              <Link href="/services/office-interiors" onClick={() => setOpen(false)} className="py-2 text-base">Services</Link>
-              <Link href="/portfolio" onClick={() => setOpen(false)} className="py-2 text-base">Portfolio</Link>
-              <Link href="/about" onClick={() => setOpen(false)} className="py-2 text-base">About</Link>
-              <Link href="/#contact" onClick={() => setOpen(false)} className="py-2 text-base">Contact</Link>
+              <Link href="/services/office-interiors" onClick={() => setOpen(false)} className="py-2 text-base">Studio</Link>
+              <Link href="/portfolio" onClick={() => setOpen(false)} className="py-2 text-base">Works</Link>
+              <Link href="/about" onClick={() => setOpen(false)} className="py-2 text-base">Story</Link>
+              <Link href="/#contact" onClick={() => setOpen(false)} className="py-2 text-base">Hello</Link>
               <button
                 onClick={() => { setOpen(false); handleCta() }}
                 className="bg-neutral-900 text-white rounded-full mt-4 px-6 py-3 text-sm font-medium"

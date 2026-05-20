@@ -167,8 +167,8 @@ export default function AboutPage() {
       <section className="px-4 md:px-8 py-20">
         <div className="max-w-[1400px] mx-auto">
           <FadeUp>
-            <h2 className="font-display text-4xl md:text-6xl font-semibold tracking-[-0.03em] max-w-3xl">
-              Offices That Move at the Speed of Business.
+            <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold tracking-[-0.03em] max-w-2xl">
+              Trusted by Industry Leaders
             </h2>
           </FadeUp>
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-6 items-center">
