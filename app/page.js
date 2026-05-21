@@ -6,16 +6,15 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'fra
 import {
   ArrowUpRight,
   ArrowRight,
-  Play,
-  Building2,
-  Hammer,
-  DoorOpen,
   Quote,
   Star,
-  Sparkles,
-  Factory,
-  Monitor,
   CheckCircle2,
+  Grid3X3,
+  Box,
+  Palette,
+  LayoutDashboard,
+  MessageCircle,
+  FileCheck2,
 } from 'lucide-react'
 import { Toaster, toast } from 'sonner'
 import { useRouter } from 'next/navigation'
@@ -27,39 +26,26 @@ import SiteFooter from '@/components/site/SiteFooter'
 import StickyCTA from '@/components/site/StickyCTA'
 import FadeUp from '@/components/site/FadeUp'
 import ContactSection from '@/components/site/ContactSection'
-import TextReveal from '@/components/site/TextReveal'
 import ParallaxImage from '@/components/site/ParallaxImage'
 import ProjectHighlight from '@/components/site/ProjectHighlight'
 import HorizontalStory from '@/components/site/HorizontalStory'
 import AboutSection from '@/components/site/AboutSection'
+import FeatureModal from '@/components/site/FeatureModal'
 
 import {
-  SERVICES as ALL_SERVICES,
-  STATS,
+  SERVICES,
   TESTIMONIALS,
   CLIENTS,
   COMPANY,
-  PROCESS_STEPS,
   FAQS,
-  WHY_CHOOSE,
   TECH,
   USP_BULLETS,
 } from '@/lib/voomet-data'
 
 const ease = [0.22, 1, 0.36, 1]
 
-const ICON_MAP = {
-  'office-interiors': Building2,
-  'bulk-manufacturing': Hammer,
-  'doors-manufacturing': DoorOpen,
-}
-
 const IMG = {
-  hero: '/hero-bg.jpg',
-  modernMinimalist: 'https://voomet.com/images/webp/28.webp',
-  galleryCard: 'https://voomet.com/images/webp/13.webp',
-  bestFurniture: 'https://images.unsplash.com/photo-1718049720136-08bf541cfce8?w=900&q=80',
-  timeless: 'https://voomet.com/images/webp/40.webp',
+  timeless: '/portfolio/Orbit/3.jpg',
 }
 
 const Counter = ({ value }) => {
@@ -232,109 +218,13 @@ function Hero() {
   )
 }
 
-function ModernMinimalist() {
-  return (
-    <section className="px-4 md:px-8 py-16 md:py-28">
-      <div className="max-w-[1400px] mx-auto">
-        {/* DEV.UN split heading */}
-        <div className="mb-16 md:mb-24">
-          <FadeUp>
-            <span className="text-xs uppercase tracking-[0.3em] text-neutral-400 mb-4 block">From Concept to Completion</span>
-          </FadeUp>
-          <FadeUp delay={0.05}>
-            <h2 className="font-display leading-[0.95]">
-              <span className="block text-5xl md:text-7xl lg:text-8xl split-heading-light">TURNKEY</span>
-              <span className="block text-6xl md:text-8xl lg:text-[9rem] split-heading-bold tracking-[-0.04em] -mt-1 md:-mt-3">OFFICE INTERIORS</span>
-            </h2>
-          </FadeUp>
-        </div>
-
-        {/* Service item 01 — image right, text left */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-20 md:mb-32">
-          <FadeUp direction="left" delay={0.1} className="order-2 lg:order-1">
-            <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em] mb-4">SPACE PLANNING</h3>
-            <div className="w-12 h-px bg-neutral-900 mb-5" />
-            <p className="text-neutral-600 leading-relaxed text-editorial max-w-md">
-              Layouts optimised for collaboration, focus zones, and growth. We transform raw floor-plates into efficiently zoned workspaces that support your team&apos;s workflow and culture.
-            </p>
-          </FadeUp>
-          <FadeUp direction="right" delay={0.15} className="order-1 lg:order-2 relative">
-            <span className="ghost-number absolute -top-6 -right-2 md:-top-10 md:right-0 z-10">01</span>
-            <div className="offset-frame rounded-2xl overflow-hidden">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl group">
-                <img
-                  src={IMG.modernMinimalist}
-                  alt="Space Planning"
-                  className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
-                />
-              </div>
-            </div>
-          </FadeUp>
-        </div>
-
-        {/* Service item 02 — image left, text right */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-20 md:mb-32">
-          <FadeUp direction="left" delay={0.1} className="relative">
-            <span className="ghost-number absolute -top-6 -left-2 md:-top-10 md:left-0 z-10">02</span>
-            <div className="offset-frame rounded-2xl overflow-hidden">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl group">
-                <img
-                  src={IMG.bestFurniture}
-                  alt="Interior Fit-Out"
-                  className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
-                />
-              </div>
-            </div>
-          </FadeUp>
-          <FadeUp direction="right" delay={0.15}>
-            <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em] mb-4">INTERIOR FIT-OUT</h3>
-            <div className="w-12 h-px bg-neutral-900 mb-5" />
-            <p className="text-neutral-600 leading-relaxed text-editorial max-w-md">
-              Walls, ceilings, flooring, electrical, data cabling — everything installed by our certified crews. We handle every stage of construction and installation with precision, delivering on time every time.
-            </p>
-          </FadeUp>
-        </div>
-
-        {/* Service item 03 — image right, text left */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          <FadeUp direction="left" delay={0.1} className="order-2 lg:order-1">
-            <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em] mb-4">MODULAR FURNITURE</h3>
-            <div className="w-12 h-px bg-neutral-900 mb-5" />
-            <p className="text-neutral-600 leading-relaxed text-editorial max-w-md">
-              Desks, workstations, and custom joinery manufactured in our own 40,000 sq.ft. facility. Crafted precisely to your specifications with quality materials and competitive pricing.
-            </p>
-            <Link
-              href="/services/office-interiors"
-              className="inline-flex items-center gap-2 mt-8 bg-neutral-900 hover:bg-neutral-700 text-white rounded-full px-6 py-3 text-sm transition-all hover:gap-3"
-            >
-              Calculate the Estimate <ArrowUpRight className="h-4 w-4" />
-            </Link>
-          </FadeUp>
-          <FadeUp direction="right" delay={0.15} className="order-1 lg:order-2 relative">
-            <span className="ghost-number absolute -top-6 -right-2 md:-top-10 md:right-0 z-10">03</span>
-            <div className="offset-frame rounded-2xl overflow-hidden">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl group">
-                <img
-                  src={IMG.galleryCard}
-                  alt="Modular Furniture"
-                  className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
-                />
-              </div>
-            </div>
-          </FadeUp>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function Stats() {
   const [hoveredCard, setHoveredCard] = useState(null)
   
   const statsData = [
-    { id: 0, num: '250+', label: 'Office Projects Delivered', desc: 'Trusted by MNCs, SMEs & startups.', dark: true },
-    { id: 1, num: '6', label: 'Weeks Average Delivery', desc: 'From concept to keys-in-hand.', dark: false },
-    { id: 2, num: '50L+', label: 'Sq.ft. Commissioned', desc: 'Premium spaces designed & built.', dark: false },
+    { id: 0, num: '300+', label: 'Office Projects Delivered', desc: 'Trusted by MNCs, SMEs & startups.', dark: true },
+    { id: 1, num: '6', label: 'Weeks Average Delivery', desc: 'Industry-fastest turnaround time.', dark: false },
+    { id: 2, num: '25L+', label: 'Sq.ft. Designed', desc: 'Premium spaces designed & built.', dark: false },
   ]
 
   // Slower, smoother spring config
@@ -353,7 +243,7 @@ function Stats() {
   }
 
   return (
-    <section id="about" className="px-4 md:px-8 py-16 md:py-24 relative overflow-hidden bg-white">
+    <section className="px-4 md:px-8 py-16 md:py-24 relative overflow-hidden bg-white">
       <div className="max-w-[1200px] mx-auto">
         {/* Centered Headline */}
         <FadeUp>
@@ -525,7 +415,7 @@ function ModernStyle() {
               href="/portfolio"
               className="inline-flex items-center gap-2 border border-neutral-300 rounded-full px-6 py-3 text-sm hover:bg-neutral-100 transition-colors"
             >
-              View Portfolio
+              View Works
             </Link>
           </div>
         </FadeUp>
@@ -534,254 +424,82 @@ function ModernStyle() {
   )
 }
 
-function Services() {
-  const services = ALL_SERVICES.slice(0, 6)
-  const [active, setActive] = useState(0)
-  const intervalRef = useRef(null)
+function Technology() {
+  const techIcons = [Grid3X3, Box, Palette, LayoutDashboard, MessageCircle, FileCheck2]
+  const [selectedFeature, setSelectedFeature] = useState(null)
+  const [clickPosition, setClickPosition] = useState(null)
 
-  useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setActive((prev) => (prev + 1) % services.length)
-    }, 5000)
-    return () => clearInterval(intervalRef.current)
-  }, [services.length])
-
-  const goTo = (i) => {
-    clearInterval(intervalRef.current)
-    setActive(i)
-    intervalRef.current = setInterval(() => {
-      setActive((prev) => (prev + 1) % services.length)
-    }, 5000)
+  const handleCardClick = (feature, event) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+    setClickPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    })
+    setSelectedFeature(feature)
   }
 
-  const next = () => goTo((active + 1) % services.length)
-  const prev = () => goTo((active - 1 + services.length) % services.length)
-
-  const current = services[active]
-
   return (
-    <section id="services" className="relative h-screen min-h-[700px] max-h-[900px] overflow-hidden">
-      {/* Background layer - blurred and darkened */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={`bg-${active}`}
-          className="absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <img
-            src={current.hero}
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover scale-110 blur-sm"
-          />
-          <div className="absolute inset-0 bg-black/60" />
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Content container */}
-      <div className="relative h-full flex flex-col justify-center z-10">
-        {/* Top section with label */}
-        <div className="absolute top-8 md:top-12 left-6 md:left-12 lg:left-20">
-          <motion.span 
-            className="text-[10px] md:text-xs uppercase tracking-[0.35em] text-white/80 font-medium"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            Project Highlight
-          </motion.span>
+    <>
+      <section className="px-4 md:px-8 py-20 md:py-32 bg-neutral-900 text-white relative overflow-hidden">
+        {/* Top black gradient overlay for seamless transition */}
+        <div className="pointer-events-none absolute left-0 right-0 top-0 h-24 md:h-32" style={{background: 'linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 40%)'}} />
+        {/* Ghost text background */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
+          <span className="font-display text-[20vw] font-black tracking-[-0.06em] leading-none text-transparent whitespace-nowrap" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.03)' }}>
+            TECHNOLOGY
+          </span>
         </div>
 
-        {/* Navigation arrows - right side */}
-        <div className="absolute top-8 md:top-12 right-6 md:right-12 lg:right-20 flex items-center gap-3">
-          <button
-            onClick={prev}
-            className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center text-white/70 hover:text-white hover:border-white/60 transition-all duration-300 hover:scale-105"
-          >
-            <ArrowRight className="h-4 w-4 md:h-5 md:w-5 rotate-180" />
-          </button>
-          <button
-            onClick={next}
-            className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center text-white/70 hover:text-white hover:border-white/60 transition-all duration-300 hover:scale-105"
-          >
-            <ArrowRight className="h-4 w-4 md:h-5 md:w-5" />
-          </button>
-        </div>
-
-        {/* Main content - split layout */}
-        <div className="flex flex-col lg:flex-row items-center justify-between h-full px-6 md:px-12 lg:px-20 py-24 md:py-32">
-          {/* Left side - Text content */}
-          <div className="lg:w-[35%] flex flex-col justify-center mb-8 lg:mb-0">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`text-${active}`}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] text-white mb-6 leading-[1.1]">
-                  {current.name}
-                </h2>
-                <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed max-w-md italic">
-                  {current.short || "A focused selection of interior projects highlighting our approach to clarity, material balance, spatial comfort, and thoughtful design solutions."}
-                </p>
-                <Link
-                  href={`/services/${current.slug}`}
-                  className="inline-flex items-center gap-3 mt-8 text-white text-sm md:text-base group"
-                >
-                  <span className="border-b border-white/30 pb-1 group-hover:border-white transition-colors">View Project</span>
-                  <span className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-white group-hover:text-neutral-900 transition-all duration-300">
-                    <ArrowUpRight className="h-3.5 w-3.5" />
-                  </span>
-                </Link>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Right side - Featured image */}
-          <div className="lg:w-[55%] flex items-center justify-center">
-            <div className="relative w-full max-w-2xl">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`img-${active}`}
-                  className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-2xl"
-                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 1.02, y: -10 }}
-                  transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <img
-                    src={current.hero}
-                    alt={current.name}
-                    className="w-full h-full object-cover"
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom progress indicators */}
-        <div className="absolute bottom-8 md:bottom-12 left-6 md:left-12 lg:left-20 right-6 md:right-12 lg:right-20">
-          <div className="flex items-center gap-4">
-            {/* Slide counter */}
-            <div className="text-white/60 text-sm font-medium tabular-nums">
-              <span className="text-white">{String(active + 1).padStart(2, '0')}</span>
-              <span className="mx-2">/</span>
-              <span>{String(services.length).padStart(2, '0')}</span>
-            </div>
-            
-            {/* Progress bar */}
-            <div className="flex-1 flex gap-2">
-              {services.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => goTo(i)}
-                  className="flex-1 h-[2px] rounded-full bg-white/20 overflow-hidden cursor-pointer"
-                >
-                  <motion.div
-                    className="h-full bg-white rounded-full"
-                    initial={{ width: '0%' }}
-                    animate={{ width: i === active ? '100%' : i < active ? '100%' : '0%' }}
-                    transition={i === active ? { duration: 5, ease: 'linear' } : { duration: 0.3 }}
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* Bottom black gradient overlay for seamless transition */}
-      <div className="pointer-events-none absolute left-0 right-0 bottom-0 h-24 md:h-32" style={{background: 'linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.85) 100%)'}} />
-    </section>
-  )
-}
-
-function WhyChooseVoomet() {
-  const icons = [Sparkles, Factory, Monitor, CheckCircle2]
-  return (
-    <section className="px-4 md:px-8 py-20 md:py-32">
-      <div className="max-w-[1400px] mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16 md:mb-24">
+        <div className="max-w-[1400px] mx-auto relative z-10 pt-8">
           <FadeUp>
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-px bg-neutral-900" />
-              <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">Why Choose Voomet</span>
-            </div>
-            <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold tracking-[-0.04em] leading-[0.95] max-w-3xl">
-              Four Reasons the Best Offices <span className="italic font-light">Choose Voomet.</span>
+            <span className="text-xs uppercase tracking-[0.3em] text-white/40 mb-4 block">Precision Through Technology</span>
+            <h2 className="font-display leading-[0.95]">
+              <span className="block text-5xl md:text-7xl lg:text-8xl font-light text-white/90">Designed &amp; Built With</span>
+              <span className="block text-6xl md:text-8xl lg:text-[9rem] font-extrabold tracking-[-0.04em] -mt-1 md:-mt-3">PRECISION</span>
             </h2>
           </FadeUp>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {WHY_CHOOSE.map((w, i) => {
-            const Icon = icons[i] || Sparkles
-            return (
-              <FadeUp key={w.title} delay={i * 0.1} scale={0.9} y={60}>
-                <div className="bg-white rounded-[24px] p-8 h-full border border-neutral-100 hover:border-neutral-300 hover:shadow-xl transition-all duration-700 group">
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="w-12 h-12 rounded-2xl bg-neutral-900 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                      <Icon className="h-5 w-5" />
+          <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-6">
+            {TECH.map((t, i) => {
+              const Icon = techIcons[i] || Monitor
+              return (
+                <FadeUp key={t.title} delay={i * 0.12} direction={i === 0 ? 'left' : i === 2 ? 'right' : 'up'} scale={0.92}>
+                  <motion.button
+                    onClick={(e) => handleCardClick(t, e)}
+                    whileHover={{ y: -4 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="text-left bg-white/5 rounded-[24px] p-8 h-full border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-700 group cursor-pointer"
+                  >
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="w-12 h-12 rounded-2xl bg-white text-neutral-900 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span className="font-display text-5xl font-bold text-transparent" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}>0{i + 1}</span>
                     </div>
-                    <span className="ghost-number !text-5xl">0{i + 1}</span>
-                  </div>
-                  <h4 className="font-display text-xl font-semibold mb-3 tracking-[-0.02em]">{w.title}</h4>
-                  <p className="text-sm text-neutral-600 leading-relaxed">{w.desc}</p>
-                </div>
-              </FadeUp>
-            )
-          })}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Technology() {
-  const techIcons = [Monitor, Factory, Hammer]
-  return (
-    <section className="px-4 md:px-8 py-20 md:py-32 bg-neutral-900 text-white relative overflow-hidden">
-      {/* Top black gradient overlay for seamless transition */}
-      <div className="pointer-events-none absolute left-0 right-0 top-0 h-24 md:h-32" style={{background: 'linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 40%)'}} />
-      {/* Ghost text background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
-        <span className="font-display text-[20vw] font-black tracking-[-0.06em] leading-none text-transparent whitespace-nowrap" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.03)' }}>
-          TECHNOLOGY
-        </span>
-      </div>
-
-      <div className="max-w-[1400px] mx-auto relative z-10 pt-8">
-        <FadeUp>
-          <span className="text-xs uppercase tracking-[0.3em] text-white/40 mb-4 block">Precision Through Technology</span>
-          <h2 className="font-display leading-[0.95]">
-            <span className="block text-5xl md:text-7xl lg:text-8xl font-light text-white/90">Designed &amp; Built With</span>
-            <span className="block text-6xl md:text-8xl lg:text-[9rem] font-extrabold tracking-[-0.04em] -mt-1 md:-mt-3">PRECISION</span>
-          </h2>
-        </FadeUp>
-        <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {TECH.map((t, i) => {
-            const Icon = techIcons[i] || Monitor
-            return (
-              <FadeUp key={t.title} delay={i * 0.12} direction={i === 0 ? 'left' : i === 2 ? 'right' : 'up'} scale={0.92}>
-                <div className="bg-white/5 rounded-[24px] p-8 h-full border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-700 group">
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="w-12 h-12 rounded-2xl bg-white text-neutral-900 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                      <Icon className="h-5 w-5" />
+                    <h4 className="font-display text-2xl font-semibold mb-3 tracking-[-0.02em]">{t.title}</h4>
+                    <p className="text-white/60 leading-relaxed">{t.desc}</p>
+                    <div className="mt-4 text-xs uppercase tracking-widest text-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      Click to explore →
                     </div>
-                    <span className="font-display text-5xl font-bold text-transparent" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}>0{i + 1}</span>
-                  </div>
-                  <h4 className="font-display text-2xl font-semibold mb-3 tracking-[-0.02em]">{t.title}</h4>
-                  <p className="text-white/60 leading-relaxed">{t.desc}</p>
-                </div>
-              </FadeUp>
-            )
-          })}
+                  </motion.button>
+                </FadeUp>
+              )
+            })}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Feature Modal - import and render */}
+      {typeof window !== 'undefined' && selectedFeature && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <FeatureModal 
+            feature={selectedFeature} 
+            isOpen={!!selectedFeature} 
+            onClose={() => setSelectedFeature(null)}
+            position={clickPosition}
+          />
+        </motion.div>
+      )}
+    </>
   )
 }
 
@@ -894,37 +612,6 @@ function Testimonials() {
   )
 }
 
-function Process() {
-  return (
-    <section id="process" className="px-4 md:px-8 py-20 md:py-32 bg-neutral-50">
-      <div className="max-w-[1400px] mx-auto">
-        <FadeUp>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-px bg-neutral-900" />
-            <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">Our Process · Six Weeks</span>
-          </div>
-          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold tracking-[-0.04em] leading-[0.95] max-w-3xl">
-            From first sketch<br />to <span className="italic font-light">keys-in-hand</span>.
-          </h2>
-        </FadeUp>
-
-        <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-5 gap-6">
-          {PROCESS_STEPS.map((p, i) => (
-            <FadeUp key={p.step} delay={i * 0.1} y={60} scale={0.92}>
-              <div className="relative group">
-                <span className="ghost-number !text-6xl md:!text-7xl group-hover:!text-neutral-900/15 transition-all duration-700">{p.step}</span>
-                <h4 className="mt-3 font-semibold text-lg tracking-[-0.01em]">{p.title}</h4>
-                <p className="mt-2 text-sm text-neutral-600 leading-relaxed">{p.desc}</p>
-                <div className="mt-5 h-px w-full bg-neutral-300/70 origin-left group-hover:bg-neutral-900 transition-colors duration-700" />
-              </div>
-            </FadeUp>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function FAQ() {
   const [open, setOpen] = useState(0)
   return (
@@ -991,7 +678,7 @@ function QuickQuoteSection() {
   }
 
   return (
-    <section className="px-4 md:px-8 pt-10 pb-4">
+    <section className="px-4 md:px-8 py-10">
       <div className="max-w-[1400px] mx-auto">
 
         {/* Split card */}
@@ -1003,14 +690,14 @@ function QuickQuoteSection() {
               <img
                 src="/quote-bg.jpg"
                 alt="Reliable Interior Designers in Bangalore"
-                className="absolute inset-0 w-full h-full object-cover scale-105 hover:scale-100 transition-transform duration-[2s]"
+                className="absolute inset-0 w-full h-full object-cover scale-105 hover:scale-100 transition-transform duration-[2s] blur-[2px]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-900/55 to-neutral-900/15" />
-              <div className="relative z-10 p-8 md:p-12 flex flex-col h-full justify-end text-white">
-                <span className="inline-flex w-fit items-center rounded-full border border-white/25 bg-white/10 backdrop-blur-sm px-3 py-1 text-xs mb-5 tracking-wider uppercase">
+              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/95 via-neutral-900/70 to-neutral-900/40" />
+              <div className="relative z-10 p-8 md:p-12 pb-16 md:pb-20 flex flex-col h-full justify-end text-white">
+                <span className="inline-flex w-fit items-center rounded-full border border-white/25 bg-white/10 backdrop-blur-sm px-3 py-1 text-xs mb-6 tracking-wider uppercase">
                   Bangalore&apos;s Trusted Studio
                 </span>
-                <h3 className="font-display text-3xl md:text-[2.5rem] font-semibold tracking-[-0.025em] leading-[1.05] mb-7">
+                <h3 className="font-display text-3xl md:text-[2.5rem] font-semibold tracking-[-0.025em] leading-[1.05] mb-14">
                   Reliable Interior<br />Designers in Bangalore
                 </h3>
                 <ul className="space-y-3">
@@ -1065,7 +752,7 @@ function QuickQuoteSection() {
                       <SelectValue placeholder="Choose Requirement…" />
                     </SelectTrigger>
                     <SelectContent>
-                      {ALL_SERVICES.map((s) => (
+                      {SERVICES.map((s) => (
                         <SelectItem key={s.slug} value={s.name}>{s.name}</SelectItem>
                       ))}
                       <SelectItem value="General Enquiry">General Enquiry</SelectItem>
@@ -1076,7 +763,7 @@ function QuickQuoteSection() {
                       <SelectValue placeholder="Select Sq.ft. Area…" />
                     </SelectTrigger>
                     <SelectContent>
-                      {['Under 500 sq.ft.', '500–1,000 sq.ft.', '1,000–2,500 sq.ft.', '2,500–5,000 sq.ft.', '5,000–10,000 sq.ft.', '10,000+ sq.ft.'].map((a) => (
+                      {['Under 2,500 sq.ft', '2,500–5,000 sq.ft.', '5,000–10,000 sq.ft.', '10,000–20,000 sq.ft.', '20,000–40,000 sq.ft.', '40,000–60,000 sq.ft.' , 'Above 60,000 sq.ft'].map((a) => (
                         <SelectItem key={a} value={a}>{a}</SelectItem>
                       ))}
                     </SelectContent>
@@ -1117,18 +804,14 @@ function App() {
       <Hero />
       <ClientsBar />
       <QuickQuoteSection />
-      
       <HorizontalStory />
       <Stats />
       <ModernStyle />
       <ProjectHighlight />
-      {/* <WhyChooseVoomet /> */}
-      {/* <Services /> */}
-      <Technology />
-      <Marquee />
       <AboutSection />
+      <Marquee />
+      <Technology />
       <Testimonials />
-      <Process />
       <FAQ />
       <ContactSection />
       <SiteFooter />
