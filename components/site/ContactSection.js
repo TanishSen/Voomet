@@ -130,10 +130,11 @@ export default function ContactSection({ defaultRequirement = 'Office Interiors'
                     <SelectValue placeholder="Area / Sq.ft." />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="<2500">&lt; 2,500 sqft</SelectItem>
                     <SelectItem value="2500-5000">2,500 – 5,000 sqft</SelectItem>
                     <SelectItem value="5000-10000">5,000 – 10,000 sqft</SelectItem>
-                    <SelectItem value=">10000">&gt; 10,000 sqft</SelectItem>
+                    <SelectItem value="10000-20000">10,000 – 20,000 sqft</SelectItem>
+                    <SelectItem value="20000-40000">20,000 – 40,000 sqft</SelectItem>
+                    <SelectItem value="40000-60000">40,000 – 60,000 sqft</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select

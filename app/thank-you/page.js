@@ -73,7 +73,7 @@ export default function ThankYouPage() {
               >
                 <div className="text-xs text-neutral-500 uppercase tracking-wider mb-2">Get to know us</div>
                 <div className="font-display text-2xl font-semibold tracking-[-0.02em] mb-2">
-                  Founder&apos;s story
+                  Our story
                 </div>
                 <span className="text-sm inline-flex items-center gap-1 text-neutral-700 group-hover:gap-2 transition-all">
                   Read <ArrowRight className="h-4 w-4" />

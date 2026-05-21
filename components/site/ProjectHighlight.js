@@ -186,7 +186,7 @@ export default function ProjectHighlight() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, ease: EASE, delay: 0.34 }}
         >
-          <Link href="/portfolio" className="ph-btn">View Project <ArrowRight className="h-4 w-4" /></Link>
+          <Link href={`/portfolio#${active.id}`} className="ph-btn">View Project <ArrowRight className="h-4 w-4" /></Link>
         </motion.div>
       </motion.div>
 

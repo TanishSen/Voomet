@@ -1,19 +1,31 @@
+'use client'
+
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 import SiteNav from '@/components/site/SiteNav'
 import SiteFooter from '@/components/site/SiteFooter'
 import StickyCTA from '@/components/site/StickyCTA'
 import FadeUp from '@/components/site/FadeUp'
 import ContactSection from '@/components/site/ContactSection'
+import FeatureModal from '@/components/site/FeatureModal'
 import { Toaster } from 'sonner'
-import { FOUNDER, COMPANY, STATS, TECH, WHY_CHOOSE, PROCESS_STEPS, CLIENTS } from '@/lib/voomet-data'
-
-export const metadata = {
-  title: 'About Voomet & Founder Vispi Khursetjee — 20+ Years of Interior Design',
-  description: 'Vispi Khursetjee founded Voomet over 20 years ago with one promise: be the most committed interior design partner in Bangalore. Read his story.',
-}
+import { COMPANY, STATS, TECH, WHY_CHOOSE, PROCESS_STEPS, CLIENTS } from '@/lib/voomet-data'
 
 export default function AboutPage() {
+  const [selectedFeature, setSelectedFeature] = useState(null)
+  const [clickPosition, setClickPosition] = useState(null)
+
+  const handleCardClick = (feature, event) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+    setClickPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    })
+    setSelectedFeature(feature)
+  }
+
   return (
     <main className="min-h-screen bg-white text-neutral-900 font-sans overflow-x-hidden">
       <Toaster position="top-center" richColors />
@@ -36,41 +48,6 @@ export default function AboutPage() {
             {COMPANY.sqftCommissioned} sq.ft. delivered. Premium office interiors for MNCs, SMEs, 
             and start-ups across Bangalore — and beyond.
             </p>
-          </FadeUp>
-        </div>
-      </section>
-
-      {/* Founder section */}
-      <section className="px-4 md:px-8 py-16">
-        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <FadeUp className="relative rounded-[28px] overflow-hidden aspect-[4/5] bg-neutral-200">
-            <img
-              src={FOUNDER.image}
-              alt={FOUNDER.name}
-              className="w-full h-full object-cover"
-            />
-          </FadeUp>
-          <FadeUp delay={0.1} className="lg:pl-8">
-            <div className="text-sm text-neutral-500 uppercase tracking-[0.2em] mb-3">About the Founder</div>
-            <h2 className="font-display text-4xl md:text-6xl font-semibold leading-[1.02] tracking-[-0.03em]">
-              I have invested my life into my passion.
-            </h2>
-            <blockquote className="mt-6 text-2xl md:text-3xl font-display font-medium italic text-neutral-800 leading-snug">
-              &ldquo;{COMPANY.promise}&rdquo;
-            </blockquote>
-            <p className="mt-6 text-neutral-700 leading-relaxed max-w-xl">
-              {FOUNDER.bio}
-            </p>
-            <img
-              src={FOUNDER.signature}
-              alt={`${FOUNDER.name} signature`}
-              className="mt-6 h-12 w-auto"
-            />
-            <div className="mt-2 text-sm text-neutral-600">
-              <strong>{FOUNDER.name}</strong>
-              <span className="mx-2">·</span>
-              {FOUNDER.title}
-            </div>
           </FadeUp>
         </div>
       </section>
@@ -101,11 +78,19 @@ export default function AboutPage() {
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
             {TECH.map((t, i) => (
               <FadeUp key={t.title} delay={i * 0.08}>
-                <div className="bg-white/80 rounded-[24px] p-8 h-full border border-neutral-200/70">
-                  <div className="font-display text-5xl font-semibold text-neutral-300 mb-4">0{i + 1}</div>
+                <motion.button
+                  onClick={(e) => handleCardClick(t, e)}
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="text-left bg-white/80 rounded-[24px] p-8 h-full border border-neutral-200/70 hover:border-neutral-400 hover:bg-white transition-all duration-300 cursor-pointer group"
+                >
+                  <div className="font-display text-5xl font-semibold text-neutral-300 mb-4 group-hover:text-neutral-200 transition-colors">0{i + 1}</div>
                   <h4 className="font-display text-2xl font-semibold mb-3 tracking-[-0.02em]">{t.title}</h4>
-                  <p className="text-neutral-600 leading-relaxed text-sm">{t.desc}</p>
-                </div>
+                  <p className="text-neutral-600 leading-relaxed text-sm group-hover:text-neutral-700 transition-colors">{t.desc}</p>
+                  <div className="mt-4 text-xs uppercase tracking-widest text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Click to explore →
+                  </div>
+                </motion.button>
               </FadeUp>
             ))}
           </div>
@@ -182,6 +167,16 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Feature Modal */}
+      {selectedFeature && (
+        <FeatureModal 
+          feature={selectedFeature} 
+          isOpen={!!selectedFeature} 
+          onClose={() => setSelectedFeature(null)}
+          position={clickPosition}
+        />
+      )}
 
       <ContactSection heading="Let's Design Your\nNext Office." />
       <SiteFooter />

@@ -102,6 +102,16 @@ html.lenis, html.lenis body {
   animation: marquee 35s linear infinite;
 }
 
+/* Project card carousel — 3 copies, loops at -33.333% */
+@keyframes marquee-third {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+.animate-marquee-third {
+  animation: marquee-third 55s linear infinite;
+  will-change: transform;
+}
+
 /* Subtle floating */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
