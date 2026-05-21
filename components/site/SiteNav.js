@@ -51,11 +51,19 @@ export default function SiteNav({ onCta }) {
       }`}
     >
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
-        <Link href="/" className={`font-display text-2xl tracking-[-0.04em] font-semibold transition-colors duration-300 ${useLightText ? 'text-white' : 'text-neutral-900'}`}>
-          Voomet<span className={useLightText ? 'text-white/50' : 'text-neutral-400'}>.</span>
+        <Link href="/" className="flex items-center transition-opacity duration-300 hover:opacity-80">
+          <img 
+            src="/logo/LogoDark.png"
+            alt="Voomet"
+            className="h-48 md:h-64 w-auto object-contain"
+            style={{
+              filter: useLightText ? 'invert(1) brightness(1.1)' : 'brightness(0.95)'
+            }}
+          />
         </Link>
 
         <nav className="hidden md:flex items-center gap-9 text-sm">
+          <Link href="/" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Home</Link>
           <Link href="/services/office-interiors" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Studio</Link>
           <Link href="/portfolio" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Works</Link>
           <Link href="/about" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Story</Link>
@@ -95,6 +103,7 @@ export default function SiteNav({ onCta }) {
             className="md:hidden bg-white border-t border-neutral-200 overflow-hidden"
           >
             <div className="px-6 py-6 flex flex-col gap-1">
+              <Link href="/" onClick={() => setOpen(false)} className="py-2 text-base">Home</Link>
               <Link href="/services/office-interiors" onClick={() => setOpen(false)} className="py-2 text-base">Studio</Link>
               <Link href="/portfolio" onClick={() => setOpen(false)} className="py-2 text-base">Works</Link>
               <Link href="/about" onClick={() => setOpen(false)} className="py-2 text-base">Story</Link>
