@@ -20,7 +20,7 @@ const PANELS = [
     headline: "We don't just design offices.",
     subheadline: 'We build workplaces that perform.',
     body: 'Every Voomet project starts with understanding how your teams collaborate, focus, and grow. Strategy first — then design, manufacture, and deliver.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=2560&q=95&auto=format&fit=crop',
+    image: '/portfolio/Orbit/26.jpg',
   },
   {
     id: 'space',
@@ -29,7 +29,7 @@ const PANELS = [
     headline: 'Layouts that work.',
     subheadline: 'Optimised for collaboration, focus, and growth.',
     body: 'We transform raw floor-plates into efficiently zoned workspaces that support your team\'s workflow and culture. Every square foot serves a purpose.',
-    image: 'https://voomet.com/images/webp/28.webp',
+    image: '/portfolio/PW/3.png',
   },
   {
     id: 'craft',
@@ -38,7 +38,7 @@ const PANELS = [
     headline: 'Built in-house.',
     subheadline: '40,000 sq.ft. factory. German machinery.',
     body: 'Our own facility runs on imported German CNC machines. Every workstation, partition, and custom piece — cut, shaped, and finished in-house. Zero outsourcing, full quality control.',
-    image: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=2560&q=95&auto=format&fit=crop',
+    image: '/portfolio/juego/12.png',
   },
   {
     id: 'delivery',
@@ -47,16 +47,16 @@ const PANELS = [
     headline: 'Six weeks. Keys-in-hand.',
     subheadline: 'On-time, every time.',
     body: 'From signed scope to move-in-ready office. Our vertically integrated model cuts delays — design, MEP, furniture, and installation under one roof.',
-    image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=2560&q=95&auto=format&fit=crop',
+    image: '/portfolio/Qpi/7.png',
   },
   {
     id: 'result',
     num: '05',
     tag: 'The Result',
-    headline: '250+ offices transformed.',
+    headline: 'From concept to keys-in-hand.',
     subheadline: 'MNCs. SMEs. Start-ups.',
     body: 'From Physics Wallah to Zluri, Juego to Nordson — every office we deliver sets a new benchmark for what exceptional workspace design looks like.',
-    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=2560&q=95&auto=format&fit=crop',
+    image: '/portfolio/Appsforbarth/17.png',
     cta: true,
   },
 ]

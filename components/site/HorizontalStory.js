@@ -22,7 +22,7 @@ const PANELS = [
     line2: 'design offices.',
     accent: 'We build workplaces that perform.',
     body: 'Every Voomet project starts with understanding how your teams collaborate, focus, and grow. Strategy first — then design, manufacture, and deliver.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=2560&q=95&auto=format&fit=crop',
+    image: '/portfolio/Orbit/26.jpg',
     textSide: 'left',
   },
   {
@@ -33,7 +33,7 @@ const PANELS = [
     line2: 'that work.',
     accent: 'Optimised for collaboration, focus, and growth.',
     body: 'We transform raw floor-plates into efficiently zoned workspaces that support your team\'s workflow and culture. Every square foot serves a purpose.',
-    image: 'https://voomet.com/images/webp/28.webp',
+    image: '/portfolio/PW/3.png',
     textSide: 'right',
   },
   {
@@ -44,7 +44,7 @@ const PANELS = [
     line2: 'in-house.',
     accent: '40,000 sq.ft. factory. German machinery.',
     body: 'Our own facility runs on imported German CNC machines. Every workstation, partition, and custom piece — cut, shaped, and finished in-house. Zero outsourcing, full quality control.',
-    image: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=2560&q=95&auto=format&fit=crop',
+    image: '/portfolio/juego/12.png',
     textSide: 'left',
   },
   {
@@ -55,18 +55,18 @@ const PANELS = [
     line2: 'Keys-in-hand.',
     accent: 'On-time, every time.',
     body: 'From signed scope to move-in-ready office. Our vertically integrated model cuts delays — design, MEP, furniture, and installation under one roof.',
-    image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=2560&q=95&auto=format&fit=crop',
+    image: '/portfolio/Qpi/7.png',
     textSide: 'right',
   },
   {
     id: 'result',
     num: '05',
     tag: 'The Result',
-    line1: '250+ offices',
-    line2: 'transformed.',
+    line1: 'Every space,',
+    line2: 'a statement.',
     accent: 'MNCs. SMEs. Start-ups.',
     body: 'From Physics Wallah to Zluri, Juego to Nordson — every office we deliver sets a new benchmark for what exceptional workspace design looks like.',
-    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=2560&q=95&auto=format&fit=crop',
+    image: '/portfolio/Appsforbarth/17.png',
     textSide: 'left',
     cta: true,
   },
@@ -243,11 +243,14 @@ function Panel({ panel, index, total, scrollYProgress }) {
         <img
           src={panel.image}
           alt={panel.tag}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover blur-[1px]"
           loading="eager"
           decoding="async"
         />
       </motion.div>
+
+      {/* ── Dark overlay for text readability ── */}
+      <div className="absolute inset-0 bg-black/20" />
 
       {/* ── Layered gradients for legibility ── */}
       <div className="absolute inset-0 bg-neutral-950/30" />
@@ -330,7 +333,7 @@ function Panel({ panel, index, total, scrollYProgress }) {
             className={`inline-flex items-center gap-3 mt-9 group ${isLeft ? '' : 'flex-row-reverse'}`}
           >
             <span className="font-display text-white text-[15px] border-b border-white/20 pb-0.5 group-hover:border-white/60 transition-colors duration-300">
-              Explore our portfolio
+              Explore our Works
             </span>
             <span className="w-9 h-9 rounded-full border border-white/18 flex items-center justify-center group-hover:bg-white group-hover:text-neutral-900 transition-all duration-300">
               <ArrowUpRight className="w-4 h-4" />
