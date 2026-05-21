@@ -53,7 +53,7 @@ export default function PortfolioPage() {
             <div className="flex items-center gap-3 text-sm text-neutral-500 mb-4">
               <Link href="/" className="hover:text-neutral-900">Home</Link>
               <span>/</span>
-              <span className="text-neutral-900">Portfolio</span>
+              <span className="text-neutral-900">Works</span>
             </div>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <h1 className="font-display text-6xl md:text-9xl font-semibold leading-[0.9] tracking-[-0.05em]">
@@ -98,7 +98,8 @@ export default function PortfolioPage() {
         return (
           <section
             key={project.id}
-            className={`py-16 md:py-24 px-4 md:px-8 ${isEven ? 'bg-white' : 'bg-neutral-50'}`}
+            id={project.id}
+            className={`py-16 md:py-24 px-4 md:px-8 scroll-mt-20 ${isEven ? 'bg-white' : 'bg-neutral-50'}`}
           >
             <div className="max-w-[1400px] mx-auto">
               <FadeUp>

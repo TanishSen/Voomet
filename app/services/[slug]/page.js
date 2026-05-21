@@ -20,6 +20,7 @@ import {
   DOOR_MATERIALS,
   COMPARISON,
   FEATURED_PROJECTS,
+  PROJECT_PORTFOLIO,
 } from '@/lib/voomet-data'
 
 // Hero Slideshow Component with smooth transitions
@@ -203,28 +204,62 @@ export default function ServicePage({ params }) {
 
       {/* Featured Projects (Office / Commercial / Educational) */}
       {showFeaturedProjects && (
-        <section className="px-4 md:px-8 py-16 bg-neutral-50">
-          <div className="max-w-[1400px] mx-auto">
+        <section className="py-16 bg-neutral-50 overflow-hidden">
+          {/* Heading — max-width constrained */}
+          <div className="max-w-[1400px] mx-auto px-4 md:px-8">
             <FadeUp>
               <div className="text-sm text-neutral-500 uppercase tracking-[0.2em] mb-3">Featured Projects</div>
               <h2 className="font-display text-4xl md:text-6xl font-semibold tracking-[-0.03em] mb-10">
                 Recently delivered.
               </h2>
             </FadeUp>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {FEATURED_PROJECTS.filter((p) => service.featuredProjects.some((fp) => fp.includes(p.name))).map((p, i) => (
-                <FadeUp key={p.name} delay={i * 0.06}>
-                  <div className="relative rounded-[20px] overflow-hidden aspect-[4/3] group">
-                    <img src={p.img} alt={p.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                    <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
-                      <h3 className="font-display text-2xl font-semibold tracking-[-0.02em]">{p.name}</h3>
-                      <div className="text-sm text-white/80 mt-1">{p.size} · {p.location}</div>
-                    </div>
-                  </div>
-                </FadeUp>
-              ))}
-            </div>
+          </div>
+
+          {/* Full-bleed auto-scroll carousel */}
+          <div className="relative">
+            {/* Edge fades */}
+            <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 md:w-28 bg-gradient-to-r from-neutral-50 to-transparent z-10" />
+            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 md:w-28 bg-gradient-to-l from-neutral-50 to-transparent z-10" />
+
+            {/* Track — tripled for seamless -33.333% loop */}
+            {(() => {
+              const cards = PROJECT_PORTFOLIO
+              const tripled = [...cards, ...cards, ...cards]
+              return (
+                <div
+                  className="flex gap-4 md:gap-5 w-max py-4 pl-4 md:pl-8 animate-marquee-third"
+                  onMouseEnter={e => e.currentTarget.style.animationPlayState = 'paused'}
+                  onMouseLeave={e => e.currentTarget.style.animationPlayState = 'running'}
+                >
+                  {tripled.map((p, i) => (
+                    <motion.div
+                      key={`${p.name}-${i}`}
+                      whileHover={{ y: -6, transition: { type: 'spring', stiffness: 160, damping: 28 } }}
+                      className="relative rounded-[20px] overflow-hidden flex-shrink-0 w-[290px] md:w-[380px] h-[210px] md:h-[270px] group cursor-pointer"
+                    >
+                      <img
+                        src={p.img}
+                        alt={p.name}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500" />
+                      <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
+                        <div className="transition-transform duration-500 ease-out group-hover:-translate-y-2">
+                          <h3 className="font-display text-xl font-semibold tracking-[-0.02em] leading-tight">{p.name}</h3>
+                          <div className="text-sm text-white/70 mt-1.5">{p.size} · {p.location}</div>
+                        </div>
+                        <div className="mt-2.5 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-75 pointer-events-none group-hover:pointer-events-auto">
+                          <span className="inline-flex items-center gap-2 bg-white text-neutral-900 rounded-full px-4 py-1.5 text-sm font-semibold">
+                            View project <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )
+            })()}
           </div>
         </section>
       )}
@@ -378,7 +413,7 @@ export default function ServicePage({ params }) {
             </div>
             <FadeUp className="mt-10">
               <Link href="/portfolio" className="inline-flex items-center gap-2 bg-neutral-900 text-white hover:bg-neutral-700 rounded-full px-6 py-3 text-sm transition-all hover:gap-3">
-                See full portfolio <ArrowRight className="h-4 w-4" />
+                See full Works <ArrowRight className="h-4 w-4" />
               </Link>
             </FadeUp>
           </div>
