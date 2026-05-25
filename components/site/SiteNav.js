@@ -14,8 +14,8 @@ export default function SiteNav({ onCta }) {
     const checkSection = () => {
       setScrolled(window.scrollY > 20)
       
-      // Check if we're in a dark section (portfolio or horizontal story)
-      const darkSectionIds = ['portfolio', 'story']
+      // Check if we're in a dark section (portfolio only - story section has white bg now)
+      const darkSectionIds = ['portfolio']
       const isInDark = darkSectionIds.some(id => {
         const el = document.getElementById(id)
         if (!el) return false

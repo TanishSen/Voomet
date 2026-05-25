@@ -1,15 +1,12 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
   motion,
-  useScroll,
-  useTransform,
-  useMotionValueEvent,
   AnimatePresence,
 } from 'framer-motion'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const ease = [0.22, 1, 0.36, 1]
 
@@ -23,7 +20,6 @@ const PANELS = [
     accent: 'We build workplaces that perform.',
     body: 'Every Voomet project starts with understanding how your teams collaborate, focus, and grow. Strategy first — then design, manufacture, and deliver.',
     image: '/portfolio/Orbit/26.jpg',
-    textSide: 'left',
   },
   {
     id: 'space',
@@ -32,9 +28,8 @@ const PANELS = [
     line1: 'Layouts',
     line2: 'that work.',
     accent: 'Optimised for collaboration, focus, and growth.',
-    body: 'We transform raw floor-plates into efficiently zoned workspaces that support your team\'s workflow and culture. Every square foot serves a purpose.',
+    body: "We transform raw floor-plates into efficiently zoned workspaces that support your team's workflow and culture. Every square foot serves a purpose.",
     image: '/portfolio/PW/3.png',
-    textSide: 'right',
   },
   {
     id: 'craft',
@@ -45,7 +40,6 @@ const PANELS = [
     accent: '40,000 sq.ft. factory. German machinery.',
     body: 'Our own facility runs on imported German CNC machines. Every workstation, partition, and custom piece — cut, shaped, and finished in-house. Zero outsourcing, full quality control.',
     image: '/portfolio/juego/12.png',
-    textSide: 'left',
   },
   {
     id: 'delivery',
@@ -56,7 +50,6 @@ const PANELS = [
     accent: 'On-time, every time.',
     body: 'From signed scope to move-in-ready office. Our vertically integrated model cuts delays — design, MEP, furniture, and installation under one roof.',
     image: '/portfolio/Qpi/7.png',
-    textSide: 'right',
   },
   {
     id: 'result',
@@ -67,281 +60,308 @@ const PANELS = [
     accent: 'MNCs. SMEs. Start-ups.',
     body: 'From Physics Wallah to Zluri, Juego to Nordson — every office we deliver sets a new benchmark for what exceptional workspace design looks like.',
     image: '/portfolio/Appsforbarth/17.png',
-    textSide: 'left',
     cta: true,
   },
 ]
 
+const AUTO_PLAY_DELAY = 5000 // 5 seconds
+
 export default function HorizontalStory() {
-  const wrapperRef = useRef(null)
   const [activePanel, setActivePanel] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+  const sectionRef = useRef(null)
+  const containerRef = useRef(null)
+  const isScrolling = useRef(false)
+  const isLocked = useRef(false)
+  const exitingDown = useRef(false)
+  const exitingUp = useRef(false)
+  const autoPlayTimer = useRef(null)
 
-  const { scrollYProgress } = useScroll({
-    target: wrapperRef,
-    offset: ['start start', 'end end'],
-  })
+  const panel = PANELS[activePanel]
 
-  const x = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ['0vw', `${-(PANELS.length - 1) * 100}vw`]
-  )
+  // Navigation functions
+  const goNext = () => {
+    setActivePanel((i) => (i + 1) % PANELS.length)
+    resetAutoPlay()
+  }
 
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    const next = Math.min(
-      PANELS.length - 1,
-      Math.max(0, Math.round(latest * (PANELS.length - 1)))
-    )
-    setActivePanel(next)
-  })
+  const goPrev = () => {
+    setActivePanel((i) => (i - 1 + PANELS.length) % PANELS.length)
+    resetAutoPlay()
+  }
+
+  const resetAutoPlay = () => {
+    setIsPaused(true)
+    if (autoPlayTimer.current) clearTimeout(autoPlayTimer.current)
+    // Resume auto-play after 8 seconds of inactivity
+    autoPlayTimer.current = setTimeout(() => setIsPaused(false), 8000)
+  }
+
+  // Auto-play timer
+  useEffect(() => {
+    if (isPaused) return
+
+    const timer = setInterval(() => {
+      setActivePanel((i) => (i + 1) % PANELS.length)
+    }, AUTO_PLAY_DELAY)
+
+    return () => clearInterval(timer)
+  }, [isPaused])
+
+  // Lock/unlock body scroll
+  const lockScroll = () => {
+    if (!isLocked.current) {
+      isLocked.current = true
+      document.body.style.overflow = 'hidden'
+    }
+  }
+
+  const unlockScroll = () => {
+    if (isLocked.current) {
+      isLocked.current = false
+      document.body.style.overflow = ''
+    }
+  }
+
+  // Handle wheel on entire section when locked
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    let accumulated = 0
+
+    const handleWheel = (e) => {
+      const rect = section.getBoundingClientRect()
+      const sectionInView = rect.top <= 100 && rect.bottom >= window.innerHeight - 100
+
+      // If section is in view, lock scroll and handle panels
+      if (sectionInView && !exitingDown.current && !exitingUp.current) {
+        // Check if we should exit
+        if (activePanel === PANELS.length - 1 && e.deltaY > 0) {
+          // At last panel, scrolling down → exit
+          exitingDown.current = true
+          unlockScroll()
+          return
+        }
+        if (activePanel === 0 && e.deltaY < 0) {
+          // At first panel, scrolling up → exit
+          exitingUp.current = true
+          unlockScroll()
+          return
+        }
+
+        // Lock scroll and navigate panels
+        e.preventDefault()
+        lockScroll()
+
+        if (isScrolling.current) return
+
+        accumulated += e.deltaY
+
+        if (Math.abs(accumulated) > 50) {
+          isScrolling.current = true
+
+          if (accumulated > 0) {
+            setActivePanel((i) => Math.min(PANELS.length - 1, i + 1))
+          } else {
+            setActivePanel((i) => Math.max(0, i - 1))
+          }
+
+          accumulated = 0
+
+          setTimeout(() => {
+            isScrolling.current = false
+          }, 500)
+        }
+      } else {
+        unlockScroll()
+      }
+    }
+
+    // Reset exit flags when section leaves view
+    const handleScroll = () => {
+      const rect = section.getBoundingClientRect()
+      if (rect.top > window.innerHeight || rect.bottom < 0) {
+        exitingDown.current = false
+        exitingUp.current = false
+        // Reset to first panel when scrolling back from top
+        if (rect.top > window.innerHeight) {
+          setActivePanel(0)
+        }
+      }
+    }
+
+    window.addEventListener('wheel', handleWheel, { passive: false })
+    window.addEventListener('scroll', handleScroll)
+    
+    return () => {
+      window.removeEventListener('wheel', handleWheel)
+      window.removeEventListener('scroll', handleScroll)
+      unlockScroll()
+    }
+  }, [activePanel])
 
   return (
-    <div
-      id="story"
-      ref={wrapperRef}
-      style={{ height: `${PANELS.length * 100}vh` }}
-      className="relative"
-    >
-      {/* Sticky viewport — pinned to top while user scrolls through outer height */}
-      <div className="sticky top-0 h-screen overflow-hidden bg-neutral-950">
+    <section ref={sectionRef} id="story" className="px-4 md:px-8 py-16 md:py-24 bg-white dark:bg-neutral-950">
+      <div className="max-w-[1400px] mx-auto">
 
-        {/* Horizontal track */}
-        <motion.div
-          style={{ x, width: `${PANELS.length * 100}vw` }}
-          className="flex h-full will-change-transform"
-        >
-          {PANELS.map((panel, i) => (
-            <Panel
-              key={panel.id}
-              panel={panel}
-              index={i}
-              total={PANELS.length}
-              scrollYProgress={scrollYProgress}
-            />
-          ))}
-        </motion.div>
-
-        {/* ── Persistent overlay UI ── */}
-
-        {/* Top fade */}
-        <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-neutral-950 to-transparent z-30 pointer-events-none" />
-
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-neutral-950 to-transparent z-30 pointer-events-none" />
-
-        {/* Bottom bar */}
-        <div className="absolute bottom-8 left-0 right-0 z-40 px-8 md:px-14 lg:px-20 flex items-center justify-between">
+        {/* ─── Animated Title (ABOVE container) ─── */}
+        <div className="mb-8 md:mb-10">
+          {/* Label */}
           <AnimatePresence mode="wait">
-            <motion.span
-              key={activePanel}
-              initial={{ opacity: 0, y: 6 }}
+            <motion.div
+              key={panel.id + '-label'}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.35, ease }}
-              className="text-[10px] text-white/55 uppercase tracking-[0.32em]"
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4, ease }}
+              className="flex items-center gap-3 mb-4"
             >
-              {PANELS[activePanel]?.num}&nbsp;—&nbsp;{PANELS[activePanel]?.tag}
-            </motion.span>
+              <span className="w-8 h-px bg-neutral-300 dark:bg-neutral-600" />
+              <span className="text-[11px] text-neutral-400 dark:text-neutral-500 uppercase tracking-[0.35em]">
+                {panel.num}&nbsp;—&nbsp;{panel.tag}
+              </span>
+            </motion.div>
           </AnimatePresence>
 
-          <div className="flex items-center gap-2">
-            {PANELS.map((_, idx) => (
-              <div
-                key={idx}
-                className={`h-[3px] rounded-full transition-all duration-500 ease-out ${
-                  idx === activePanel ? 'w-8 bg-white' : 'w-2 bg-white/35'
-                }`}
+          {/* Main headline */}
+          <AnimatePresence mode="wait">
+            <motion.h2
+              key={panel.id + '-title'}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.5, ease }}
+              className="font-display font-bold text-neutral-900 dark:text-white leading-[0.92] tracking-tight"
+              style={{ fontSize: 'clamp(2.8rem, 7vw, 6.5rem)' }}
+            >
+              {panel.line1}
+              <br />
+              {panel.line2}
+            </motion.h2>
+          </AnimatePresence>
+        </div>
+
+        {/* ─── Container Card (description + image) ─── */}
+        <div
+          ref={containerRef}
+          className="relative rounded-3xl overflow-hidden bg-neutral-900 cursor-grab active:cursor-grabbing"
+          style={{ height: '520px' }}
+        >
+          {/* Background image */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={panel.id + '-img'}
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.6, ease }}
+              className="absolute inset-0"
+            >
+              <img
+                src={panel.image}
+                alt={panel.tag}
+                className="w-full h-full object-cover"
               />
-            ))}
+              {/* Overlay gradients */}
+              <div className="absolute inset-0 bg-gradient-to-r from-neutral-950/85 via-neutral-950/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/60 via-transparent to-neutral-950/30" />
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Content overlay */}
+          <div className="relative z-10 h-full flex flex-col justify-end p-8 md:p-12">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={panel.id + '-content'}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.45, ease }}
+                className="max-w-md"
+              >
+                {/* Accent */}
+                <p className="font-display text-base md:text-lg font-light italic text-white/70 mb-3">
+                  {panel.accent}
+                </p>
+
+                {/* Divider */}
+                <div className="w-12 h-px bg-white/30 mb-4" />
+
+                {/* Body */}
+                <p className="text-white/80 text-sm md:text-[15px] leading-relaxed mb-5">
+                  {panel.body}
+                </p>
+
+                {/* CTA (last panel) */}
+                {panel.cta && (
+                  <Link
+                    href="/portfolio"
+                    className="inline-flex items-center gap-2 bg-white hover:bg-neutral-100 text-neutral-900 rounded-full px-5 py-2.5 text-sm font-medium transition-all"
+                  >
+                    Explore our Works
+                    <ArrowUpRight className="w-4 h-4" />
+                  </Link>
+                )}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Bottom bar: arrows + navigation dots */}
+            <div className="absolute bottom-6 left-6 md:left-10 right-6 md:right-10 flex items-center justify-between">
+              {/* Left/Right Arrows */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={goPrev}
+                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center transition-all"
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft className="w-5 h-5 text-white" />
+                </button>
+                <button
+                  onClick={goNext}
+                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center transition-all"
+                  aria-label="Next slide"
+                >
+                  <ChevronRight className="w-5 h-5 text-white" />
+                </button>
+              </div>
+
+              {/* Dots + hint */}
+              <div className="flex items-center gap-4">
+                <span className="text-[10px] text-white/40 uppercase tracking-widest hidden md:block">
+                  {isPaused ? 'Paused' : 'Auto-playing'}
+                </span>
+                <div className="flex items-center gap-1.5">
+                  {PANELS.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => { setActivePanel(idx); resetAutoPlay() }}
+                      className={`h-[3px] rounded-full transition-all duration-400 ${
+                        idx === activePanel ? 'w-6 bg-white' : 'w-2 bg-white/35 hover:bg-white/50'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Ghost number */}
+            <span
+              className="absolute bottom-4 right-4 font-display font-black text-[8rem] md:text-[12rem] text-white/[0.04] pointer-events-none select-none leading-none"
+            >
+              {panel.num}
+            </span>
           </div>
         </div>
 
-        {/* Scroll hint — vertical label on right edge (first panel only) */}
-        <AnimatePresence>
-          {activePanel === 0 && (
-            <motion.div
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 10 }}
-              transition={{ duration: 0.6, ease, delay: 0.5 }}
-              className="absolute right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-3 pointer-events-none"
-            >
-              <span className="text-[9px] text-white/45 uppercase tracking-[0.28em]"
-                style={{ writingMode: 'vertical-lr' }}>
-                Scroll
-              </span>
-              <motion.div
-                animate={{ y: [0, 7, 0] }}
-                transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
-                className="w-px h-10 bg-gradient-to-b from-white/25 to-transparent"
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-      </div>
-    </div>
-  )
-}
-
-function Panel({ panel, index, total, scrollYProgress }) {
-  const panelCenter = total <= 1 ? 0 : index / (total - 1)
-  const half = 0.38 / Math.max(total - 1, 1)
-
-  const lo = Math.max(0, panelCenter - half)
-  const hi = Math.min(1, panelCenter + half)
-  const loSoft = Math.max(0, panelCenter - half * 0.3)
-  const hiSoft = Math.min(1, panelCenter + half * 0.3)
-
-  /* Edge-case: when lo is clipped to 0 (first panel) or hi is clipped to 1 (last panel),
-     the duplicate keyframe causes framer-motion to pick opacity=0 at the boundary.
-     Detect those cases and start/end fully visible instead. */
-  const isFirstPanel = lo >= panelCenter
-  const isLastPanel  = hi <= panelCenter
-
-  /* Background: dims + scales slightly when off-center */
-  const imgOpacity = useTransform(
-    scrollYProgress,
-    [lo, panelCenter, hi],
-    [isFirstPanel ? 1 : 0.45, 1, isLastPanel ? 1 : 0.45],
-    { clamp: true }
-  )
-  const imgScale = useTransform(
-    scrollYProgress,
-    [lo, panelCenter, hi],
-    [isFirstPanel ? 1 : 1.08, 1, isLastPanel ? 1 : 1.08],
-    { clamp: true }
-  )
-
-  /* Content: slides and fades in/out with panel */
-  const contentY = useTransform(
-    scrollYProgress,
-    [lo, loSoft, hiSoft, hi],
-    [isFirstPanel ? 0 : 40, 0, 0, isLastPanel ? 0 : -40],
-    { clamp: true }
-  )
-  const contentOpacity = useTransform(
-    scrollYProgress,
-    [lo, loSoft, hiSoft, hi],
-    [isFirstPanel ? 1 : 0, 1, 1, isLastPanel ? 1 : 0],
-    { clamp: true }
-  )
-
-  /* Accent line: grows in when panel is centered */
-  const lineScale = useTransform(scrollYProgress, [lo, panelCenter], [0, 1], { clamp: true })
-
-  const isLeft = panel.textSide === 'left'
-
-  return (
-    <div className="relative w-screen h-full flex-shrink-0 overflow-hidden">
-
-      {/* ── Background image ── */}
-      <motion.div
-        style={{ opacity: imgOpacity, scale: imgScale }}
-        className="absolute inset-0 origin-center"
-      >
-        <img
-          src={panel.image}
-          alt={panel.tag}
-          className="w-full h-full object-cover blur-[1px]"
-          loading="eager"
-          decoding="async"
-        />
-      </motion.div>
-
-      {/* ── Dark overlay for text readability ── */}
-      <div className="absolute inset-0 bg-black/20" />
-
-      {/* ── Layered gradients for legibility ── */}
-      <div className="absolute inset-0 bg-neutral-950/30" />
-      <div className={`absolute inset-0 ${
-        isLeft
-          ? 'bg-gradient-to-r from-neutral-950/80 via-neutral-950/30 to-transparent'
-          : 'bg-gradient-to-l from-neutral-950/80 via-neutral-950/30 to-transparent'
-      }`} />
-      <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/50 via-transparent to-transparent" />
-
-      {/* ── Ghost number (decorative) ── */}
-      <div
-        className={`absolute bottom-12 pointer-events-none select-none z-0 ${
-          isLeft ? 'right-8 md:right-16' : 'left-8 md:left-16'
-        }`}
-      >
-        <span
-          className="font-display font-black leading-none text-transparent"
-          style={{
-            fontSize: 'clamp(8rem, 22vw, 22rem)',
-            WebkitTextStroke: '1.5px rgba(255,255,255,0.04)',
-          }}
-        >
-          {panel.num}
-        </span>
-      </div>
-
-      {/* ── Panel content ── */}
-      <motion.div
-        style={{ y: contentY, opacity: contentOpacity }}
-        className={`absolute inset-0 z-10 flex flex-col justify-center px-10 md:px-16 lg:px-24 xl:px-32 ${
-          isLeft ? 'items-start' : 'items-end text-right'
-        }`}
-      >
-        {/* Label */}
-        <div className={`flex items-center gap-3 mb-7 ${isLeft ? '' : 'flex-row-reverse'}`}>
-          <span className="w-6 h-px bg-white/25" />
-          <span className="text-[10px] text-white/60 uppercase tracking-[0.35em]">
-            {panel.num}&nbsp;—&nbsp;{panel.tag}
+        {/* Slide counter */}
+        <div className="mt-5 flex justify-end">
+          <span className="text-xs text-neutral-400 tracking-wider">
+            {String(activePanel + 1).padStart(2, '0')} / {String(PANELS.length).padStart(2, '0')}
           </span>
         </div>
 
-        {/* Main headline */}
-        <h2
-          className="font-display font-bold text-white leading-[0.88] tracking-tight"
-          style={{ fontSize: 'clamp(3.2rem, 7.5vw, 8rem)' }}
-        >
-          {panel.line1}
-          <br />
-          {panel.line2}
-        </h2>
-
-        {/* Accent italic */}
-        <p className="mt-4 font-display text-lg md:text-xl font-light italic text-white/55 tracking-tight">
-          {panel.accent}
-        </p>
-
-        {/* Animated divider line */}
-        <motion.div
-          style={{ scaleX: lineScale, originX: isLeft ? 0 : 1 }}
-          className={`mt-5 mb-5 h-px w-20 bg-white/35 ${isLeft ? '' : 'ml-auto'}`}
-        />
-
-        {/* Body copy */}
-        <p
-          className="text-white/70 leading-relaxed"
-          style={{
-            fontSize: 'clamp(13px, 1.1vw, 16px)',
-            maxWidth: '380px',
-            marginLeft: isLeft ? 0 : 'auto',
-          }}
-        >
-          {panel.body}
-        </p>
-
-        {/* CTA (last panel only) */}
-        {panel.cta && (
-          <Link
-            href="/portfolio"
-            className={`inline-flex items-center gap-3 mt-9 group ${isLeft ? '' : 'flex-row-reverse'}`}
-          >
-            <span className="font-display text-white text-[15px] border-b border-white/20 pb-0.5 group-hover:border-white/60 transition-colors duration-300">
-              Explore our Works
-            </span>
-            <span className="w-9 h-9 rounded-full border border-white/18 flex items-center justify-center group-hover:bg-white group-hover:text-neutral-900 transition-all duration-300">
-              <ArrowUpRight className="w-4 h-4" />
-            </span>
-          </Link>
-        )}
-      </motion.div>
-
-    </div>
+      </div>
+    </section>
   )
 }

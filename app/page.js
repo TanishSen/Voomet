@@ -82,7 +82,14 @@ function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.35], [1, 0])
   const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
 
-  const words = ['AMBITION.', 'ARCHITECTURE.', 'PRECISION.', 'EXCELLENCE.']
+  const words = [
+    'FASTER DELIVERY. BETTER QUALITY.',
+    'DESIGN-LED. DEADLINE-DRIVEN.',
+    'ONE TEAM. END-TO-END EXECUTION.',
+    'BUILT FOR BUSINESS. READY ON TIME.',
+    'TRANSPARENT PROCESS. ZERO SURPRISES.',
+    'CRAFTED SPACES. LASTING IMPRESSION.'
+  ]
   const [wordIndex, setWordIndex] = useState(0)
   const [showTitle, setShowTitle] = useState(true)
   const videoRef = useRef(null)
@@ -153,7 +160,7 @@ function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                className="font-display font-black text-white uppercase leading-none tracking-[-0.04em] text-[10vw] md:text-[9vw] lg:text-[8vw]"
+                className="font-display font-black text-white uppercase leading-none tracking-[-0.03em] text-center text-[7.5vw] md:text-[5.5vw] lg:text-[4.2vw]"
                 style={{ textShadow: '0 4px 60px rgba(0,0,0,0.5)' }}
               >
                 {words[wordIndex]}
@@ -222,9 +229,9 @@ function Stats() {
   const [hoveredCard, setHoveredCard] = useState(null)
   
   const statsData = [
-    { id: 0, num: '300+', label: 'Office Projects Delivered', desc: 'Trusted by MNCs, SMEs & startups.', dark: true },
-    { id: 1, num: '6', label: 'Weeks Average Delivery', desc: 'Industry-fastest turnaround time.', dark: false },
-    { id: 2, num: '25L+', label: 'Sq.ft. Designed', desc: 'Premium spaces designed & built.', dark: false },
+    { id: 0, num: '300+', label: 'Office Projects Delivered', desc: 'Trusted by MNCs, SMEs & startups.', dark: true, bg: '/portfolio/Orbit/3.jpg' },
+    { id: 1, num: '6', label: 'Weeks Average Delivery', desc: 'Industry-fastest turnaround time.', dark: false, bg: '/portfolio/Appsforbarth/18.png' },
+    { id: 2, num: '25L+', label: 'Sq.ft. Designed', desc: 'Premium spaces designed & built.', dark: false, bg: '/portfolio/Zluri/31.png' },
   ]
 
   // Slower, smoother spring config
@@ -270,24 +277,37 @@ function Stats() {
               return (
                 <motion.div
                   key={stat.id}
-                  className={`relative rounded-3xl overflow-hidden cursor-pointer flex flex-col ${
-                    stat.dark ? 'bg-neutral-900' : 'bg-neutral-100'
-                  }`}
+                  className="relative rounded-3xl overflow-hidden cursor-pointer flex flex-col"
                   onMouseEnter={() => setHoveredCard(stat.id)}
                   animate={{
                     flex: flexValue,
                     scale: isHovered ? 1.015 : isOther ? 0.985 : 1,
-                    filter: isOther ? 'brightness(0.92)' : 'brightness(1)',
+                    filter: isOther ? 'brightness(0.88)' : 'brightness(1)',
                   }}
                   transition={slowSpring}
                   style={{ minHeight: '280px' }}
                 >
+                  {/* Background image + overlay */}
+                  <div className="absolute inset-0">
+                    <img
+                      src={stat.bg}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
+                      style={{ transform: isHovered ? 'scale(1.06)' : 'scale(1)' }}
+                    />
+                    <div className={`absolute inset-0 ${
+                      stat.dark
+                        ? 'bg-gradient-to-br from-neutral-950/82 via-neutral-900/75 to-neutral-800/70'
+                        : 'bg-gradient-to-br from-white/78 via-neutral-50/72 to-neutral-100/65'
+                    }`} />
+                  </div>
+
                   {/* Grid Pattern */}
-                  <div className={`absolute inset-0 ${stat.dark ? 'opacity-[0.07]' : 'opacity-[0.4]'}`}>
+                  <div className={`absolute inset-0 ${stat.dark ? 'opacity-[0.05]' : 'opacity-[0.18]'}`}>
                     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                       <defs>
                         <pattern id={`grid-${stat.id}`} width="40" height="40" patternUnits="userSpaceOnUse">
-                          <path d="M 40 0 L 0 0 0 40" fill="none" stroke={stat.dark ? 'white' : '#d4d4d4'} strokeWidth="1"/>
+                          <path d="M 40 0 L 0 0 0 40" fill="none" stroke={stat.dark ? 'white' : '#a3a3a3'} strokeWidth="1"/>
                         </pattern>
                       </defs>
                       <rect width="100%" height="100%" fill={`url(#grid-${stat.id})`} />
@@ -362,7 +382,7 @@ function Stats() {
 
                     {/* Hover indicator line */}
                     <motion.div
-                      className={`absolute bottom-0 left-0 right-0 h-1 ${stat.dark ? 'bg-neutral-600' : 'bg-neutral-300'}`}
+                      className={`absolute bottom-0 left-0 right-0 h-1 ${stat.dark ? 'bg-white/30' : 'bg-neutral-900/20'}`}
                       initial={{ scaleX: 0 }}
                       animate={{ scaleX: isHovered ? 1 : 0 }}
                       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -802,8 +822,8 @@ function App() {
       <Toaster position="top-center" richColors />
       <SiteNav />
       <Hero />
-      <ClientsBar />
       <QuickQuoteSection />
+      <ClientsBar />
       <HorizontalStory />
       <Stats />
       <ModernStyle />

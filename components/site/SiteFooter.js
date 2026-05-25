@@ -227,7 +227,7 @@ export default function SiteFooter() {
             </a>
           </div>
           <div className="flex flex-col md:flex-row items-start md:items-center gap-3 text-xs text-neutral-500">
-            <p>© {new Date().getFullYear()} Voomet Interiors & Manufacturing. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Voomet Interiors & Manufacturing. All rights reserved. Powered By <a href="https://scenecoding.com" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-900">SceneCoding</a></p>
             <p className="hidden md:block">·</p>
             <p>Bangalore · Built by engineers, designed for business.</p>
           </div>

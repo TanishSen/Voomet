@@ -404,12 +404,25 @@ export default function ServicePage({ params }) {
                 Selected work.
               </h2>
             </FadeUp>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              {service.gallery.map((img, i) => (
-                <FadeUp key={i} delay={i * 0.04} className={`relative rounded-[20px] overflow-hidden ${i % 5 === 0 ? 'md:col-span-2 md:row-span-2 aspect-square' : 'aspect-[4/3]'} group`}>
-                  <img src={img} alt={`${service.name} work ${i + 1}`} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-                </FadeUp>
-              ))}
+            <div className="grid grid-cols-12 gap-3 md:gap-4">
+              {service.gallery.map((img, i) => {
+                const mod = i % 5;
+                const colClass = mod === 0
+                  ? 'col-span-12 md:col-span-8'
+                  : mod === 1
+                  ? 'col-span-12 md:col-span-4'
+                  : 'col-span-6 md:col-span-4';
+                const aspectClass = mod === 0
+                  ? 'aspect-[4/3] md:aspect-[8/5]'
+                  : mod === 1
+                  ? 'aspect-[4/3] md:aspect-[4/5]'
+                  : 'aspect-[4/3]';
+                return (
+                  <FadeUp key={i} delay={i * 0.04} className={`${colClass} relative rounded-2xl overflow-hidden ${aspectClass} group`}>
+                    <img src={img} alt={`${service.name} work ${i + 1}`} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  </FadeUp>
+                );
+              })}
             </div>
             <FadeUp className="mt-10">
               <Link href="/portfolio" className="inline-flex items-center gap-2 bg-neutral-900 text-white hover:bg-neutral-700 rounded-full px-6 py-3 text-sm transition-all hover:gap-3">
