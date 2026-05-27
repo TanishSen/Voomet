@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ChevronLeft, ChevronRight, MapPin, Calendar, Maximize2 } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, MapPin, Calendar, Maximize2, Check, Phone, ArrowRight } from 'lucide-react'
 import SiteNav from '@/components/site/SiteNav'
 import SiteFooter from '@/components/site/SiteFooter'
 import StickyCTA from '@/components/site/StickyCTA'
@@ -46,20 +46,35 @@ export default function PortfolioPage() {
       <Toaster position="top-center" richColors />
       <SiteNav />
 
-      {/* Hero */}
-      <section className="pt-28 pb-16 px-4 md:px-8">
-        <div className="max-w-[1400px] mx-auto">
+      {/* Hero with Video Background */}
+      <section className="relative min-h-screen flex flex-col justify-end px-4 md:px-8 pb-16 overflow-hidden">
+        {/* Video Background */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src="/videos/Selectedworks.mp4" type="video/mp4" />
+          </video>
+          {/* Dark overlay for readability - like home hero */}
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+
+        <div className="relative z-10 max-w-[1400px] mx-auto w-full">
           <FadeUp>
-            <div className="flex items-center gap-3 text-sm text-neutral-500 mb-4">
-              <Link href="/" className="hover:text-neutral-900">Home</Link>
+            <div className="flex items-center gap-3 text-sm text-white/70 mb-4">
+              <Link href="/" className="hover:text-white">Home</Link>
               <span>/</span>
-              <span className="text-neutral-900">Works</span>
+              <span className="text-white">Works</span>
             </div>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-              <h1 className="font-display text-6xl md:text-9xl font-semibold leading-[0.9] tracking-[-0.05em]">
+              <h1 className="font-display text-6xl md:text-9xl font-semibold leading-[0.9] tracking-[-0.05em] text-white">
                 Selected<br />work.
               </h1>
-              <p className="text-neutral-600 max-w-md text-sm md:text-base">
+              <p className="text-white/80 max-w-md text-sm md:text-base">
                 A curated look at Voomet&apos;s completed office interiors
                 across Bangalore and beyond. Each project tells a story.
               </p>
@@ -67,23 +82,23 @@ export default function PortfolioPage() {
           </FadeUp>
 
           {/* Stats Bar */}
-          <FadeUp delay={0.15} className="mt-12">
-            <div className="flex flex-wrap gap-8 md:gap-16 py-6 border-y border-neutral-200">
+          <FadeUp delay={0.15} className="mt-16">
+            <div className="flex flex-wrap gap-8 md:gap-16 py-6 border-y border-white/20">
               <div>
-                <div className="font-display text-4xl font-semibold tracking-tight">{PROJECT_PORTFOLIO.length}</div>
-                <div className="text-sm text-neutral-500 mt-1">Featured Projects</div>
+                <div className="font-display text-4xl font-semibold tracking-tight text-white">{PROJECT_PORTFOLIO.length}</div>
+                <div className="text-sm text-white/60 mt-1">Featured Projects</div>
               </div>
               <div>
-                <div className="font-display text-4xl font-semibold tracking-tight">
+                <div className="font-display text-4xl font-semibold tracking-tight text-white">
                   {PROJECT_PORTFOLIO.reduce((acc, p) => acc + parseInt(p.size.replace(/[^0-9]/g, '')) || 0, 0).toLocaleString()}+
                 </div>
-                <div className="text-sm text-neutral-500 mt-1">Sq.ft. Delivered</div>
+                <div className="text-sm text-white/60 mt-1">Sq.ft. Delivered</div>
               </div>
               <div>
-                <div className="font-display text-4xl font-semibold tracking-tight">
+                <div className="font-display text-4xl font-semibold tracking-tight text-white">
                   {new Set(PROJECT_PORTFOLIO.map(p => p.client)).size}
                 </div>
-                <div className="text-sm text-neutral-500 mt-1">Unique Clients</div>
+                <div className="text-sm text-white/60 mt-1">Unique Clients</div>
               </div>
             </div>
           </FadeUp>
@@ -255,6 +270,122 @@ export default function PortfolioPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Services & Products Section */}
+      <section className="py-20 md:py-28 px-4 md:px-8 bg-neutral-50">
+        <div className="max-w-[1400px] mx-auto">
+          <FadeUp>
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Services & Products - 2 columns */}
+              <div className="lg:col-span-2 space-y-12">
+                {/* Services We Offer */}
+                <div>
+                  <h2 className="font-display text-3xl md:text-4xl font-semibold tracking-[-0.03em] mb-8">
+                    Services We Offer
+                  </h2>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {[
+                      'Turnkey Interiors',
+                      'Electricals',
+                      'Networking',
+                      'Upholstery',
+                      'Plumbing',
+                      'Carpentry',
+                      'Customized Furniture',
+                      'Painting & Finishing',
+                      'HVAC Installations',
+                      'Landscape Design',
+                      'Space Planning',
+                      'Acoustic Solutions',
+                      'Fire Safety Systems',
+                      'Access Control',
+                      'End-to-End Project Management',
+                    ].map((service, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-2 py-2.5 px-3 rounded-lg bg-white border border-neutral-200 text-sm text-neutral-700"
+                      >
+                        <Check className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                        <span>{service}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Products We Manufacture */}
+                <div>
+                  <h2 className="font-display text-3xl md:text-4xl font-semibold tracking-[-0.03em] mb-8">
+                    Products We Manufacture
+                  </h2>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {[
+                      'Workstations',
+                      'Storage Solutions',
+                      'Office Seating',
+                      'Pantry Furniture',
+                      'Meeting Room Furniture',
+                      'Reception Desks',
+                      'Cable Management Systems',
+                      'Glass Partition Systems',
+                    ].map((product, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-2 py-2.5 px-3 rounded-lg bg-white border border-neutral-200 text-sm text-neutral-700"
+                      >
+                        <Check className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                        <span>{product}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Quote Sidebar */}
+              <div className="lg:col-span-1">
+                <div className="sticky top-28 bg-neutral-900 text-white rounded-2xl p-8">
+                  <h3 className="font-display text-2xl font-semibold mb-4">Get a free quote</h3>
+                  <p className="text-neutral-400 text-sm mb-6">
+                    Ready to transform your workspace? Let&apos;s discuss your project.
+                  </p>
+                  
+                  <a
+                    href="https://cal.com/voomet"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-full bg-white text-neutral-900 font-medium hover:bg-neutral-100 transition-colors mb-4"
+                  >
+                    Book Consultation
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
+                  
+                  <a
+                    href="tel:+917358888689"
+                    className="flex items-center justify-center gap-2 w-full py-3 px-6 rounded-full border border-neutral-700 text-white font-medium hover:bg-neutral-800 transition-colors mb-8"
+                  >
+                    <Phone className="h-4 w-4" />
+                    +91 73588 88689
+                  </a>
+
+                  <div className="space-y-3 pt-6 border-t border-neutral-800">
+                    {[
+                      { value: '20+', label: 'Years Experience' },
+                      { value: '300+', label: 'Projects Delivered' },
+                      { value: '25L+', label: 'Sq.ft. Designed' },
+                    ].map((stat, idx) => (
+                      <div key={idx} className="flex items-center gap-3">
+                        <Check className="h-4 w-4 text-emerald-400" />
+                        <span className="text-neutral-300 text-sm">
+                          <span className="text-white font-semibold">{stat.value}</span> {stat.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
 
       <ContactSection heading="Like what you see?\nLet&apos;s build yours." />
       <SiteFooter />

@@ -12,54 +12,66 @@ const ease = [0.22, 1, 0.36, 1]
 
 const PANELS = [
   {
-    id: 'vision',
+    id: 'awards',
     num: '01',
-    tag: 'Vision',
-    line1: "We don't just",
-    line2: 'design offices.',
-    accent: 'We build workplaces that perform.',
-    body: 'Every Voomet project starts with understanding how your teams collaborate, focus, and grow. Strategy first — then design, manufacture, and deliver.',
-    image: '/portfolio/Orbit/26.jpg',
+    tag: 'ET Achievers 2025',
+    line1: 'Award-winning',
+    line2: 'design excellence.',
+    accent: 'Recognized by The Times of India.',
+    body: 'Excellence in Innovative Commercial Interior Design — Workplace, Hospitality, Retail & Educational Projects.',
+    image: '/awards/PHOTO-2026-05-22-11-11-51.jpg',
+    image2: '/awards/PHOTO-2026-05-22-11-11-50.jpg',
+    isAward: true,
   },
   {
-    id: 'space',
+    id: 'materials',
     num: '02',
-    tag: 'Space Planning',
-    line1: 'Layouts',
-    line2: 'that work.',
-    accent: 'Optimised for collaboration, focus, and growth.',
-    body: "We transform raw floor-plates into efficiently zoned workspaces that support your team's workflow and culture. Every square foot serves a purpose.",
-    image: '/portfolio/PW/3.png',
+    tag: 'Smart Material Selection',
+    line1: 'Commercial-grade.',
+    line2: 'Brand-aligned.',
+    accent: 'Durable materials for operational needs.',
+    body: 'We source durable, commercial-grade materials and furniture that align with your brand, budget, and operational needs.',
+    image: '/AutoScrollimg/1.png',
   },
   {
-    id: 'craft',
+    id: 'visualise',
     num: '03',
-    tag: 'Manufacturing',
-    line1: 'Built',
-    line2: 'in-house.',
-    accent: '40,000 sq.ft. factory. German machinery.',
-    body: 'Our own facility runs on imported German CNC machines. Every workstation, partition, and custom piece — cut, shaped, and finished in-house. Zero outsourcing, full quality control.',
-    image: '/portfolio/juego/12.png',
+    tag: 'Visualise Before Execution',
+    line1: 'See it before',
+    line2: "it's built.",
+    accent: 'Detailed 2D and 3D planning.',
+    body: 'Detailed 2D planning and 3D visualisation help stakeholders review layouts, finishes, and functionality before execution begins.',
+    image: '/AutoScrollimg/2.png',
   },
   {
-    id: 'delivery',
+    id: 'project',
     num: '04',
-    tag: 'Delivery',
-    line1: 'Six weeks.',
-    line2: 'Keys-in-hand.',
-    accent: 'On-time, every time.',
-    body: 'From signed scope to move-in-ready office. Our vertically integrated model cuts delays — design, MEP, furniture, and installation under one roof.',
-    image: '/portfolio/Qpi/7.png',
+    tag: 'Structured Project Management',
+    line1: 'Tracked.',
+    line2: 'Coordinated. Visible.',
+    accent: 'Defined milestones. Single point of contact.',
+    body: 'Every project is tracked through defined milestones, coordinated timelines, and a dedicated point of contact for complete visibility.',
+    image: '/AutoScrollimg/3.png',
+  },
+  {
+    id: 'quality',
+    num: '05',
+    tag: 'Quality in Execution',
+    line1: 'Monitored at',
+    line2: 'every stage.',
+    accent: 'Civil work to final finishing.',
+    body: 'From civil work to final finishing, every stage is monitored for consistency, durability, and long-term performance.',
+    image: '/AutoScrollimg/4.png',
   },
   {
     id: 'result',
-    num: '05',
+    num: '06',
     tag: 'The Result',
-    line1: 'Every space,',
-    line2: 'a statement.',
+    line1: 'Functional.',
+    line2: 'Scalable. Built to last.',
     accent: 'MNCs. SMEs. Start-ups.',
-    body: 'From Physics Wallah to Zluri, Juego to Nordson — every office we deliver sets a new benchmark for what exceptional workspace design looks like.',
-    image: '/portfolio/Appsforbarth/17.png',
+    body: 'From Physics Wallah to Zluri, Juego to Nordson — every office we deliver is designed for how modern businesses work.',
+    image: '/AutoScrollimg/5.png',
     cta: true,
   },
 ]
@@ -258,11 +270,31 @@ export default function HorizontalStory() {
               transition={{ duration: 0.6, ease }}
               className="absolute inset-0"
             >
-              <img
-                src={panel.image}
-                alt={panel.tag}
-                className="w-full h-full object-cover"
-              />
+              {panel.isAward ? (
+                // Awards slide with two images side by side
+                <div className="w-full h-full flex">
+                  <div className="w-1/2 h-full relative">
+                    <img
+                      src={panel.image}
+                      alt="ET Achievers Award Ceremony"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="w-1/2 h-full relative">
+                    <img
+                      src={panel.image2}
+                      alt="ET Achievers Certificate"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <img
+                  src={panel.image}
+                  alt={panel.tag}
+                  className="w-full h-full object-cover"
+                />
+              )}
               {/* Overlay gradients */}
               <div className="absolute inset-0 bg-gradient-to-r from-neutral-950/85 via-neutral-950/50 to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/60 via-transparent to-neutral-950/30" />
