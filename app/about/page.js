@@ -32,21 +32,31 @@ export default function AboutPage() {
       <SiteNav />
 
       {/* Hero */}
-      <section className="pt-28 pb-10 px-4 md:px-8">
-        <div className="max-w-[1400px] mx-auto">
+      <section className="relative h-screen px-4 md:px-8 overflow-hidden">
+        <video
+          src="/videos/StoryBg.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/30 to-black/55" />
+
+        <div className="relative max-w-[1400px] mx-auto pt-28 pb-12 md:pb-16">
           <FadeUp>
-            <div className="flex items-center gap-3 text-sm text-neutral-500 mb-4">
-              <Link href="/" className="hover:text-neutral-900">Home</Link>
+            <div className="flex items-center gap-3 text-sm text-white/70 mb-4">
+              <Link href="/" className="hover:text-white">Home</Link>
               <span>/</span>
-              <span className="text-neutral-900">About</span>
+              <span className="text-white">About</span>
             </div>
-            <h1 className="font-display text-6xl md:text-9xl font-semibold leading-[0.9] tracking-[-0.05em] max-w-5xl">
-            Commercial Interiors<br />Built to Perform.
-          </h1>
-          <p className="mt-8 text-lg md:text-xl text-neutral-700 max-w-2xl leading-relaxed">
-            20+ years of commercial interior expertise. {COMPANY.projectsDelivered}+ office projects delivered.
-            {COMPANY.sqftCommissioned} sq.ft. designed. Turnkey office interiors for MNCs, SMEs, 
-            and start-ups across Bangalore.
+            <h1 className="font-display text-6xl md:text-9xl font-semibold leading-[0.9] tracking-[-0.05em] max-w-5xl text-white">
+              Commercial Interiors<br />Built to Perform.
+            </h1>
+            <p className="mt-24 md:mt-48 text-lg md:text-xl text-white/90 max-w-2xl leading-relaxed">
+              20+ years of commercial interior expertise. {COMPANY.projectsDelivered}+ office projects delivered.
+              {COMPANY.sqftCommissioned} sq.ft. designed. Turnkey office interiors for MNCs, SMEs,
+              and start-ups across Bangalore.
             </p>
           </FadeUp>
         </div>
