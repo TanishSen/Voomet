@@ -41,12 +41,12 @@ export default function AboutPage() {
               <span className="text-neutral-900">About</span>
             </div>
             <h1 className="font-display text-6xl md:text-9xl font-semibold leading-[0.9] tracking-[-0.05em] max-w-5xl">
-            Where Ambition<br />Meets Architecture.
+            Commercial Interiors<br />Built to Perform.
           </h1>
           <p className="mt-8 text-lg md:text-xl text-neutral-700 max-w-2xl leading-relaxed">
-            Twenty years of precision design. {COMPANY.projectsDelivered}+ offices transformed.
-            {COMPANY.sqftCommissioned} sq.ft. delivered. Premium office interiors for MNCs, SMEs, 
-            and start-ups across Bangalore — and beyond.
+            20+ years of commercial interior expertise. {COMPANY.projectsDelivered}+ office projects delivered.
+            {COMPANY.sqftCommissioned} sq.ft. designed. Turnkey office interiors for MNCs, SMEs, 
+            and start-ups across Bangalore.
             </p>
           </FadeUp>
         </div>
@@ -103,7 +103,7 @@ export default function AboutPage() {
           <FadeUp>
             <div className="text-sm text-neutral-500 uppercase tracking-[0.2em] mb-3">Why Choose Voomet?</div>
             <h2 className="font-display text-5xl md:text-7xl font-semibold tracking-[-0.03em] max-w-3xl">
-              Four Reasons the Best Offices Choose Voomet.
+              Why Companies Choose Voomet.
             </h2>
           </FadeUp>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -132,7 +132,7 @@ export default function AboutPage() {
               <span>Five Steps</span>
             </div>
             <h2 className="font-display text-5xl md:text-7xl font-semibold leading-[1] tracking-[-0.03em] max-w-3xl">
-              From first sketch to final handover.
+              From Brief to Handover. On Time.
             </h2>
           </FadeUp>
           <div className="mt-14 grid grid-cols-1 md:grid-cols-5 gap-6">
