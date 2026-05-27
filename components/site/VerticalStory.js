@@ -14,49 +14,60 @@ const ease = [0.22, 1, 0.36, 1]
 
 const PANELS = [
   {
-    id: 'vision',
+    id: 'awards',
     num: '01',
-    tag: 'Vision',
-    headline: "We don't just design offices.",
-    subheadline: 'We build workplaces that perform.',
-    body: 'Every Voomet project starts with understanding how your teams collaborate, focus, and grow. Strategy first — then design, manufacture, and deliver.',
-    image: '/portfolio/Orbit/26.jpg',
+    tag: 'ET Achievers 2025',
+    headline: 'Award-winning design excellence.',
+    subheadline: 'Recognized by The Times of India.',
+    body: 'Excellence in Innovative Commercial Interior Design — Workplace, Hospitality, Retail & Educational Projects.',
+    image: '/awards/PHOTO-2026-05-22-11-11-51.jpg',
+    image2: '/awards/PHOTO-2026-05-22-11-11-50.jpg',
+    isAward: true,
   },
   {
-    id: 'space',
+    id: 'materials',
     num: '02',
-    tag: 'Space Planning',
-    headline: 'Layouts that work.',
-    subheadline: 'Optimised for collaboration, focus, and growth.',
-    body: 'We transform raw floor-plates into efficiently zoned workspaces that support your team\'s workflow and culture. Every square foot serves a purpose.',
-    image: '/portfolio/PW/3.png',
+    tag: 'Smart Material & Furniture Selection',
+    headline: 'Commercial-grade. Brand-aligned.',
+    subheadline: 'Durable materials for operational needs.',
+    body: 'We source durable, commercial-grade materials and furniture that align with your brand, budget, and operational needs.',
+    image: '/AutoScrollimg/1.png',
   },
   {
-    id: 'craft',
+    id: 'visualise',
     num: '03',
-    tag: 'Manufacturing',
-    headline: 'Built in-house.',
-    subheadline: '40,000 sq.ft. factory. German machinery.',
-    body: 'Our own facility runs on imported German CNC machines. Every workstation, partition, and custom piece — cut, shaped, and finished in-house. Zero outsourcing, full quality control.',
-    image: '/portfolio/juego/12.png',
+    tag: 'Visualise Before Execution',
+    headline: 'See it before it\'s built.',
+    subheadline: 'Detailed 2D and 3D planning.',
+    body: 'Detailed 2D planning and 3D visualisation help stakeholders review layouts, finishes, and functionality before execution begins.',
+    image: '/AutoScrollimg/2.png',
   },
   {
-    id: 'delivery',
+    id: 'project',
     num: '04',
-    tag: 'Delivery',
-    headline: 'Six weeks. Keys-in-hand.',
-    subheadline: 'On-time, every time.',
-    body: 'From signed scope to move-in-ready office. Our vertically integrated model cuts delays — design, MEP, furniture, and installation under one roof.',
-    image: '/portfolio/Qpi/7.png',
+    tag: 'Structured Project Management',
+    headline: 'Tracked. Coordinated. Visible.',
+    subheadline: 'Defined milestones. Single point of contact.',
+    body: 'Every project is tracked through defined milestones, coordinated timelines, and a dedicated point of contact for complete visibility.',
+    image: '/AutoScrollimg/3.png',
+  },
+  {
+    id: 'quality',
+    num: '05',
+    tag: 'Quality in Execution',
+    headline: 'Monitored at every stage.',
+    subheadline: 'Civil work to final finishing.',
+    body: 'From civil work to final finishing, every stage is monitored for consistency, durability, and long-term performance.',
+    image: '/AutoScrollimg/4.png',
   },
   {
     id: 'result',
-    num: '05',
+    num: '06',
     tag: 'The Result',
-    headline: 'From concept to keys-in-hand.',
+    headline: 'Functional. Scalable. Built to last.',
     subheadline: 'MNCs. SMEs. Start-ups.',
-    body: 'From Physics Wallah to Zluri, Juego to Nordson — every office we deliver sets a new benchmark for what exceptional workspace design looks like.',
-    image: '/portfolio/Appsforbarth/17.png',
+    body: 'From Physics Wallah to Zluri, Juego to Nordson — every office we deliver is designed for how modern businesses work.',
+    image: '/AutoScrollimg/5.png',
     cta: true,
   },
 ]
@@ -150,12 +161,38 @@ function Panel({ panel, index, isReversed }) {
 
         {/* Image container with parallax */}
         <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl shadow-neutral-200/50">
-          <motion.img
-            src={panel.image}
-            alt={panel.tag}
-            style={{ y: imgY, scale: imgScale }}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+          {panel.isAward ? (
+            // Awards slide with two images side by side
+            <div className="absolute inset-0 flex">
+              <motion.div 
+                className="w-1/2 h-full relative"
+                style={{ y: imgY, scale: imgScale }}
+              >
+                <img
+                  src={panel.image}
+                  alt="ET Achievers Award Ceremony"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+              <motion.div 
+                className="w-1/2 h-full relative"
+                style={{ y: imgY, scale: imgScale }}
+              >
+                <img
+                  src={panel.image2}
+                  alt="ET Achievers Certificate"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+            </div>
+          ) : (
+            <motion.img
+              src={panel.image}
+              alt={panel.tag}
+              style={{ y: imgY, scale: imgScale }}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          )}
           {/* Subtle overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/10 to-transparent" />
         </div>

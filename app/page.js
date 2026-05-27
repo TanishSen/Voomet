@@ -83,12 +83,12 @@ function Hero() {
   const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
 
   const words = [
-    'FASTER DELIVERY. BETTER QUALITY.',
-    'DESIGN-LED. DEADLINE-DRIVEN.',
-    'ONE TEAM. END-TO-END EXECUTION.',
-    'BUILT FOR BUSINESS. READY ON TIME.',
-    'TRANSPARENT PROCESS. ZERO SURPRISES.',
-    'CRAFTED SPACES. LASTING IMPRESSION.'
+    'TURNKEY OFFICE INTERIORS',
+    'COMMERCIAL INTERIOR DESIGNERS',
+    'OFFICE FIT-OUT SPECIALISTS',
+    'WORKSPACE DESIGN & BUILD',
+    'MNC & STARTUP OFFICE INTERIORS',
+    'END-TO-END EXECUTION'
   ]
   const [wordIndex, setWordIndex] = useState(0)
   const [showTitle, setShowTitle] = useState(true)
@@ -141,55 +141,15 @@ function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/55" />
       </motion.div>
 
-      {/* Massive centred headline */}
-      <AnimatePresence>
-        {showTitle && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            style={{ opacity }}
-            className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none px-4"
-          >
-            {/* Cycling word — big, on top */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={words[wordIndex]}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                className="font-display font-black text-white uppercase leading-none tracking-[-0.03em] text-center text-[7.5vw] md:text-[5.5vw] lg:text-[4.2vw]"
-                style={{ textShadow: '0 4px 60px rgba(0,0,0,0.5)' }}
-              >
-                {words[wordIndex]}
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Static brand word — smaller, below */}
-            {/* <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease, delay: 0.2 }}
-              className="font-display font-semibold text-white/60 uppercase leading-none tracking-[0.22em] text-[4vw] md:text-[3vw] lg:text-[2.2vw] mt-4"
-            >
-              VOOMET
-            </motion.div> */}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Bottom-left: tagline + See Our Work — side by side */}
+      {/* Bottom-left: tagline + See Our Work */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease, delay: 0.7 }}
-        className="absolute left-6 md:left-10 bottom-8 md:bottom-10 flex items-end gap-5 max-w-2xl"
+        className="absolute left-6 md:left-10 bottom-8 md:bottom-10 flex items-end gap-5 max-w-xl"
       >
-        <p className="text-white/80 text-sm md:text-base leading-relaxed max-w-[260px] md:max-w-xs">
-          Twenty years of precision design. Hundreds of offices transformed.
-          One team, from concept to keys-in-hand.
+        <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-[280px] md:max-w-sm">
+          20+ years of commercial interior expertise delivering functional, scalable workspaces for MNCs, SMEs, and start-ups across Bangalore.
         </p>
         <Link
           href="/portfolio"
@@ -206,14 +166,28 @@ function Hero() {
       </motion.div>
 
 
-      {/* Scroll hint */}
+      {/* Scroll hint with centered cycling headline above */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1.5 pointer-events-none"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-8 pointer-events-none"
         style={{ opacity: scrollHintOpacity }}
       >
+        {/* Centered cycling headline */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={words[wordIndex]}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="font-display font-bold text-white uppercase leading-none tracking-[0.12em] whitespace-nowrap text-2xl md:text-3xl lg:text-4xl"
+          >
+            {words[wordIndex]}
+          </motion.div>
+        </AnimatePresence>
+        
         <span className="text-white/40 text-[10px] uppercase tracking-[0.25em]">Scroll</span>
         <motion.div
           animate={{ y: [0, 5, 0] }}
@@ -229,9 +203,9 @@ function Stats() {
   const [hoveredCard, setHoveredCard] = useState(null)
   
   const statsData = [
-    { id: 0, num: '300+', label: 'Office Projects Delivered', desc: 'Trusted by MNCs, SMEs & startups.', dark: true, bg: '/portfolio/Orbit/3.jpg' },
-    { id: 1, num: '6', label: 'Weeks Average Delivery', desc: 'Industry-fastest turnaround time.', dark: false, bg: '/portfolio/Appsforbarth/18.png' },
-    { id: 2, num: '25L+', label: 'Sq.ft. Designed', desc: 'Premium spaces designed & built.', dark: false, bg: '/portfolio/Zluri/31.png' },
+    { id: 0, num: '300+', label: 'Office Projects Delivered*', desc: '', dark: true, bg: '/portfolio/Orbit/3.jpg' },
+    { id: 1, num: '6', label: 'Weeks Average Delivery', desc: '', dark: false, bg: '/portfolio/Appsforbarth/18.png' },
+    { id: 2, num: '25L+', label: 'Sq.ft. Designed', desc: '', dark: false, bg: '/portfolio/Zluri/31.png' },
   ]
 
   // Slower, smoother spring config
@@ -256,8 +230,8 @@ function Stats() {
         <FadeUp>
           <div className="text-center mb-12 md:mb-16">
             <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] leading-[1.1]">
-              See the difference<br />
-              <span className="italic font-light">unbelievably fast.</span>
+              Commercial Interior Expertise<br />
+              <span className="italic font-light">at scale.</span>
             </h2>
           </div>
         </FadeUp>
@@ -293,13 +267,12 @@ function Stats() {
                       src={stat.bg}
                       alt=""
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
-                      style={{ transform: isHovered ? 'scale(1.06)' : 'scale(1)' }}
+                      style={{
+                        transform: isHovered ? 'scale(1.06)' : 'scale(1)',
+                        filter: 'blur(1.5px) brightness(0.52)'
+                      }}
                     />
-                    <div className={`absolute inset-0 ${
-                      stat.dark
-                        ? 'bg-gradient-to-br from-neutral-950/82 via-neutral-900/75 to-neutral-800/70'
-                        : 'bg-gradient-to-br from-white/78 via-neutral-50/72 to-neutral-100/65'
-                    }`} />
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/65 via-black/55 to-black/45" />
                   </div>
 
                   {/* Grid Pattern */}
@@ -307,7 +280,7 @@ function Stats() {
                     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                       <defs>
                         <pattern id={`grid-${stat.id}`} width="40" height="40" patternUnits="userSpaceOnUse">
-                          <path d="M 40 0 L 0 0 0 40" fill="none" stroke={stat.dark ? 'white' : '#a3a3a3'} strokeWidth="1"/>
+                          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/>
                         </pattern>
                       </defs>
                       <rect width="100%" height="100%" fill={`url(#grid-${stat.id})`} />
@@ -326,15 +299,15 @@ function Stats() {
                       transition={springConfig}
                     >
                       {i === 0 ? (
-                        <svg className={`w-7 h-7 ${stat.dark ? 'text-neutral-500' : 'text-neutral-400'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <svg className="w-7 h-7 text-white/75" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       ) : i === 1 ? (
-                        <svg className="w-7 h-7 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <svg className="w-7 h-7 text-white/75" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       ) : (
-                        <svg className="w-7 h-7 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <svg className="w-7 h-7 text-white/75" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
                         </svg>
                       )}
@@ -350,11 +323,7 @@ function Stats() {
                       transition={slowSpring}
                     >
                       <motion.span 
-                        className={`font-display font-bold tracking-[-0.04em] leading-none block ${
-                          stat.dark 
-                            ? 'text-neutral-700' 
-                            : 'text-neutral-800'
-                        }`}
+                        className="font-display font-bold tracking-[-0.04em] leading-none block text-white"
                         style={{ 
                           fontSize: stat.dark ? 'clamp(4rem, 10vw, 7rem)' : 'clamp(3rem, 8vw, 5rem)'
                         }}
@@ -372,11 +341,8 @@ function Stats() {
                       }}
                       transition={slowSpring}
                     >
-                      <p className={`text-sm md:text-base leading-snug ${
-                        stat.dark ? 'text-neutral-400' : 'text-neutral-500'
-                      }`}>
-                        {isHovered ? stat.label : stat.desc}
-                        {stat.dark && <span className="text-neutral-600">*</span>}
+                      <p className="text-sm md:text-base leading-snug text-white/90">
+                        {stat.label}
                       </p>
                     </motion.div>
 
@@ -392,51 +358,6 @@ function Stats() {
                 </motion.div>
               )
             })}
-          </div>
-        </FadeUp>
-      </div>
-    </section>
-  )
-}
-
-function ModernStyle() {
-  return (
-    <section className="px-4 md:px-8 py-20 md:py-32">
-      <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-        <FadeUp direction="left" className="relative">
-          <div className="offset-frame rounded-2xl overflow-hidden">
-            <div className="relative aspect-[5/4] overflow-hidden rounded-2xl">
-              <ParallaxImage src={IMG.timeless} alt="Timeless modern" className="absolute inset-0 w-full h-full" speed={0.1} />
-            </div>
-          </div>
-        </FadeUp>
-        <FadeUp direction="right" delay={0.1} className="py-6 lg:py-0">
-          <div className="flex items-center gap-3 text-xs text-neutral-400 uppercase tracking-[0.3em] mb-6">
-            <span>Office</span>
-            <span className="w-6 h-px bg-neutral-300" />
-            <span>Interiors</span>
-          </div>
-          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold tracking-[-0.04em] leading-[0.95] mb-8">
-            Where Ambition<br /><span className="text-neutral-400">Meets</span> Architecture
-          </h2>
-          <p className="text-neutral-600 leading-relaxed max-w-lg text-editorial">
-            Premium office interiors for MNCs, SMEs, and start-ups. Designed in-house,
-            manufactured on imported German machinery in our 40,000 sq.ft. facility,
-            installed by our own craftsmen. Six weeks from concept to keys-in-hand.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Link
-              href="/about"
-              className="inline-flex items-center gap-2 bg-neutral-900 hover:bg-neutral-700 text-white rounded-full px-6 py-3 text-sm transition-all hover:gap-3"
-            >
-              About Us <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/portfolio"
-              className="inline-flex items-center gap-2 border border-neutral-300 rounded-full px-6 py-3 text-sm hover:bg-neutral-100 transition-colors"
-            >
-              View Works
-            </Link>
           </div>
         </FadeUp>
       </div>
@@ -550,7 +471,7 @@ function ClientsBar() {
           <h3 className="font-display text-4xl md:text-6xl font-semibold tracking-[-0.03em]">
             Trusted by <span className="italic font-light">Industry Leaders</span>
           </h3>
-          <p className="text-sm text-neutral-500">20+ ambitious organisations trust Voomet.</p>
+          <p className="text-sm text-neutral-500 text-right max-w-xs">Workspace partner for leading enterprises,<br />high-growth start-ups, and technology-driven organisations.</p>
         </div>
       </FadeUp>
       <div className="relative">
@@ -571,20 +492,21 @@ function ClientsBar() {
 
 function Testimonials() {
   const [active, setActive] = useState(0)
+  
   useEffect(() => {
-    const id = setInterval(() => setActive((a) => (a + 1) % TESTIMONIALS.length), 6000)
+    const id = setInterval(() => setActive((a) => (a + 1) % TESTIMONIALS.length), 5000)
     return () => clearInterval(id)
   }, [])
-  const t = TESTIMONIALS[active]
+
   return (
-    <section className="px-4 md:px-8 py-20 md:py-32">
-      <div className="max-w-[1400px] mx-auto">
+    <section className="py-20 md:py-32 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8">
         <FadeUp>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
             <div>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-px bg-neutral-900" />
-                <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">What the Offices Say</span>
+                <span className="text-xs uppercase tracking-[0.3em] text-neutral-400">What Our Clients Say</span>
               </div>
               <h2 className="font-display text-5xl md:text-7xl font-semibold tracking-[-0.03em] leading-[0.95]">
                 Testimony of our <span className="italic font-light">commitment</span>.
@@ -595,7 +517,7 @@ function Testimonials() {
                 <button
                   key={i}
                   onClick={() => setActive(i)}
-                  className={`h-2 rounded-full transition-all ${
+                  className={`h-2 rounded-full transition-all duration-300 ${
                     i === active ? 'w-8 bg-neutral-900' : 'w-2 bg-neutral-400'
                   }`}
                   aria-label={`Testimonial ${i + 1}`}
@@ -604,29 +526,78 @@ function Testimonials() {
             </div>
           </div>
         </FadeUp>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white/60 rounded-[28px] border border-neutral-200/70 p-8 md:p-14 max-w-4xl"
-          >
-            <Quote className="h-10 w-10 text-neutral-300 mb-6" />
-            <div className="flex gap-1 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
-              ))}
-            </div>
-            <h3 className="font-display text-2xl md:text-3xl font-semibold mb-4 tracking-[-0.02em]">{t.title}</h3>
-            <p className="text-lg md:text-xl text-neutral-700 leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
-            <div className="mt-8 pt-6 border-t border-neutral-200">
-              <div className="font-semibold">{t.author}</div>
-              <div className="text-sm text-neutral-500">{t.role}</div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+      </div>
+      
+      {/* Horizontal Carousel - Centered Active Card */}
+      <div className="relative px-4 md:px-8">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="relative h-[480px] flex items-center justify-center">
+            <AnimatePresence mode="popLayout">
+              {TESTIMONIALS.map((t, i) => {
+                const isActive = i === active
+                const offset = i - active
+                
+                // Only render nearby cards for performance
+                if (Math.abs(offset) > 2) return null
+                
+                return (
+                  <motion.div
+                    key={i}
+                    onClick={() => setActive(i)}
+                    className="absolute cursor-pointer"
+                    initial={{ 
+                      x: offset > 0 ? 800 : -700,
+                      scale: 0.9,
+                      opacity: 0,
+                    }}
+                    animate={{ 
+                      x: offset * 520,
+                      scale: isActive ? 1.02 : 0.75,
+                      opacity: isActive ? 1 : 0.3,
+                      zIndex: isActive ? 30 : 10 - Math.abs(offset),
+                    }}
+                    exit={{ 
+                      x: offset < 0 ? -700 : 700,
+                      scale: 0.7,
+                      opacity: 0,
+                    }}
+                    transition={{ 
+                      duration: 0.7, 
+                      ease: [0.32, 0.72, 0, 1],
+                      scale: { duration: 0.5 }
+                    }}
+                    style={{ width: 500 }}
+                  >
+                    <motion.div 
+                      className={`bg-white rounded-[28px] border p-10 transition-shadow duration-500 ${
+                        isActive 
+                          ? 'border-neutral-300 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.25)]' 
+                          : 'border-neutral-200/40 shadow-lg'
+                      }`}
+                      animate={{
+                        filter: isActive ? 'blur(0px)' : 'blur(4px)',
+                      }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <Quote className="h-10 w-10 text-neutral-300 mb-6" />
+                      <div className="flex gap-1 mb-4">
+                        {[...Array(5)].map((_, j) => (
+                          <Star key={j} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                        ))}
+                      </div>
+                      <h3 className="font-display text-2xl font-semibold mb-4 tracking-[-0.02em]">{t.title}</h3>
+                      <p className="text-lg text-neutral-700 leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
+                      <div className="mt-8 pt-6 border-t border-neutral-200">
+                        <div className="font-semibold">{t.author}</div>
+                        <div className="text-sm text-neutral-500">{t.role}</div>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                )
+              })}
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </section>
   )
@@ -826,7 +797,6 @@ function App() {
       <ClientsBar />
       <HorizontalStory />
       <Stats />
-      <ModernStyle />
       <ProjectHighlight />
       <AboutSection />
       <Marquee />
