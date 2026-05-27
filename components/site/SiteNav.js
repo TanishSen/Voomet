@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, Menu, X } from 'lucide-react'
@@ -8,26 +8,16 @@ import { ArrowRight, Menu, X } from 'lucide-react'
 export default function SiteNav({ onCta }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [inDarkSection, setInDarkSection] = useState(false)
 
   useEffect(() => {
-    const checkSection = () => {
-      setScrolled(window.scrollY > 20)
-      
-      // Check if we're in a dark section (portfolio only - story section has white bg now)
-      const darkSectionIds = ['portfolio']
-      const isInDark = darkSectionIds.some(id => {
-        const el = document.getElementById(id)
-        if (!el) return false
-        const rect = el.getBoundingClientRect()
-        return rect.top <= 80 && rect.bottom >= 80
-      })
-      setInDarkSection(isInDark)
+    const handleScroll = () => {
+      // Check if scrolled past hero (approximately 90vh)
+      const heroHeight = window.innerHeight * 0.9
+      setScrolled(window.scrollY > heroHeight - 80)
     }
-    
-    window.addEventListener('scroll', checkSection)
-    checkSection() // Initial check
-    return () => window.removeEventListener('scroll', checkSection)
+    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const handleCta = () => {
@@ -41,13 +31,14 @@ export default function SiteNav({ onCta }) {
     }
   }
 
-  // Determine if we should use light text (hero or dark sections)
-  const useLightText = !scrolled || inDarkSection
+  const useLightText = !scrolled
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled && !inDarkSection ? 'bg-white/90 backdrop-blur-md border-b border-neutral-200/60' : 'bg-transparent'
+        scrolled
+          ? 'bg-white/95 backdrop-blur-md border-b border-neutral-200/60'
+          : 'bg-transparent border-b border-transparent'
       }`}
     >
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
@@ -64,7 +55,6 @@ export default function SiteNav({ onCta }) {
 
         <nav className="hidden md:flex items-center gap-9 text-sm">
           <Link href="/" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Home</Link>
-          <Link href="/services/office-interiors" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Studio</Link>
           <Link href="/portfolio" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Works</Link>
           <Link href="/about" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Story</Link>
           <Link href="/#contact" className={`transition-colors ${useLightText ? 'text-white/80 hover:text-white' : 'text-neutral-700 hover:text-neutral-900'}`}>Hello</Link>
@@ -104,7 +94,6 @@ export default function SiteNav({ onCta }) {
           >
             <div className="px-6 py-6 flex flex-col gap-1">
               <Link href="/" onClick={() => setOpen(false)} className="py-2 text-base">Home</Link>
-              <Link href="/services/office-interiors" onClick={() => setOpen(false)} className="py-2 text-base">Studio</Link>
               <Link href="/portfolio" onClick={() => setOpen(false)} className="py-2 text-base">Works</Link>
               <Link href="/about" onClick={() => setOpen(false)} className="py-2 text-base">Story</Link>
               <Link href="/#contact" onClick={() => setOpen(false)} className="py-2 text-base">Hello</Link>

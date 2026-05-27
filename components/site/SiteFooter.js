@@ -96,23 +96,7 @@ export default function SiteFooter() {
         </div>
       </div>
 
-      {/* Client Logos */}
-      <div className="max-w-[1400px] mx-auto mb-12 pt-8 border-t border-neutral-200/70">
-        <p className="text-xs uppercase tracking-[0.2em] text-neutral-400 mb-6">Trusted By</p>
-        <div className="flex flex-wrap items-center gap-6 md:gap-10">
-          {FOOTER_CLIENTS.map((c) => (
-            <div key={c.name} className="h-8 md:h-10 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-              <img 
-                src={c.logo} 
-                alt={c.name} 
-                className="h-full w-auto object-contain"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="max-w-[1400px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+      <div className="max-w-[1400px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-sm pt-8 border-t border-neutral-200/70">
         <div>
           <h5 className="font-semibold mb-3">Story</h5>
           <ul className="space-y-2 text-neutral-600">
