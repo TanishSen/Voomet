@@ -82,7 +82,7 @@ function ProjectCard({ project, index }) {
   )
 }
 
-export default function ProjectHighlight() {
+export default function ProjectHighlight({ hideViewAll = false }) {
   return (
     <section id="portfolio" className="px-4 md:px-8 lg:px-16 py-16 md:py-24 bg-white">
       <div className="max-w-[1600px] mx-auto">
@@ -109,17 +109,19 @@ export default function ProjectHighlight() {
         </FadeUp>
 
         {/* View All Link */}
-        <FadeUp delay={0.2}>
-          <div className="mt-12 text-center">
-            <Link 
-              href="/portfolio" 
-              className="inline-flex items-center gap-2 text-sm font-medium text-neutral-900 hover:text-neutral-600 transition-colors group"
-            >
-              View All Projects
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </Link>
-          </div>
-        </FadeUp>
+        {!hideViewAll && (
+          <FadeUp delay={0.2}>
+            <div className="mt-12 text-center">
+              <Link 
+                href="/portfolio" 
+                className="inline-flex items-center gap-2 text-sm font-medium text-neutral-900 hover:text-neutral-600 transition-colors group"
+              >
+                View All Projects
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </Link>
+            </div>
+          </FadeUp>
+        )}
       </div>
     </section>
   )
