@@ -44,7 +44,7 @@ export default function AboutSection() {
               href="/about"
               className="inline-flex items-center gap-2 mt-3 bg-neutral-900 hover:bg-neutral-700 text-white rounded-full px-6 py-3 text-sm transition-all hover:gap-3 w-fit"
             >
-              Learn more <ArrowRight className="h-4 w-4" />
+              Schedule a Site Visit <ArrowRight className="h-4 w-4" />
             </Link>
           </FadeUp>
         </div>
