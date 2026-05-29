@@ -12,20 +12,8 @@ const ease = [0.22, 1, 0.36, 1]
 
 const PANELS = [
   {
-    id: 'awards',
-    num: '01',
-    tag: 'ET Achievers 2025',
-    line1: 'Award-winning',
-    line2: 'design excellence.',
-    accent: 'Recognized by The Times of India.',
-    body: 'Excellence in Innovative Commercial Interior Design — Workplace, Hospitality, Retail & Educational Projects.',
-    image: '/awards/PHOTO-2026-05-22-11-11-51.jpg',
-    image2: '/awards/PHOTO-2026-05-22-11-11-50.jpg',
-    isAward: true,
-  },
-  {
     id: 'materials',
-    num: '02',
+    num: '01',
     tag: 'Smart Material Selection',
     line1: 'Commercial-grade.',
     line2: 'Brand-aligned.',
@@ -35,7 +23,7 @@ const PANELS = [
   },
   {
     id: 'visualise',
-    num: '03',
+    num: '02',
     tag: 'Visualise Before Execution',
     line1: 'See it before',
     line2: "it's built.",
@@ -45,17 +33,17 @@ const PANELS = [
   },
   {
     id: 'project',
-    num: '04',
+    num: '03',
     tag: 'Structured Project Management',
     line1: 'Tracked.',
     line2: 'Coordinated. Visible.',
     accent: 'Defined milestones. Single point of contact.',
     body: 'Every project is tracked through defined milestones, coordinated timelines, and a dedicated point of contact for complete visibility.',
-    image: '/AutoScrollimg/3.png',
+    image: '/AutoScrollimg/6.png',
   },
   {
     id: 'quality',
-    num: '05',
+    num: '04',
     tag: 'Quality in Execution',
     line1: 'Monitored at',
     line2: 'every stage.',
@@ -65,7 +53,7 @@ const PANELS = [
   },
   {
     id: 'result',
-    num: '06',
+    num: '05',
     tag: 'The Result',
     line1: 'Functional.',
     line2: 'Scalable. Built to last.',
@@ -73,6 +61,18 @@ const PANELS = [
     body: 'From Physics Wallah to Zluri, Juego to Nordson — every office we deliver is designed for how modern businesses work.',
     image: '/AutoScrollimg/5.png',
     cta: true,
+  },
+  {
+    id: 'awards',
+    num: '06',
+    tag: 'ET Achievers 2025',
+    line1: 'Award-winning',
+    line2: 'design excellence.',
+    accent: 'Recognized by The Times of India.',
+    body: 'Excellence in Innovative Commercial Interior Design — Workplace, Hospitality, Retail & Educational Projects.',
+    image: '/awards/PHOTO-2026-05-22-11-11-51.jpg',
+    image2: '/awards/PHOTO-2026-05-22-11-11-50.jpg',
+    isAward: true,
   },
 ]
 
@@ -258,7 +258,7 @@ export default function HorizontalStory() {
         <div
           ref={containerRef}
           className="relative rounded-3xl overflow-hidden bg-neutral-900 cursor-grab active:cursor-grabbing"
-          style={{ height: '520px' }}
+          style={{ height: '620px' }}
         >
           {/* Background image */}
           <AnimatePresence mode="wait">
@@ -295,9 +295,9 @@ export default function HorizontalStory() {
                   className="w-full h-full object-cover"
                 />
               )}
-              {/* Overlay gradients */}
-              <div className="absolute inset-0 bg-gradient-to-r from-neutral-950/85 via-neutral-950/50 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/60 via-transparent to-neutral-950/30" />
+              {/* Overlay gradients - lighter for better image visibility */}
+              <div className="absolute inset-0 bg-gradient-to-r from-neutral-950/70 via-neutral-950/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/50 via-transparent to-transparent" />
             </motion.div>
           </AnimatePresence>
 
