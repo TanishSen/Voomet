@@ -84,7 +84,7 @@ function Hero() {
 
   const words = [
     'TURNKEY OFFICE INTERIORS',
-    'COMMERCIAL INTERIOR DESIGNERS',
+    'COMMERCIAL WORKSPACE DESIGN & EXECUTION EXPERTS',
     'OFFICE FIT-OUT SPECIALISTS',
     'WORKSPACE DESIGN & BUILD',
     'MNC & STARTUP OFFICE INTERIORS',
@@ -149,7 +149,7 @@ function Hero() {
         className="absolute left-6 md:left-10 bottom-8 md:bottom-10 flex items-end gap-5 max-w-xl"
       >
         <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-[280px] md:max-w-sm">
-          20+ years of commercial interior expertise delivering functional, scalable workspaces for MNCs, SMEs, and start-ups across Bangalore.
+          From concept to handover — turnkey office interiors designed, built, and delivered under one roof.
         </p>
         <Link
           href="/portfolio"
@@ -203,7 +203,7 @@ function Stats() {
   const [hoveredCard, setHoveredCard] = useState(null)
   
   const statsData = [
-    { id: 0, num: '300+', label: 'Office Projects Delivered*', desc: '', dark: true, bg: '/portfolio/Orbit/3.jpg' },
+    { id: 0, num: '800+', label: 'Office Projects Delivered*', desc: '', dark: true, bg: '/portfolio/PW/2.png' },
     { id: 1, num: '6', label: 'Weeks Average Delivery', desc: '', dark: false, bg: '/portfolio/Appsforbarth/18.png' },
     { id: 2, num: '25L+', label: 'Sq.ft. Designed', desc: '', dark: false, bg: '/portfolio/Zluri/31.png' },
   ]
