@@ -14,19 +14,8 @@ const ease = [0.22, 1, 0.36, 1]
 
 const PANELS = [
   {
-    id: 'awards',
-    num: '01',
-    tag: 'ET Achievers 2025',
-    headline: 'Award-winning design excellence.',
-    subheadline: 'Recognized by The Times of India.',
-    body: 'Excellence in Innovative Commercial Interior Design — Workplace, Hospitality, Retail & Educational Projects.',
-    image: '/awards/PHOTO-2026-05-22-11-11-51.jpg',
-    image2: '/awards/PHOTO-2026-05-22-11-11-50.jpg',
-    isAward: true,
-  },
-  {
     id: 'materials',
-    num: '02',
+    num: '01',
     tag: 'Smart Material & Furniture Selection',
     headline: 'Commercial-grade. Brand-aligned.',
     subheadline: 'Durable materials for operational needs.',
@@ -35,7 +24,7 @@ const PANELS = [
   },
   {
     id: 'visualise',
-    num: '03',
+    num: '02',
     tag: 'Visualise Before Execution',
     headline: 'See it before it\'s built.',
     subheadline: 'Detailed 2D and 3D planning.',
@@ -44,16 +33,16 @@ const PANELS = [
   },
   {
     id: 'project',
-    num: '04',
+    num: '03',
     tag: 'Structured Project Management',
     headline: 'Tracked. Coordinated. Visible.',
     subheadline: 'Defined milestones. Single point of contact.',
     body: 'Every project is tracked through defined milestones, coordinated timelines, and a dedicated point of contact for complete visibility.',
-    image: '/AutoScrollimg/3.png',
+    image: '/AutoScrollimg/6.png',
   },
   {
     id: 'quality',
-    num: '05',
+    num: '04',
     tag: 'Quality in Execution',
     headline: 'Monitored at every stage.',
     subheadline: 'Civil work to final finishing.',
@@ -62,13 +51,24 @@ const PANELS = [
   },
   {
     id: 'result',
-    num: '06',
+    num: '05',
     tag: 'The Result',
     headline: 'Functional. Scalable. Built to last.',
     subheadline: 'MNCs. SMEs. Start-ups.',
     body: 'From Physics Wallah to Zluri, Juego to Nordson — every office we deliver is designed for how modern businesses work.',
     image: '/AutoScrollimg/5.png',
     cta: true,
+  },
+  {
+    id: 'awards',
+    num: '06',
+    tag: 'ET Achievers 2025',
+    headline: 'Award-winning design excellence.',
+    subheadline: 'Recognized by The Times of India.',
+    body: 'Excellence in Innovative Commercial Interior Design — Workplace, Hospitality, Retail & Educational Projects.',
+    image: '/awards/PHOTO-2026-05-22-11-11-51.jpg',
+    image2: '/awards/PHOTO-2026-05-22-11-11-50.jpg',
+    isAward: true,
   },
 ]
 
