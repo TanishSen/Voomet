@@ -214,11 +214,11 @@ export default function HorizontalStory() {
   }, [activePanel])
 
   return (
-    <section ref={sectionRef} id="story" className="px-4 md:px-8 py-16 md:py-24 bg-white dark:bg-neutral-950">
+    <section ref={sectionRef} id="story" className="px-4 md:px-8 py-10 md:py-24 bg-white dark:bg-neutral-950">
       <div className="max-w-[1400px] mx-auto">
 
         {/* ─── Animated Title (ABOVE container) ─── */}
-        <div className="mb-8 md:mb-10">
+        <div className="mb-5 md:mb-10">
           {/* Label */}
           <AnimatePresence mode="wait">
             <motion.div
@@ -227,10 +227,10 @@ export default function HorizontalStory() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.4, ease }}
-              className="flex items-center gap-3 mb-4"
+              className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4"
             >
               <span className="w-8 h-px bg-neutral-300 dark:bg-neutral-600" />
-              <span className="text-[11px] text-neutral-400 dark:text-neutral-500 uppercase tracking-[0.35em]">
+              <span className="text-[10px] md:text-[11px] text-neutral-400 dark:text-neutral-500 uppercase tracking-[0.2em] md:tracking-[0.35em]">
                 {panel.num}&nbsp;—&nbsp;{panel.tag}
               </span>
             </motion.div>
@@ -244,8 +244,8 @@ export default function HorizontalStory() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.5, ease }}
-              className="font-display font-bold text-neutral-900 dark:text-white leading-[0.92] tracking-tight"
-              style={{ fontSize: 'clamp(2.8rem, 7vw, 6.5rem)' }}
+              className="font-display font-bold text-neutral-900 dark:text-white leading-[0.96] md:leading-[0.92] tracking-tight"
+              style={{ fontSize: 'clamp(1.95rem, 9.5vw, 6.5rem)' }}
             >
               {panel.line1}
               <br />
@@ -257,8 +257,7 @@ export default function HorizontalStory() {
         {/* ─── Container Card (description + image) ─── */}
         <div
           ref={containerRef}
-          className="relative rounded-3xl overflow-hidden bg-neutral-900 cursor-grab active:cursor-grabbing"
-          style={{ height: '620px' }}
+          className="relative rounded-2xl md:rounded-3xl overflow-hidden bg-neutral-900 cursor-grab active:cursor-grabbing h-[70vh] min-h-[480px] max-h-[620px] md:h-[620px]"
         >
           {/* Background image */}
           <AnimatePresence mode="wait">
@@ -272,15 +271,15 @@ export default function HorizontalStory() {
             >
               {panel.isAward ? (
                 // Awards slide with two images side by side
-                <div className="w-full h-full flex">
-                  <div className="w-1/2 h-full relative">
+                <div className="w-full h-full flex flex-col md:flex-row">
+                  <div className="w-full md:w-1/2 h-1/2 md:h-full relative">
                     <img
                       src={panel.image}
                       alt="ET Achievers Award Ceremony"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="w-1/2 h-full relative">
+                  <div className="w-full md:w-1/2 h-1/2 md:h-full relative">
                     <img
                       src={panel.image2}
                       alt="ET Achievers Certificate"
@@ -302,7 +301,25 @@ export default function HorizontalStory() {
           </AnimatePresence>
 
           {/* Content overlay */}
-          <div className="relative z-10 h-full flex flex-col justify-end p-8 md:p-12">
+          <div className="relative z-10 h-full flex flex-col justify-end p-5 md:p-12">
+            {/* Mobile middle arrows */}
+            <div className="md:hidden absolute inset-y-0 left-3 right-3 flex items-center justify-between pointer-events-none">
+              <button
+                onClick={goPrev}
+                className="pointer-events-auto w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-sm flex items-center justify-center transition-all"
+                aria-label="Previous slide"
+              >
+                <ChevronLeft className="w-5 h-5 text-white" />
+              </button>
+              <button
+                onClick={goNext}
+                className="pointer-events-auto w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-sm flex items-center justify-center transition-all"
+                aria-label="Next slide"
+              >
+                <ChevronRight className="w-5 h-5 text-white" />
+              </button>
+            </div>
+
             <AnimatePresence mode="wait">
               <motion.div
                 key={panel.id + '-content'}
@@ -310,18 +327,18 @@ export default function HorizontalStory() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.45, ease }}
-                className="max-w-md"
+                className="max-w-full md:max-w-md"
               >
                 {/* Accent */}
-                <p className="font-display text-base md:text-lg font-light italic text-white/70 mb-3">
+                <p className="font-display text-sm md:text-lg font-light italic text-white/70 mb-2 md:mb-3">
                   {panel.accent}
                 </p>
 
                 {/* Divider */}
-                <div className="w-12 h-px bg-white/30 mb-4" />
+                <div className="w-10 md:w-12 h-px bg-white/30 mb-3 md:mb-4" />
 
                 {/* Body */}
-                <p className="text-white/80 text-sm md:text-[15px] leading-relaxed mb-5">
+                <p className="text-white/80 text-[13px] md:text-[15px] leading-relaxed mb-4 md:mb-5 max-w-[95%] md:max-w-none">
                   {panel.body}
                 </p>
 
@@ -329,7 +346,7 @@ export default function HorizontalStory() {
                 {panel.cta && (
                   <Link
                     href="/portfolio"
-                    className="inline-flex items-center gap-2 bg-white hover:bg-neutral-100 text-neutral-900 rounded-full px-5 py-2.5 text-sm font-medium transition-all"
+                    className="inline-flex items-center gap-2 bg-white hover:bg-neutral-100 text-neutral-900 rounded-full px-4 md:px-5 py-2 md:py-2.5 text-xs md:text-sm font-medium transition-all"
                   >
                     Explore our Works
                     <ArrowUpRight className="w-4 h-4" />
@@ -339,27 +356,27 @@ export default function HorizontalStory() {
             </AnimatePresence>
 
             {/* Bottom bar: arrows + navigation dots */}
-            <div className="absolute bottom-6 left-6 md:left-10 right-6 md:right-10 flex items-center justify-between">
+            <div className="absolute bottom-2 md:bottom-6 left-4 md:left-10 right-4 md:right-10 flex items-center justify-center md:justify-between gap-3">
               {/* Left/Right Arrows */}
-              <div className="flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-1.5 md:gap-2">
                 <button
                   onClick={goPrev}
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center transition-all"
+                  className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center transition-all"
                   aria-label="Previous slide"
                 >
-                  <ChevronLeft className="w-5 h-5 text-white" />
+                  <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-white" />
                 </button>
                 <button
                   onClick={goNext}
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center transition-all"
+                  className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center transition-all"
                   aria-label="Next slide"
                 >
-                  <ChevronRight className="w-5 h-5 text-white" />
+                  <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-white" />
                 </button>
               </div>
 
               {/* Dots + hint */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 md:gap-4">
                 <span className="text-[10px] text-white/40 uppercase tracking-widest hidden md:block">
                   {isPaused ? 'Paused' : 'Auto-playing'}
                 </span>
@@ -379,7 +396,7 @@ export default function HorizontalStory() {
 
             {/* Ghost number */}
             <span
-              className="absolute bottom-4 right-4 font-display font-black text-[8rem] md:text-[12rem] text-white/[0.04] pointer-events-none select-none leading-none"
+              className="hidden md:block absolute bottom-4 right-4 font-display font-black text-[8rem] md:text-[12rem] text-white/[0.04] pointer-events-none select-none leading-none"
             >
               {panel.num}
             </span>
