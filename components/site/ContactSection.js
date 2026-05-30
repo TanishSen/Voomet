@@ -66,7 +66,7 @@ export default function ContactSection({ defaultRequirement = 'Office Interiors'
                 <span className="w-10 h-10 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition">
                   <Phone className="h-4 w-4" />
                 </span>
-                <span className="text-sm md:text-base">{COMPANY.phoneSecondary}</span>
+                <span className="text-sm md:text-base">{COMPANY.phone}</span>
               </a>
               <a
                 href={COMPANY.whatsapp}
@@ -133,8 +133,6 @@ export default function ContactSection({ defaultRequirement = 'Office Interiors'
                     <SelectItem value="2500-5000">2,500 – 5,000 sqft</SelectItem>
                     <SelectItem value="5000-10000">5,000 – 10,000 sqft</SelectItem>
                     <SelectItem value="10000-20000">10,000 – 20,000 sqft</SelectItem>
-                    <SelectItem value="20000-40000">20,000 – 40,000 sqft</SelectItem>
-                    <SelectItem value="40000-60000">40,000 – 60,000 sqft</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select

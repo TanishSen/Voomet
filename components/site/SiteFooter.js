@@ -72,10 +72,10 @@ export default function SiteFooter() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <span className="text-xs uppercase tracking-[0.2em] text-white/50">Visit Our Facility</span>
+                <span className="text-xs uppercase tracking-[0.2em] text-white/50">Visit Our Bangalore Office</span>
               </div>
               <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-[-0.02em] leading-tight mb-4">
-                40,000 Sq.Ft. Factory<br />in Bangalore
+                Bangalore Office<br />& Facility
               </h3>
               <p className="text-white/60 text-sm leading-relaxed mb-6">
                 {COMPANY.address}
@@ -117,8 +117,8 @@ export default function SiteFooter() {
         <div>
           <h5 className="font-semibold mb-3">Our Capabilities</h5>
           <ul className="space-y-2 text-neutral-600">
-            <li><Link href="/about" className="hover:text-neutral-900">In-House Factory</Link></li>
-            <li><Link href="/about" className="hover:text-neutral-900">40,000 Sq.Ft. Facility</Link></li>
+            <li><Link href="/about" className="hover:text-neutral-900">In-House Manufacturing Facility</Link></li>
+            <li><Link href="/about" className="hover:text-neutral-900">Bangalore Operations Hub</Link></li>
             <li><Link href="/about" className="hover:text-neutral-900">German Machinery</Link></li>
           </ul>
         </div>
@@ -126,7 +126,9 @@ export default function SiteFooter() {
           <h5 className="font-semibold mb-3">Hello</h5>
           <ul className="space-y-2 text-neutral-600">
             <li><a href={`tel:${COMPANY.phoneDigits}`} className="hover:text-neutral-900">{COMPANY.phone}</a></li>
-            <li><a href={`tel:${COMPANY.phoneSecondaryDigits}`} className="hover:text-neutral-900">{COMPANY.phoneSecondary}</a></li>
+            {COMPANY.phoneSecondary && COMPANY.phoneSecondaryDigits ? (
+              <li><a href={`tel:${COMPANY.phoneSecondaryDigits}`} className="hover:text-neutral-900">{COMPANY.phoneSecondary}</a></li>
+            ) : null}
             <li><a href={`mailto:${COMPANY.email}`} className="hover:text-neutral-900">{COMPANY.email}</a></li>
             <li className="text-neutral-600 leading-snug">{COMPANY.address}</li>
           </ul>
