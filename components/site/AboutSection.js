@@ -6,7 +6,7 @@ import FadeUp from '@/components/site/FadeUp'
 
 const COMMITMENTS = [
   { icon: Zap,         title: '6-Week Delivery',    desc: 'Every project, on time — monitored with software at every stage.' },
-  { icon: ShieldCheck, title: 'Zero Outsourcing',   desc: 'Our in-house factory with German machines handles everything from cut to install.' },
+  { icon: ShieldCheck, title: 'Zero Outsourcing',   desc: 'Our in-house manufacturing facility with German machines handles everything from cut to install.' },
   { icon: MapPin,      title: 'Based in Bangalore', desc: 'Serving businesses across India from our Doddaballapura facility.' },
 ]
 
