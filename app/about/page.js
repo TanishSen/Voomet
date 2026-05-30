@@ -13,6 +13,17 @@ import FeatureModal from '@/components/site/FeatureModal'
 import { Toaster } from 'sonner'
 import { COMPANY, STATS, TECH, WHY_CHOOSE, PROCESS_STEPS, CLIENTS } from '@/lib/voomet-data'
 
+const TEAM_HIGHLIGHTS = [
+  {
+    src: '/teams/PHOTO-2026-05-29-11-17-45.jpg',
+    alt: 'Voomet team standing together in the completed office space',
+  },
+  {
+    src: '/teams/PHOTO-2026-05-29-11-17-46.jpg',
+    alt: 'Voomet team group photo inside a newly delivered workspace',
+  },
+]
+
 export default function AboutPage() {
   const [selectedFeature, setSelectedFeature] = useState(null)
   const [clickPosition, setClickPosition] = useState(null)
@@ -152,6 +163,39 @@ export default function AboutPage() {
                 <h4 className="mt-3 font-semibold text-lg tracking-[-0.01em]">{p.title}</h4>
                 <p className="mt-2 text-sm text-neutral-600 leading-relaxed">{p.desc}</p>
                 <div className="mt-5 h-px w-full bg-neutral-300/70" />
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team highlights */}
+      <section className="px-4 md:px-8 py-20">
+        <div className="max-w-[1400px] mx-auto">
+          <FadeUp>
+            <div className="flex items-center gap-3 mb-5 md:mb-6">
+              <span className="w-8 h-px bg-neutral-300" />
+              <span className="text-[11px] text-neutral-500 uppercase tracking-[0.35em]">
+                Our People
+              </span>
+            </div>
+
+            <h2 className="font-display text-4xl md:text-6xl font-semibold tracking-[-0.03em] text-neutral-900 mb-6 md:mb-8">
+              The Team Behind Every Delivery
+            </h2>
+          </FadeUp>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+            {TEAM_HIGHLIGHTS.map((image, index) => (
+              <FadeUp key={image.src} delay={index * 0.08}>
+                <figure className="rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-50">
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-[280px] md:h-[420px] object-cover"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
+                </figure>
               </FadeUp>
             ))}
           </div>

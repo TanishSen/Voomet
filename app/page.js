@@ -754,7 +754,7 @@ function QuickQuoteSection() {
                       <SelectValue placeholder="Select Sq.ft. Area…" />
                     </SelectTrigger>
                     <SelectContent>
-                      {['Under 2,500 sq.ft', '2,500–5,000 sq.ft.', '5,000–10,000 sq.ft.', '10,000–20,000 sq.ft.', '20,000–40,000 sq.ft.', '40,000–60,000 sq.ft.' , 'Above 60,000 sq.ft'].map((a) => (
+                      {['Under 2,500 sq.ft', '2,500–5,000 sq.ft.', '5,000–10,000 sq.ft.', '10,000–20,000 sq.ft.', 'Above 60,000 sq.ft'].map((a) => (
                         <SelectItem key={a} value={a}>{a}</SelectItem>
                       ))}
                     </SelectContent>
