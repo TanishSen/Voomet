@@ -291,7 +291,7 @@ export default function CaseStudyScroll({ project }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.2, duration: 0.8 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2"
+          className="absolute bottom-12 inset-x-0 flex justify-center px-4"
         >
           <div className="flex flex-col items-center">
             <motion.span 

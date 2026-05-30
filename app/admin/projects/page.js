@@ -39,7 +39,7 @@ const INITIAL_PROJECTS = [
     name: 'QpiAI Platform',
     description: 'End-to-end UI/UX design for a B2B SaaS platform. Complex dashboard design with data visualisation components, user flows, and interactive prototypes.',
     status: 'published',
-    images: ['/portfolio/QpiAI/7.png'],
+    images: ['/portfolio/Qpi/7.png'],
     updatedAt: '28 Dec 2024',
   },
   {
