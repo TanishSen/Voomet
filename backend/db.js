@@ -1,19 +1,77 @@
-// Backend: MongoDB connection (separated from API routes for cleaner production structure)
+// Backend: Database connection with JSON file fallback
 import { MongoClient } from 'mongodb'
+import { readFileSync, writeFileSync, existsSync } from 'fs'
+import { join } from 'path'
 
 let client
 let db
 
-export async function getDb() {
-  if (db) return db
+// JSON file storage fallback when MongoDB is not configured
+const DATA_DIR = process.cwd()
+const LEADS_FILE = join(DATA_DIR, 'data', 'leads.json')
 
-  const mongoUrl = process.env.MONGO_URL
-  if (!mongoUrl) {
-    throw new Error(
-      'MONGO_URL environment variable is not set. ' +
-      'Create a .env.local file with MONGO_URL=<your MongoDB connection string>.'
-    )
+function ensureDataDir() {
+  const dataDir = join(DATA_DIR, 'data')
+  if (!existsSync(dataDir)) {
+    const { mkdirSync } = require('fs')
+    mkdirSync(dataDir, { recursive: true })
   }
+}
+
+function readJsonFile(filePath) {
+  if (!existsSync(filePath)) return []
+  try {
+    return JSON.parse(readFileSync(filePath, 'utf-8'))
+  } catch {
+    return []
+  }
+}
+
+function writeJsonFile(filePath, data) {
+  ensureDataDir()
+  writeFileSync(filePath, JSON.stringify(data, null, 2))
+}
+
+// Simple file-based collection that mimics MongoDB API
+class FileCollection {
+  constructor(filePath) {
+    this.filePath = filePath
+  }
+  
+  async insertOne(doc) {
+    const data = readJsonFile(this.filePath)
+    data.push(doc)
+    writeJsonFile(this.filePath, data)
+    return { insertedId: doc.id }
+  }
+  
+  find(query, options) {
+    const data = readJsonFile(this.filePath)
+    return {
+      sort: () => this,
+      limit: (n) => ({ toArray: async () => data.slice(0, n) }),
+      toArray: async () => data
+    }
+  }
+}
+
+class FileDb {
+  collection(name) {
+    const filePath = join(DATA_DIR, 'data', `${name}.json`)
+    return new FileCollection(filePath)
+  }
+}
+
+export async function getDb() {
+  const mongoUrl = process.env.MONGO_URL
+  
+  // If no MongoDB URL, use file-based storage
+  if (!mongoUrl) {
+    console.log('Using file-based storage (no MONGO_URL configured)')
+    return new FileDb()
+  }
+
+  if (db) return db
 
   if (!client) {
     client = new MongoClient(mongoUrl, {
