@@ -65,9 +65,10 @@ export default function AboutPage() {
               Commercial Interiors<br />Built to Perform.
             </h1>
             <p className="mt-24 md:mt-48 text-lg md:text-xl text-white/90 max-w-2xl leading-relaxed">
-              20+ years of commercial interior expertise. {COMPANY.projectsDelivered}+ office projects delivered.
-              {COMPANY.sqftCommissioned} sq.ft. designed. Turnkey office interiors for MNCs, SMEs,
-              and start-ups across Bangalore.
+              20+ years of commercial interior expertise.<br />
+              {COMPANY.projectsDelivered}+ office projects delivered.<br />
+              {COMPANY.sqftCommissioned} sq.ft. designed.<br />
+              Turnkey office interiors for MNCs, SMEs, and start-ups across Bangalore.
             </p>
           </FadeUp>
         </div>

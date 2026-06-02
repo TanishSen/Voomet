@@ -1,6 +1,7 @@
 // Backend: Leads controller
 import { v4 as uuidv4 } from 'uuid'
 import { getDb } from './db.js'
+import { sendLeadNotification } from './email.js'
 
 export async function createLead(payload) {
   const { name, phone, email, requirement, area, message, source } = payload || {}
@@ -18,8 +19,16 @@ export async function createLead(payload) {
     source: source || 'website',
     createdAt: new Date().toISOString(),
   }
+
+  // Save to database
   const database = await getDb()
   await database.collection('leads').insertOne({ ...lead })
+
+  // Send email notification (non-blocking - don't fail if email fails)
+  sendLeadNotification(lead).catch((err) => {
+    console.error('Email notification failed:', err)
+  })
+
   return { ok: true, status: 201, lead }
 }
 
