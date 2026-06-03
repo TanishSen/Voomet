@@ -4,6 +4,7 @@ import './globals.css'
 import SmoothScroll from '@/components/site/SmoothScroll'
 
 const GA_MEASUREMENT_ID = 'G-YYMYRKT4JE'
+const GTM_ID = 'GTM-NVT7FDPH'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -51,6 +52,16 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         
+        {/* Google Tag Manager */}
+        <Script id="gtm-head" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','${GTM_ID}');`}
+        </Script>
+
+        {/* Google Analytics */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"
@@ -65,6 +76,16 @@ export default function RootLayout({ children }) {
         </Script>
       </head>
       <body className="antialiased bg-white text-neutral-900 selection:bg-neutral-900 selection:text-white">
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+        
         <SmoothScroll>
           {children}
         </SmoothScroll>

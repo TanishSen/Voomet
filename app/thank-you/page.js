@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Check, MessageCircle, Phone } from 'lucide-react'
 import SiteNav from '@/components/site/SiteNav'
@@ -6,12 +9,18 @@ import StickyCTA from '@/components/site/StickyCTA'
 import FadeUp from '@/components/site/FadeUp'
 import { COMPANY } from '@/lib/voomet-data'
 
-export const metadata = {
-  title: 'Thank You — Voomet | We will be in touch soon',
-  description: 'Your enquiry has been received. Our Voomet consultant will reach out within one business day.',
-}
-
 export default function ThankYouPage() {
+  // Fire GTM conversion event on page load
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({
+        event: 'form_submission',
+        conversion_type: 'lead',
+        page_type: 'thank_you',
+      })
+    }
+  }, [])
+
   return (
     <main className="min-h-screen bg-white text-neutral-900 font-sans overflow-x-hidden">
       <SiteNav />
