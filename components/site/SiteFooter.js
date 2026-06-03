@@ -117,9 +117,10 @@ export default function SiteFooter() {
         <div>
           <h5 className="font-semibold mb-3">Our Capabilities</h5>
           <ul className="space-y-2 text-neutral-600">
-            <li><Link href="/about" className="hover:text-neutral-900">In-House Manufacturing Facility</Link></li>
-            <li><Link href="/about" className="hover:text-neutral-900">Bangalore Operations Hub</Link></li>
-            <li><Link href="/about" className="hover:text-neutral-900">German Machinery</Link></li>
+            <li><Link href="/about" className="hover:text-neutral-900">HVAC & Air Conditioning</Link></li>
+            <li><Link href="/about" className="hover:text-neutral-900">MEP & Electrical Works</Link></li>
+            <li><Link href="/about" className="hover:text-neutral-900">Partitions & False Ceilings</Link></li>
+            <li><Link href="/about" className="hover:text-neutral-900">Civil & POP Works</Link></li>
           </ul>
         </div>
         <div>
