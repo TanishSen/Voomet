@@ -1,6 +1,9 @@
 import { Inter, Bricolage_Grotesque } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import SmoothScroll from '@/components/site/SmoothScroll'
+
+const GA_MEASUREMENT_ID = 'G-YYMYRKT4JE'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -41,6 +44,26 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${bricolage.variable}`}>
+      <head>
+        {/* Preconnect to external resources */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
+      </head>
       <body className="antialiased bg-white text-neutral-900 selection:bg-neutral-900 selection:text-white">
         <SmoothScroll>
           {children}

@@ -92,7 +92,23 @@ function Hero() {
   ]
   const [wordIndex, setWordIndex] = useState(0)
   const [showTitle, setShowTitle] = useState(true)
+  const [videoLoaded, setVideoLoaded] = useState(false)
   const videoRef = useRef(null)
+  const sectionRef = useRef(null)
+
+  // Lazy load video when section is in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !videoLoaded) {
+          setVideoLoaded(true)
+        }
+      },
+      { threshold: 0.1 }
+    )
+    if (sectionRef.current) observer.observe(sectionRef.current)
+    return () => observer.disconnect()
+  }, [videoLoaded])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -125,19 +141,31 @@ function Hero() {
   }
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-neutral-900">
+    <section ref={sectionRef} className="relative h-screen w-full overflow-hidden bg-neutral-900">
       {/* Full-bleed background */}
       <motion.div style={{ y }} className="absolute inset-0 scale-110">
-        <video
-          ref={videoRef}
-          src="/herobg/Voomet-cinematic video 03.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover"
+        {/* Poster image for instant LCP */}
+        <img
+          src="/portfolio/Orbit/3.jpg"
+          alt="Voomet Interior"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`}
           style={{ objectPosition: 'center 65%' }}
+          fetchPriority="high"
         />
+        {/* Lazy-loaded video */}
+        {videoLoaded && (
+          <video
+            ref={videoRef}
+            src="/herobg/Voomet-cinematic video 03.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: 'center 65%' }}
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/55" />
       </motion.div>
 
