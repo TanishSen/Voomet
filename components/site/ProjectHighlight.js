@@ -68,13 +68,28 @@ function ProjectCard({ project, index }) {
             <div className="absolute -bottom-2 -left-2 w-4 h-4 border-b border-l border-neutral-400" />
             <div className="absolute -bottom-2 -right-2 w-4 h-4 border-b border-r border-neutral-400" />
 
-            {/* Content */}
-            <h4 className="font-semibold text-xs uppercase tracking-[0.15em] text-neutral-900 text-center">
-              {project.name}
-            </h4>
-            <p className="text-[11px] text-neutral-500 text-center mt-0.5">
-              {project.location}
-            </p>
+            {/* Content - Logo or Text */}
+            {project.logo ? (
+              <div className="flex flex-col items-center">
+                <img 
+                  src={project.logo} 
+                  alt={project.name}
+                  className="h-8 w-auto object-contain max-w-[100px]"
+                />
+                <p className="text-[11px] text-neutral-500 text-center mt-1">
+                  {project.location}
+                </p>
+              </div>
+            ) : (
+              <>
+                <h4 className="font-semibold text-xs uppercase tracking-[0.15em] text-neutral-900 text-center">
+                  {project.name}
+                </h4>
+                <p className="text-[11px] text-neutral-500 text-center mt-0.5">
+                  {project.location}
+                </p>
+              </>
+            )}
           </div>
         </div>
       </motion.div>
