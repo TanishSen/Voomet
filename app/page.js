@@ -104,7 +104,7 @@ function Hero() {
           setVideoLoaded(true)
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.05 }
     )
     if (sectionRef.current) observer.observe(sectionRef.current)
     return () => observer.disconnect()
@@ -152,16 +152,16 @@ function Hero() {
           style={{ objectPosition: 'center 65%' }}
           fetchPriority="high"
         />
-        {/* Lazy-loaded video */}
+        {/* Lazy-loaded video - use compressed version */}
         {videoLoaded && (
           <video
             ref={videoRef}
-            src="/herobg/Voomet-cinematic video 03.mp4"
+            src="/herobg/hero-compressed.mp4"
             autoPlay
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="none"
             className="absolute inset-0 w-full h-full object-cover"
             style={{ objectPosition: 'center 65%' }}
           />

@@ -12,13 +12,27 @@ import { COMPANY } from '@/lib/voomet-data'
 export default function ThankYouPage() {
   // Fire GTM conversion event on page load
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.dataLayer) {
-      window.dataLayer.push({
-        event: 'form_submission',
-        conversion_type: 'lead',
-        page_type: 'thank_you',
+    // Initialize dataLayer if not exists
+    window.dataLayer = window.dataLayer || []
+    
+    // Push conversion event
+    window.dataLayer.push({
+      event: 'form_submission',
+      conversion_type: 'lead',
+      page_type: 'thank_you',
+      timestamp: new Date().toISOString(),
+    })
+    
+    // Also fire GA4 event directly if gtag exists
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'generate_lead', {
+        event_category: 'conversion',
+        event_label: 'contact_form',
+        value: 1,
       })
     }
+    
+    console.log('[Voomet] Conversion event fired:', window.dataLayer)
   }, [])
 
   return (
